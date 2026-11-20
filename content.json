@@ -1,0 +1,91 @@
+{
+  "site": {
+    "name": "Somnia Magna",
+    "tagline": "Big dreams",
+    "page_title": "Somnia Magna | Bringing dreams to life",
+    "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.",
+    "email": "hello@somniamagna.ca",
+    "instagram": "somniamagna",
+    "city": "Toronto"
+  },
+  "hero": {
+    "eyebrow": "Toronto · Day & night",
+    "line1": "Bringing dreams",
+    "line2": "to life",
+    "sub": "Curated day and night experiences in Toronto, built around people and community instead of the bar.",
+    "button_primary": "Partner with us",
+    "button_secondary": "See what we do"
+  },
+  "about": {
+    "kicker": "Why we exist",
+    "heading": "A third place, after dark.",
+    "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand."
+  },
+  "pillars": [
+    {
+      "title": "Events",
+      "word": "Curated",
+      "icon": "moon",
+      "body": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night."
+    },
+    {
+      "title": "Partnerships",
+      "word": "Aligned",
+      "icon": "partnership",
+      "body": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides."
+    },
+    {
+      "title": "Community",
+      "word": "Shared",
+      "icon": "community",
+      "body": "Every event is a reason to come back. The goal is a group of people who keep showing up for each other."
+    }
+  ],
+  "principles": {
+    "kicker": "What we stand for",
+    "items": [
+      {
+        "title": "More than a bar tab",
+        "body": "Drinks can be there. They're never the plan."
+      },
+      {
+        "title": "Doors open",
+        "body": "We don't build on velvet ropes. If it sounds like your kind of night, you're invited."
+      },
+      {
+        "title": "Room for everyone",
+        "body": "Nobody should have to wonder whether they belong at one of our events."
+      }
+    ]
+  },
+  "events": {
+    "kicker": "On the horizon",
+    "heading": "What's next",
+    "items": [
+      {
+        "title": "Our first gathering",
+        "date": "Date to be announced",
+        "place": "Toronto",
+        "blurb": "Follow @somniamagna on Instagram to hear about it first.",
+        "link": ""
+      }
+    ]
+  },
+  "partners": {
+    "kicker": "Partner with us",
+    "heading": "Build it with us.",
+    "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.",
+    "types": [
+      "Sponsors",
+      "Venues",
+      "Creators"
+    ]
+  },
+  "contact": {
+    "quote": "Somnia magna",
+    "meaning": "Latin for big dreams.",
+    "heading": "Big dreams, built here.",
+    "body": "Tell us what you have in mind and we'll get back to you.",
+    "button": "Get in touch"
+  }
+}

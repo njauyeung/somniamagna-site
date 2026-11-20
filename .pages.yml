@@ -1,0 +1,103 @@
+# Pages CMS editor setup (https://app.pagescms.org).
+# This file tells the editor which boxes to show you. It edits content.json for you.
+media:
+  input: images
+  output: /images
+content:
+  - name: website
+    label: Website text
+    type: file
+    path: content.json
+    fields:
+      - name: site
+        label: Basics
+        type: object
+        fields:
+          - { name: name, label: Brand name, type: string }
+          - { name: tagline, label: Small tagline under the logo, type: string }
+          - { name: page_title, label: Browser tab title, type: string }
+          - { name: description, label: Google / link preview description, type: text }
+          - { name: email, label: Contact email, type: string }
+          - { name: instagram, label: Instagram handle (no @), type: string }
+          - { name: city, label: City, type: string }
+      - name: hero
+        label: Top of the page
+        type: object
+        fields:
+          - { name: eyebrow, label: Small line above the headline, type: string }
+          - { name: line1, label: Headline line 1 (italic), type: string }
+          - { name: line2, label: Headline line 2 (big capitals), type: string }
+          - { name: sub, label: Sentence under the headline, type: text }
+          - { name: button_primary, label: Main button, type: string }
+          - { name: button_secondary, label: Second button, type: string }
+      - name: about
+        label: Why we exist
+        type: object
+        fields:
+          - { name: kicker, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Paragraph, type: text }
+      - name: pillars
+        label: What we do (cards)
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: word, label: Italic word, type: string }
+          - name: icon
+            label: Icon
+            type: select
+            options:
+              values: [moon, sparkle, firefly, pine, mountains, campfire, community, partnership, ticket, calendar, pin, mail, camera, door, eye-open]
+          - { name: body, label: Description, type: text }
+      - name: principles
+        label: What we stand for
+        type: object
+        fields:
+          - { name: kicker, label: Small label, type: string }
+          - name: items
+            label: Values
+            type: object
+            list: true
+            fields:
+              - { name: title, label: Title, type: string }
+              - { name: body, label: Sentence, type: text }
+      - name: events
+        label: Events
+        type: object
+        fields:
+          - { name: kicker, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - name: items
+            label: Event list
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title} ({date})"
+            fields:
+              - { name: title, label: Event name, type: string }
+              - { name: date, label: Date (write it how you want it shown), type: string }
+              - { name: place, label: Place, type: string }
+              - { name: blurb, label: Short description, type: text }
+              - { name: link, label: Ticket or RSVP link (leave empty to hide the button), type: string }
+      - name: partners
+        label: Partner with us
+        type: object
+        fields:
+          - { name: kicker, label: Small label, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Paragraph, type: text }
+          - { name: types, label: Who you partner with, type: string, list: true }
+      - name: contact
+        label: Closing section
+        type: object
+        fields:
+          - { name: quote, label: Quote, type: string }
+          - { name: meaning, label: Line under the quote, type: string }
+          - { name: heading, label: Heading, type: string }
+          - { name: body, label: Sentence, type: text }
+          - { name: button, label: Button, type: string }

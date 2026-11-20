@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somnia Magna | Bringing dreams to life</title>
+<meta name="description" content="Curated day and night experiences in Toronto.">
+<meta property="og:title" content="Somnia Magna | Bringing dreams to life">
+<meta property="og:description" content="Curated day and night experiences in Toronto, built around people and community.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0A0B1F">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --midnight:#0A0B1F; --dusk:#1B1F4A; --pine:#0F2A22; --forest:#1F5A3A;
+  --moon:#F3EFDF; --firefly:#7AF3C2; --lilac:#B9A6FF;
+  --muted:rgba(243,239,223,.68); --line:rgba(243,239,223,.14);
+  --serif:'Playfair Display',Georgia,serif; --display:'Anton','Bebas Neue',Impact,sans-serif; --sans:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--midnight)}
+body{font-family:var(--sans);color:var(--moon);background:var(--midnight);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* header */
+header.top{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s,backdrop-filter .4s}
+header.top.solid{background:rgba(10,11,31,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;max-width:1280px;margin:0 auto}
+.brand{display:flex;flex-direction:column;line-height:1}
+.brand b{font-weight:700;font-size:22px;letter-spacing:-.02em}
+.brand b i{color:var(--firefly);font-style:normal}
+.brand small{font-size:9.5px;letter-spacing:.32em;color:var(--muted);margin-top:6px}
+nav.links{display:flex;gap:36px;font-size:12px;letter-spacing:.2em;font-weight:500}
+nav.links a{opacity:.8;transition:opacity .2s,color .2s}
+nav.links a:hover{opacity:1;color:var(--firefly)}
+.pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 22px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:transform .2s,box-shadow .3s,background .3s,color .3s}
+.pill svg{width:16px;height:16px}
+.pill.ghost{border:1px solid var(--firefly);color:var(--firefly)}
+.pill.ghost:hover{background:var(--firefly);color:var(--midnight)}
+.pill.solid{background:var(--firefly);color:var(--midnight);box-shadow:0 0 40px -6px rgba(122,243,194,.65)}
+.pill.solid:hover{transform:translateY(-2px);box-shadow:0 0 60px -4px rgba(122,243,194,.85)}
+.pill.line{border:1px solid var(--line);color:var(--moon)}
+.pill.line:hover{border-color:var(--moon)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:radial-gradient(120% 80% at 70% 10%, #20265c 0%, rgba(27,31,74,.4) 40%, transparent 70%), linear-gradient(180deg,#07081a 0%,#0d1033 55%,#162a3c 85%,#0F2A22 100%)}
+#sky,#flies{position:absolute;inset:0;width:100%;height:100%;display:block}
+#flies{z-index:4;pointer-events:none}
+.moon{position:absolute;top:13%;right:14%;width:110px;height:110px;border-radius:50%;
+  background:radial-gradient(circle at 38% 35%,#fffdf3,#efe8cf 55%,#d9d0b2 100%);
+  box-shadow:0 0 60px 10px rgba(243,239,223,.25),0 0 180px 60px rgba(185,166,255,.12);z-index:1}
+.moon::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 62% 60%,rgba(0,0,0,.07) 0 9%,transparent 10%),radial-gradient(circle at 35% 68%,rgba(0,0,0,.06) 0 6%,transparent 7%),radial-gradient(circle at 55% 30%,rgba(0,0,0,.05) 0 5%,transparent 6%)}
+.ridge{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none}
+.ridge svg{display:block;width:100%;height:100%}
+.r1{height:46%;z-index:2}.r2{height:34%;z-index:3}.r3{height:24%;z-index:5}
+.hero-copy{position:relative;z-index:6;text-align:center;padding:120px 24px 18vh}
+.eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--firefly);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before,.eyebrow::after{content:"";width:28px;height:1px;background:currentColor;opacity:.6}
+.l1{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(40px,6.4vw,84px);line-height:1;margin-top:26px;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+.l2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(96px,17vw,240px);line-height:.86;letter-spacing:.01em;margin-top:6px;
+  background:linear-gradient(180deg,#fffdf4 30%,#cfc7ab 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 10px 40px rgba(0,0,0,.45))}
+.hero-sub{max-width:520px;margin:26px auto 0;color:var(--muted);font-size:17px}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:7;font-size:10px;letter-spacing:.3em;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-cue span{width:1px;height:38px;background:linear-gradient(var(--firefly),transparent);animation:cue 2.4s infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* sections */
+.forest{background:linear-gradient(180deg,var(--pine) 0%,#0b1d1b 40%,var(--midnight) 100%)}
+section{position:relative}
+.pad{padding:130px 0}
+.kicker{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--firefly);display:flex;align-items:center;gap:14px}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor}
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:end}
+.about h2{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(44px,5.6vw,78px);line-height:1.02;margin-top:22px}
+.about p{color:var(--muted);font-size:18px;max-width:480px}
+h2.big{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(52px,7vw,96px);line-height:.92;margin-top:20px}
+h2.big em{font-family:var(--serif);font-style:italic;text-transform:none;color:var(--firefly);font-weight:400}
+
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:64px}
+.card{position:relative;border:1px solid var(--line);border-radius:22px;padding:38px 32px 40px;background:linear-gradient(180deg,rgba(27,31,74,.45),rgba(10,11,31,.35));overflow:hidden;transition:border-color .35s,transform .35s}
+.card::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-120px;top:-120px;background:radial-gradient(circle,rgba(122,243,194,.18),transparent 65%);opacity:0;transition:opacity .4s}
+.card:hover{border-color:rgba(122,243,194,.55);transform:translateY(-4px)}
+.card:hover::before{opacity:1}
+.card .top{display:flex;justify-content:space-between;align-items:center}
+.card .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--firefly);background:rgba(122,243,194,.08);border:1px solid rgba(122,243,194,.25)}
+.card .ic svg{width:24px;height:24px}
+.card .n{font-size:12px;color:var(--muted);letter-spacing:.2em}
+.card h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:40px;line-height:1;margin-top:34px}
+.card .w{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--muted)}
+.card p{margin-top:18px;color:var(--muted);font-size:15px}
+
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:56px;border-top:1px solid var(--line)}
+.pr{padding:34px 28px 10px 0;border-right:1px solid var(--line)}
+.pr:last-child{border-right:0}
+.pr+.pr{padding-left:28px}
+.pr .s{color:var(--firefly);width:22px;height:22px;display:block}
+.pr .s svg{width:22px;height:22px}
+.pr h4{font-family:var(--serif);font-style:italic;font-weight:400;font-size:28px;margin-top:18px;line-height:1.15}
+.pr p{color:var(--muted);margin-top:10px;font-size:15px}
+
+.events{margin-top:48px;display:grid;gap:16px}
+.ev{display:grid;grid-template-columns:200px 1fr auto;gap:30px;align-items:center;padding:30px 32px;border:1px solid var(--line);border-radius:20px;background:rgba(27,31,74,.3)}
+.ev .d{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--firefly)}
+.ev .pl{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:6px}
+.ev .pl svg{width:15px;height:15px}
+.ev h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:32px;line-height:1}
+.ev p{color:var(--muted);font-size:15px;margin-top:6px}
+.ev a.go{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--firefly);transition:all .25s}
+.ev a.go:hover{background:var(--firefly);color:var(--midnight)}
+.ev a.go svg{width:20px}
+.ev a.go:not([href]){display:none}
+
+.partner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border:1px solid var(--line);border-radius:28px;padding:64px;
+  background:radial-gradient(80% 120% at 100% 0%,rgba(122,243,194,.12),transparent 60%),radial-gradient(70% 100% at 0% 100%,rgba(185,166,255,.12),transparent 60%),rgba(15,42,34,.35)}
+.partner p{color:var(--muted);font-size:17px;margin-top:22px;max-width:460px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:500}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--firefly);box-shadow:0 0 12px var(--firefly)}
+.partner .right{display:flex;flex-direction:column;gap:28px;align-items:flex-start}
+
+.contact{text-align:center;padding:160px 0 120px}
+.contact .q{font-family:var(--serif);font-style:italic;font-size:clamp(30px,4vw,46px)}
+.contact .m{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.contact h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(54px,8vw,110px);line-height:.92;margin-top:26px}
+.contact p{color:var(--muted);margin-top:18px}
+.contact .ctas{margin-top:38px}
+.contact .addr{margin-top:22px;font-size:14px;color:var(--muted)}
+
+footer{position:relative;padding:0 0 34px;color:var(--muted);font-size:12px;letter-spacing:.16em}
+footer .trees{height:120px;display:block;width:100%}
+footer .row{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;background:var(--pine);padding:26px 24px 0;max-width:none}
+footer .bg{background:var(--pine)}
+footer a:hover{color:var(--firefly)}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:900px){
+  nav.links{display:none}
+  .about,.partner{grid-template-columns:1fr;gap:30px}
+  .partner{padding:40px 28px}
+  .pillars,.principles{grid-template-columns:1fr}
+  .pr{border-right:0;border-bottom:1px solid var(--line);padding:28px 0!important}
+  .ev{grid-template-columns:1fr;gap:12px}
+  .moon{width:64px;height:64px;right:9%;top:17%}
+  .pad{padding:90px 0}
+  .bar .pill{padding:10px 16px;font-size:10.5px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="bar">
+    <a class="brand" href="#"><b><span data-c="site.name">Somnia Magna</span><i>.</i></b><small data-c="site.tagline" style="text-transform:uppercase">Big dreams</small></a>
+    <nav class="links"><a href="#experience">EVENTS</a><a href="#partner">PARTNERSHIPS</a><a href="#contact">CONTACT</a></nav>
+    <a class="pill ghost" href="#partner" data-c="hero.button_primary">Partner with us</a>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <canvas id="sky"></canvas>
+  <div class="moon" id="moon"></div>
+  <div class="ridge r1" data-depth="0.12"><svg viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice"><path fill="#1a1f4d" d="M0 260 L120 170 L210 220 L330 110 L430 200 L520 150 L640 230 L760 120 L880 210 L990 140 L1110 230 L1230 150 L1340 210 L1440 160 V400 H0Z"/><path fill="#232a5e" opacity=".55" d="M330 110 L360 138 L345 134 L380 160 L330 140Z M760 120 L790 150 L775 146 L805 170 L760 150Z M990 140 L1015 160 L1000 158 L1030 182Z"/></svg></div>
+  <div class="ridge r2" data-depth="0.22"><svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice"><path fill="#132a3a" d="M0 170 C160 120 260 160 380 130 S600 90 760 150 1000 110 1160 150 1340 120 1440 140 V300 H0Z"/></svg></div>
+  <div class="ridge r3" data-depth="0.36"><svg viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice" id="treeline"><path fill="#0F2A22" d=""/></svg></div>
+  <canvas id="flies"></canvas>
+  <div class="hero-copy">
+    <div class="eyebrow" data-c="hero.eyebrow">Toronto · Day &amp; night</div>
+    <p class="l1" data-c="hero.line1">Bringing dreams</p>
+    <h1 class="l2" data-c="hero.line2">to life</h1>
+    <p class="hero-sub" data-c="hero.sub"></p>
+    <div class="ctas">
+      <a class="pill solid" href="#partner"><span data-c="hero.button_primary">Partner with us</span><span data-icon="arrow"></span></a>
+      <a class="pill line" href="#experience" data-c="hero.button_secondary">See what we do</a>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL<span></span></div>
+</section>
+
+<div class="forest">
+  <section class="pad" id="about">
+    <div class="wrap about">
+      <div class="reveal"><div class="kicker" data-c="about.kicker"></div><h2 data-c="about.heading"></h2></div>
+      <p class="reveal" data-c="about.body"></p>
+    </div>
+  </section>
+
+  <section class="pad" id="experience" style="padding-top:40px">
+    <div class="wrap">
+      <div class="kicker reveal">What's possible</div>
+      <h2 class="big reveal">The <em>experience</em></h2>
+      <div class="pillars" data-list="pillars">
+        <template><article class="card reveal"><div class="top"><div class="ic" data-icon-f="icon"></div><div class="n" data-i></div></div><h3 data-f="title"></h3><div class="w" data-f="word"></div><p data-f="body"></p></article></template>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" style="padding-top:20px">
+    <div class="wrap">
+      <div class="kicker reveal" data-c="principles.kicker"></div>
+      <div class="principles" data-list="principles.items">
+        <template><div class="pr reveal"><span class="s" data-icon="sparkle"></span><h4 data-f="title"></h4><p data-f="body"></p></div></template>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="pad" id="events" style="padding-top:60px">
+  <div class="wrap">
+    <div class="kicker reveal" data-c="events.kicker"></div>
+    <h2 class="big reveal" data-c="events.heading"></h2>
+    <div class="events" data-list="events.items">
+      <template><article class="ev reveal"><div><div class="d" data-f="date"></div><div class="pl"><span data-icon="pin"></span><span data-f="place"></span></div></div><div><h3 data-f="title"></h3><p data-f="blurb"></p></div><a class="go" data-href-f="link" target="_blank" rel="noopener" aria-label="Details"><span data-icon="arrow"></span></a></article></template>
+    </div>
+  </div>
+</section>
+
+<section class="pad" id="partner" style="padding-top:40px">
+  <div class="wrap">
+    <div class="partner reveal">
+      <div><div class="kicker" data-c="partners.kicker"></div><h2 class="big" data-c="partners.heading"></h2><p data-c="partners.body"></p></div>
+      <div class="right">
+        <div class="chips" data-list="partners.types"><template><span class="chip" data-f="."></span></template></div>
+        <a class="pill solid" data-mail href="#"><span data-c="contact.button">Get in touch</span><span data-icon="arrow"></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap reveal">
+    <p class="q">“<span data-c="contact.quote"></span>”</p>
+    <p class="m" data-c="contact.meaning"></p>
+    <h2 data-c="contact.heading"></h2>
+    <p data-c="contact.body"></p>
+    <div class="ctas">
+      <a class="pill solid" data-mail href="#"><span data-icon="mail"></span><span data-c="contact.button">Get in touch</span></a>
+      <a class="pill line" data-ig href="#" target="_blank" rel="noopener"><span data-icon="camera"></span><span data-ig-handle></span></a>
+    </div>
+    <p class="addr" data-c="site.email"></p>
+  </div>
+</section>
+
+<footer>
+  <svg class="trees" viewBox="0 0 1440 120" preserveAspectRatio="xMidYMax slice" id="foottrees"><path fill="#0F2A22" d=""/></svg>
+  <div class="bg"><div class="row wrap" style="max-width:1180px;margin:0 auto"><span>© <span data-year></span> <span data-c="site.name" style="text-transform:uppercase"></span></span><span><a data-mail href="#" data-c="site.email"></a> · <a data-ig href="#" target="_blank" rel="noopener" data-ig-handle></a></span><span data-c="site.city" style="text-transform:uppercase"></span></div></div>
+</footer>
+
+<script id="sm-fallback" type="application/json">{"site": {"name": "Somnia Magna", "tagline": "Big dreams", "page_title": "Somnia Magna | Bringing dreams to life", "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "email": "hello@somniamagna.ca", "instagram": "somniamagna", "city": "Toronto"}, "hero": {"eyebrow": "Toronto · Day & night", "line1": "Bringing dreams", "line2": "to life", "sub": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "button_primary": "Partner with us", "button_secondary": "See what we do"}, "about": {"kicker": "Why we exist", "heading": "A third place, after dark.", "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand."}, "pillars": [{"title": "Events", "word": "Curated", "icon": "moon", "body": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night."}, {"title": "Partnerships", "word": "Aligned", "icon": "partnership", "body": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides."}, {"title": "Community", "word": "Shared", "icon": "community", "body": "Every event is a reason to come back. The goal is a group of people who keep showing up for each other."}], "principles": {"kicker": "What we stand for", "items": [{"title": "More than a bar tab", "body": "Drinks can be there. They're never the plan."}, {"title": "Doors open", "body": "We don't build on velvet ropes. If it sounds like your kind of night, you're invited."}, {"title": "Room for everyone", "body": "Nobody should have to wonder whether they belong at one of our events."}]}, "events": {"kicker": "On the horizon", "heading": "What's next", "items": [{"title": "Our first gathering", "date": "Date to be announced", "place": "Toronto", "blurb": "Follow @somniamagna on Instagram to hear about it first.", "link": ""}]}, "partners": {"kicker": "Partner with us", "heading": "Build it with us.", "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.", "types": ["Sponsors", "Venues", "Creators"]}, "contact": {"quote": "Somnia magna", "meaning": "Latin for big dreams.", "heading": "Big dreams, built here.", "body": "Tell us what you have in mind and we'll get back to you.", "button": "Get in touch"}}</script>
+<script>/* Somnia Magna content loader.
+   All words on this page live in content.json. Edit that file (or use the
+   Pages CMS editor) and the page updates. You never need to touch this code. */
+(function () {
+  var ICONS = {"moon": "<path d=\"M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z\"/>", "sparkle": "<path d=\"M12 3c.6 4.2 2.8 6.4 7 7-4.2.6-6.4 2.8-7 7-.6-4.2-2.8-6.4-7-7 4.2-.6 6.4-2.8 7-7Z\"/><path d=\"M19 17.5c.2 1.2.8 1.8 2 2-1.2.2-1.8.8-2 2-.2-1.2-.8-1.8-2-2 1.2-.2 1.8-.8 2-2Z\"/>", "firefly": "<circle cx=\"12\" cy=\"13\" r=\"2.4\"/><path d=\"M12 10.6V8.5M10.2 9 8.5 6.5M13.8 9l1.7-2.5\"/><circle cx=\"12\" cy=\"13\" r=\"6.5\" stroke-dasharray=\"1.5 3\"/>", "pine": "<path d=\"M12 3 7 10h3l-4 6h4l-3 4h10l-3-4h4l-4-6h3l-5-7Z\"/><path d=\"M12 20v1.5\"/>", "mountains": "<path d=\"m2.5 19 6-10 4 6.5 2.5-4 6.5 7.5Z\"/><circle cx=\"17.5\" cy=\"6\" r=\"1.8\"/>", "campfire": "<path d=\"M12 4c1.8 2.6 4 4.4 4 7.2a4 4 0 0 1-8 0c0-1.6.8-2.6 1.6-3.4.2 1.2.8 2 1.6 2.2C11 8 11.2 5.8 12 4Z\"/><path d=\"m5 20 14-3.5M19 20 5 16.5\"/>", "community": "<circle cx=\"12\" cy=\"7.5\" r=\"2.6\"/><circle cx=\"5.5\" cy=\"10\" r=\"2\"/><circle cx=\"18.5\" cy=\"10\" r=\"2\"/><path d=\"M7.5 19.5a4.5 4.5 0 0 1 9 0M2 18a3.6 3.6 0 0 1 4.6-3.4M22 18a3.6 3.6 0 0 0-4.6-3.4\"/>", "partnership": "<circle cx=\"9\" cy=\"12\" r=\"5.5\"/><circle cx=\"15\" cy=\"12\" r=\"5.5\"/>", "ticket": "<path d=\"M3.5 7.5h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4Z\"/><path d=\"M14.5 7.5v10\" stroke-dasharray=\"1.6 2\"/>", "calendar": "<rect x=\"3.5\" y=\"5\" width=\"17\" height=\"15.5\" rx=\"2.5\"/><path d=\"M3.5 10h17M8 3v4M16 3v4\"/><path d=\"M15.5 14.2a2.2 2.2 0 1 1-2.6-2.6 1.8 1.8 0 0 0 2.6 2.6Z\"/>", "pin": "<path d=\"M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z\"/><circle cx=\"12\" cy=\"10\" r=\"2.3\"/>", "mail": "<rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13\" rx=\"2.5\"/><path d=\"m4 7 8 6 8-6\"/>", "camera": "<rect x=\"3\" y=\"6.5\" width=\"18\" height=\"13\" rx=\"3\"/><circle cx=\"12\" cy=\"13\" r=\"3.6\"/><path d=\"M8.5 6.5 10 4h4l1.5 2.5\"/>", "arrow": "<path d=\"M4 12h15M13.5 6.5 19 12l-5.5 5.5\"/>", "eye-open": "<path d=\"M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"2.8\"/>", "door": "<path d=\"M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21M3.5 21h17\"/><circle cx=\"14.5\" cy=\"12.5\" r=\".9\" fill=\"currentColor\"/>"};
+  function get(obj, path) {
+    return path.split('.').reduce(function (o, k) { return o == null ? o : o[k]; }, obj);
+  }
+  function icon(name) {
+    var body = ICONS[name] || ICONS.sparkle;
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + body + '</svg>';
+  }
+  function all(root, sel) {
+    var a = [].slice.call(root.querySelectorAll(sel));
+    if (root.matches && root.matches(sel)) a.unshift(root);
+    return a;
+  }
+  function fill(root, data, idx) {
+    all(root, '[data-f]').forEach(function (el) {
+      var v = get(data, el.getAttribute('data-f'));
+      if (v === undefined || v === null || v === '') { if (el.hasAttribute('data-hide-empty')) el.remove(); return; }
+      el.textContent = v;
+    });
+    all(root, '[data-icon]').forEach(function (el) { el.innerHTML = icon(el.getAttribute('data-icon')); });
+    all(root, '[data-icon-f]').forEach(function (el) {
+      el.innerHTML = icon(get(data, el.getAttribute('data-icon-f')));
+    });
+    all(root, '[data-i]').forEach(function (el) {
+      el.textContent = String(idx + 1).padStart(2, '0');
+    });
+    all(root, '[data-href-f]').forEach(function (el) {
+      var v = get(data, el.getAttribute('data-href-f'));
+      if (v) el.setAttribute('href', v); else el.removeAttribute('href');
+    });
+  }
+  function render(c) {
+    window.SM_CONTENT = c;
+    document.querySelectorAll('[data-c]').forEach(function (el) {
+      var v = get(c, el.getAttribute('data-c'));
+      if (v !== undefined && v !== null) el.textContent = v;
+    });
+    document.querySelectorAll('[data-icon]').forEach(function (el) {
+      el.innerHTML = icon(el.getAttribute('data-icon'));
+    });
+    document.querySelectorAll('[data-list]').forEach(function (host) {
+      var tpl = host.querySelector('template');
+      var items = get(c, host.getAttribute('data-list')) || [];
+      host.querySelectorAll('[data-item]').forEach(function (n) { n.remove(); });
+      items.forEach(function (item, i) {
+        var node = tpl.content.firstElementChild.cloneNode(true);
+        node.setAttribute('data-item', '');
+        if (typeof item === 'string') {
+          all(node, '[data-f="."]').forEach(function (el) { el.textContent = item; });
+        } else { fill(node, item, i); }
+        host.appendChild(node);
+      });
+    });
+    var email = get(c, 'site.email'), ig = get(c, 'site.instagram');
+    document.querySelectorAll('[data-mail]').forEach(function (el) { el.setAttribute('href', 'mailto:' + email); });
+    document.querySelectorAll('[data-ig]').forEach(function (el) { el.setAttribute('href', 'https://instagram.com/' + ig); });
+    document.querySelectorAll('[data-ig-handle]').forEach(function (el) { el.textContent = '@' + ig; });
+    document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+    if (get(c, 'site.page_title')) document.title = get(c, 'site.page_title');
+    var md = document.querySelector('meta[name="description"]');
+    if (md && get(c, 'site.description')) md.setAttribute('content', get(c, 'site.description'));
+    document.dispatchEvent(new CustomEvent('sm:rendered'));
+  }
+  var fallback = JSON.parse(document.getElementById('sm-fallback').textContent);
+  render(fallback);
+  fetch('content.json', { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+    .then(render)
+    .catch(function () {});
+  window.SM_ICON = icon;
+})();
+</script>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // pine treeline generator
+  function pines(w,h,count,minH,maxH,seed){
+    var s=seed; function r(){s=(s*9301+49297)%233280;return s/233280}
+    var d='M0 '+h+' ', x=-20;
+    while(x<w+20){var th=minH+r()*(maxH-minH), tw=th*(.34+r()*.1), b=h-r()*6, tiers=3+Math.floor(r()*2);
+      d+='L'+x.toFixed(1)+' '+b+' ';
+      for(var t=0;t<tiers;t++){var f=t/tiers, nf=(t+1)/tiers, yb=b-th*f*0.92, yt=b-th*nf, half=tw*(1-f*.75)/2, cx=x+tw/2;
+        d+='L'+(cx-half).toFixed(1)+' '+yb.toFixed(1)+' L'+(cx-half*.35).toFixed(1)+' '+(yt+th*.08).toFixed(1)+' ';}
+      d+='L'+(x+tw/2).toFixed(1)+' '+(b-th).toFixed(1)+' ';
+      for(var t2=tiers-1;t2>=0;t2--){var f2=t2/tiers, nf2=(t2+1)/tiers, yb2=b-th*f2*0.92, yt2=b-th*nf2, half2=tw*(1-f2*.75)/2, cx2=x+tw/2;
+        d+='L'+(cx2+half2*.35).toFixed(1)+' '+(yt2+th*.08).toFixed(1)+' L'+(cx2+half2).toFixed(1)+' '+yb2.toFixed(1)+' ';}
+      d+='L'+(x+tw).toFixed(1)+' '+b+' '; x+=tw*(.5+r()*.45);}
+    return d+'L'+w+' '+h+' Z';
+  }
+  document.querySelector('#treeline path').setAttribute('d', pines(1440,220,0,90,200,11));
+  document.querySelector('#foottrees path').setAttribute('d', pines(1440,120,0,40,110,5));
+
+  // stars
+  var sky=document.getElementById('sky'), sc=sky.getContext('2d'), stars=[], W,H,dpr;
+  var fl=document.getElementById('flies'), fc=fl.getContext('2d'), flies=[];
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=sky.clientWidth;H=sky.clientHeight;[sky,fl].forEach(function(c){c.width=W*dpr;c.height=H*dpr;c.getContext('2d').setTransform(dpr,0,0,dpr,0,0)});
+    stars=[];var n=Math.round(W*H/2600);for(var i=0;i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H*.75,r:Math.random()<.08?1.6:Math.random()*1.1+.3,p:Math.random()*6.28,s:.5+Math.random()*1.5});
+    flies=[];var m=W<700?14:30;for(var j=0;j<m;j++)flies.push({x:Math.random()*W,y:H*(.62+Math.random()*.36),vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.2,p:Math.random()*6.28,r:1.4+Math.random()*1.6});}
+  var shoot=null;
+  function frame(t){
+    sc.clearRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){var s=stars[i],a=.35+.65*Math.abs(Math.sin(s.p+t/1000*s.s*.6));sc.globalAlpha=a;sc.fillStyle=s.r>1.4?'#fffbe8':'#e9e6ff';sc.beginPath();sc.arc(s.x,s.y,s.r,0,6.28);sc.fill();}
+    if(!shoot&&Math.random()<.004)shoot={x:Math.random()*W*.7+W*.1,y:Math.random()*H*.3,l:0};
+    if(shoot){shoot.l+=14;var g=sc.createLinearGradient(shoot.x,shoot.y,shoot.x-shoot.l,shoot.y-shoot.l*.35);g.addColorStop(0,'rgba(255,255,255,.9)');g.addColorStop(1,'rgba(255,255,255,0)');sc.globalAlpha=1;sc.strokeStyle=g;sc.lineWidth=1.4;sc.beginPath();sc.moveTo(shoot.x+shoot.l*.2,shoot.y+shoot.l*.07);sc.lineTo(shoot.x-shoot.l*.6,shoot.y-shoot.l*.21);sc.stroke();shoot.x+=10;shoot.y+=3.5;if(shoot.l>220)shoot=null;}
+    sc.globalAlpha=1;
+    fc.clearRect(0,0,W,H);
+    for(var k=0;k<flies.length;k++){var f=flies[k];f.x+=f.vx+Math.sin(t/1600+f.p)*.25;f.y+=f.vy+Math.cos(t/1900+f.p)*.18;if(f.x<-10)f.x=W+10;if(f.x>W+10)f.x=-10;if(f.y<H*.55)f.vy=Math.abs(f.vy);if(f.y>H)f.vy=-Math.abs(f.vy);
+      var b=.25+.75*Math.max(0,Math.sin(t/700+f.p*3));var gr=fc.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r*7);gr.addColorStop(0,'rgba(122,243,194,'+(.9*b)+')');gr.addColorStop(.25,'rgba(122,243,194,'+(.35*b)+')');gr.addColorStop(1,'rgba(122,243,194,0)');fc.fillStyle=gr;fc.beginPath();fc.arc(f.x,f.y,f.r*7,0,6.28);fc.fill();}
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  size();addEventListener('resize',size);requestAnimationFrame(frame);
+
+  // parallax + header
+  var layers=[].slice.call(document.querySelectorAll('.ridge')), moon=document.getElementById('moon'), head=document.getElementById('top');
+  function onScroll(){var y=scrollY;head.classList.toggle('solid',y>40);if(reduce)return;layers.forEach(function(l){l.style.transform='translateY('+(-y*l.dataset.depth)+'px)'});moon.style.transform='translateY('+(y*.35)+'px)';}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  function watch(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el,i){el.style.transitionDelay=(el.closest('[data-list]')?(Array.prototype.indexOf.call(el.parentNode.children,el)*90):0)+'ms';io.observe(el)})}
+  watch();document.addEventListener('sm:rendered',watch);
+})();
+</script>
+</body>
+</html>
