@@ -127,8 +127,18 @@ content:
           - { name: list_heading, label: "Label above the Toronto dot", type: string }
           - { name: origin_label, label: "Name of the Toronto dot", type: string }
           - { name: origin_place, label: "Its city", type: string }
+          - { name: pillars_heading, label: "Label above the Events / Partnerships / Community blurbs", type: string }
+          - name: pillars
+            label: What we do (one blurb each for Events, Partnerships, Community)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - { name: title, label: Title, type: string }
+              - { name: body, label: Blurb, type: text }
           - { name: principles_heading, label: "Label above the values", type: string }
-          - { name: name_heading, label: "Label above the name meaning", type: string }
           - { name: button, label: "Button text", type: string }
       - name: principles
         label: What we stand for

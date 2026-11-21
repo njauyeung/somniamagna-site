@@ -10,15 +10,28 @@
     "motto": "Bringing dreams to life"
   },
   "about": {
-    "kicker": "Why we exist",
-    "heading": "A third place, after dark.",
-    "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand.",
+    "heading": "About",
+    "body": "Somnia Magna is Latin for \"Big Dreams\". SOMA came out of a need for third spaces that didn't just involve drinks and a loud room. Originating in Toronto, SOMA aims to create third spaces through events, partnerships, and community-building.",
     "list_heading": "Where it started",
     "origin_label": "Where SOMA began",
     "origin_place": "Toronto",
     "principles_heading": "What we stand for",
-    "name_heading": "The name",
-    "button": "Get in touch"
+    "button": "Get in touch",
+    "pillars_heading": "What we do",
+    "pillars": [
+      {
+        "title": "Events",
+        "body": "Curated and personalized events for specific niches."
+      },
+      {
+        "title": "Partnerships",
+        "body": "We work with sponsors, venues, and creators who care about the same crowd we do, and build something that fits both sides."
+      },
+      {
+        "title": "Community",
+        "body": "Every event is a reason to come back. Our goal is to fill the map with a community across the globe that are dedicated to building third-spaces. We aim to do this through sharing photos and events."
+      }
+    ]
   },
   "principles": {
     "kicker": "What we stand for",

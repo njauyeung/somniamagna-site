@@ -339,7 +339,7 @@ function renderBody(reset) {
   var L = LAYERS[S.i], el = $('#body'), top = reset ? 0 : el.scrollTop, h = '';
   h += '<h1 class="vt">' + esc(L.title) + '</h1>';
   if (L.lead) h += '<p class="lead">' + esc(L.lead) + '</p>';
-  if (L.key !== 'about' || L.items.length) {
+  if (L.key !== 'about') {
     h += '<div class="h">' + esc(L.head || '') + '</div>';
     h += L.items.map(function (it, k) { return rowHTML(L, k, it); }).join('');
   }
@@ -364,12 +364,15 @@ function renderBody(reset) {
       '<a class="cta" href="mailto:' + esc(MAIL) + '?subject=' + encodeURIComponent('Photos from a Somnia Magna event') + '">' + esc(co.share_button || 'Send photos') + '</a>';
   }
   if (L.key === 'about') {
-    var ab = C.about || {}, pr = (C.principles || {}), ct = C.contact || {};
+    var ab = C.about || {}, pr = (C.principles || {});
+    h += '<div class="h">' + esc(ab.pillars_heading || 'What we do') + '</div>' + (ab.pillars || []).map(function (r) {
+      return '<div class="box"><b>' + esc(r.title) + '</b><p>' + esc(r.body) + '</p></div>';
+    }).join('');
+    h += '<div class="h">' + esc(ab.list_heading || 'Where it started') + '</div>' + L.items.map(function (it, k) { return rowHTML(L, k, it); }).join('');
     h += '<div class="h">' + esc(ab.principles_heading || pr.kicker || 'What we stand for') + '</div>' + (pr.items || []).map(function (r) {
       return '<div class="box"><b>' + esc(r.title) + '</b><p>' + esc(r.body) + '</p></div>';
     }).join('');
-    h += '<div class="h">' + esc(ab.name_heading || 'The name') + '</div><div class="box"><b>' + esc(ct.quote || 'Somnia magna') + '</b><p>' + esc(ct.meaning || '') + '</p></div>' +
-      '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(ab.button || 'Get in touch') + '</a>';
+    h += '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(ab.button || 'Get in touch') + '</a>';
   }
   el.innerHTML = h; el.scrollTop = top;
 }
