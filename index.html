@@ -11,23 +11,24 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0A0B1F">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-512.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;1,500;1,600;1,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:#0A0B1F;color:#F3EFDF;font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:#0A0B1F;color:#F3EFDF;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 img{display:block}
 h1,h2,h3,p,ol{margin:0}
 ol{padding:0;list-style:none}
-.disp{font-family:'Kanit',sans-serif;font-style:italic;text-transform:uppercase}
+.disp{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;letter-spacing:-.02em}
 .pad{padding-left:clamp(24px,5vw,72px);padding-right:clamp(24px,5vw,72px)}
 .wrap{max-width:1296px;margin:0 auto}
-.kick{font-family:'Kanit',sans-serif;font-style:italic;font-weight:600;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
+.kick{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
 .btn{display:inline-flex;align-items:center;min-height:56px;padding:0 40px;font-weight:600;font-size:15px;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%)}
 .btn.light{background:#F3EFDF;color:#0A0B1F}
 .btn.dark{background:rgba(10,11,31,.72);color:#F3EFDF}
@@ -45,7 +46,7 @@ header.top{position:absolute;top:0;left:0;right:0;z-index:5;padding-top:24px;pad
 nav a{opacity:.85}nav a:hover{opacity:1}
 nav{position:absolute;left:50%;transform:translateX(-50%)}
 .tools{display:flex;gap:10px;align-items:center}
-.ibtn{position:relative;width:42px;height:42px;border-radius:50%;border:0;padding:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);color:#0A0B1F;cursor:pointer;overflow:hidden;font:600 13px 'DM Sans',sans-serif}
+.ibtn{position:relative;width:42px;height:42px;border-radius:50%;border:0;padding:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);color:#0A0B1F;cursor:pointer;overflow:hidden;font:600 13px 'Plus Jakarta Sans',sans-serif}
 .ibtn svg{width:20px;height:20px}
 .ibtn:hover{background:#fff}
 .who{border:2px solid #fff;background:#4B3E9C;color:#F3EFDF}
@@ -54,7 +55,7 @@ nav{position:absolute;left:50%;transform:translateX(-50%)}
 .sx{position:fixed;inset:0;z-index:50;background:rgba(10,11,31,.82);backdrop-filter:blur(6px);display:none;padding:12vh 24px 24px}
 .sx.on{display:block}
 .sx-box{max-width:640px;margin:0 auto}
-.sx-in{width:100%;height:60px;border-radius:30px;border:0;padding:0 28px;font:500 18px 'DM Sans',sans-serif;background:#F3EFDF;color:#0A0B1F}
+.sx-in{width:100%;height:60px;border-radius:30px;border:0;padding:0 28px;font:500 18px 'Plus Jakarta Sans',sans-serif;background:#F3EFDF;color:#0A0B1F}
 .sx-in:focus-visible{outline:2px solid #7AF3C2;outline-offset:3px}
 .sx-res{margin-top:16px;display:flex;flex-direction:column;gap:8px;max-height:56vh;overflow:auto}
 .sx-res a{display:block;padding:14px 20px;border-radius:18px;background:#1B1F4A}
@@ -71,7 +72,7 @@ nav a.cta-x{display:inline-flex;align-items:center;min-height:44px;padding:0 24p
 .hero-in .box{max-width:min(640px,100%)}
 .tag{display:inline-block;padding:8px 18px;background:rgba(10,11,31,.55);font-size:13px;font-weight:500;letter-spacing:.08em;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
 h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-height:.92;letter-spacing:-.01em}
-.motto{margin-top:24px;font-weight:500;font-size:clamp(18px,1.8vw,24px);letter-spacing:.14em}
+.motto{margin-top:20px;font-weight:500;font-size:clamp(18px,1.8vw,24px);letter-spacing:.02em}
 .sub{margin-top:24px;font-size:18px;line-height:1.6;max-width:34ch}
 .btns{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px}
 
@@ -94,8 +95,8 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .card .ic{width:48px;height:48px;color:#7AF3C2}
 .card .ic svg{width:48px;height:48px}
 .card .n{font-size:13px;letter-spacing:.2em;color:rgba(243,239,223,.7)}
-.card .w{margin-top:28px;font-family:'Kanit',sans-serif;font-style:italic;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#B9A6FF}
-.card h3{margin-top:8px;font-family:'Kanit',sans-serif;font-style:italic;font-weight:700;font-size:36px;text-transform:uppercase}
+.card .w{margin-top:28px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#B9A6FF}
+.card h3{margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:36px;text-transform:uppercase}
 .card p{margin-top:16px;font-size:16px;line-height:1.7;color:rgba(243,239,223,.88)}
 
 /* stand for */
@@ -105,8 +106,8 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .stand-grid h2{margin-top:20px;font-weight:700;font-size:clamp(40px,5vw,68px);line-height:1}
 .principles{display:flex;flex-direction:column;gap:20px}
 .pr{display:flex;gap:24px;align-items:flex-start;padding:28px;background:#F3EFDF;clip-path:polygon(0 0,calc(100% - 24px) 0,100% 100%,0 100%)}
-.pr .num{font-family:'Kanit',sans-serif;font-style:italic;font-weight:700;font-size:40px;line-height:1;color:#4B3E9C}
-.pr h3{font-family:'Kanit',sans-serif;font-style:italic;font-weight:600;font-size:24px;text-transform:uppercase}
+.pr .num{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:40px;line-height:1;color:#4B3E9C}
+.pr h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase}
 .pr p{margin-top:8px;font-size:16px;line-height:1.6;color:#262851}
 
 /* events */
@@ -117,7 +118,7 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .events{display:flex;flex-direction:column;gap:24px}
 .ev{padding:44px;background:#0A0B1F;clip-path:polygon(0 0,100% 0,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%)}
 .ev .pl{font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#7AF3C2}
-.ev h3{margin-top:12px;font-family:'Kanit',sans-serif;font-style:italic;font-weight:700;font-size:40px;text-transform:uppercase;line-height:1.05}
+.ev h3{margin-top:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:40px;text-transform:uppercase;line-height:1.05}
 .ev .d{margin-top:20px;font-size:17px;font-weight:500}
 .ev p{margin-top:16px;font-size:16px;line-height:1.7;color:rgba(243,239,223,.85)}
 .ev a.go{display:inline-flex;margin-top:24px;align-items:center;min-height:48px;padding:0 28px;background:#F3EFDF;color:#0A0B1F;font-weight:600;font-size:14px;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
@@ -131,7 +132,7 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .partner-grid p{margin-top:28px;font-size:18px;line-height:1.75;max-width:48ch;color:#262851}
 .partner-grid .btn{margin-top:36px;background:#0A0B1F;color:#F3EFDF}
 .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:16px}
-.chip{padding:56px 24px 28px;color:#F3EFDF;font-family:'Kanit',sans-serif;font-style:italic;font-weight:600;font-size:24px;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 20px) 100%,0 100%);background:#0A0B1F}
+.chip{padding:56px 24px 28px;color:#F3EFDF;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 20px) 100%,0 100%);background:#0A0B1F}
 .chip:nth-child(3n+2){background:#1B1F4A}
 .chip:nth-child(3n){background:#4B3E9C}
 
@@ -158,11 +159,11 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .xp-bar{position:absolute;top:20px;left:20px;right:20px;display:flex;gap:10px;align-items:center;z-index:6}
 .xp-search{position:relative;flex:1;max-width:420px;height:48px;border-radius:24px;background:rgba(243,239,223,.92);color:#0A0B1F;display:flex;align-items:center;gap:10px;padding:0 18px}
 .xp-search svg{width:20px;height:20px;flex:none}
-.xp-search input{flex:1;min-width:0;border:0;background:none;font:500 14px 'DM Sans',sans-serif;color:#0A0B1F;outline:none}
+.xp-search input{flex:1;min-width:0;border:0;background:none;font:500 14px 'Plus Jakarta Sans',sans-serif;color:#0A0B1F;outline:none}
 .xp-search:focus-within{box-shadow:0 0 0 2px #7AF3C2}
 .xp-sug{display:none;position:absolute;top:56px;left:0;right:0;border-radius:20px;background:#0A0B1F;color:#F3EFDF;padding:8px;box-shadow:0 18px 40px rgba(0,0,0,.4);max-height:300px;overflow:auto}
 .xp-sug.on,.xp-pop.on{display:block}
-.xp-sug button,.xp-pop a{display:block;width:100%;text-align:left;border:0;background:none;color:inherit;padding:10px 12px;border-radius:12px;font:500 14px 'DM Sans',sans-serif;cursor:pointer}
+.xp-sug button,.xp-pop a{display:block;width:100%;text-align:left;border:0;background:none;color:inherit;padding:10px 12px;border-radius:12px;font:500 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
 .xp-sug button:hover,.xp-sug button:focus-visible,.xp-pop a:hover{background:#1B1F4A;outline:none}
 .xp-sug small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7AF3C2;font-weight:600}
 .xp-bellw{position:relative;margin-left:auto}
@@ -173,12 +174,12 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .xp-pop b{display:block;padding:0 12px 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7AF3C2}
 .xp-user{display:flex;align-items:center;gap:10px;height:48px;padding:0 18px 0 6px;border-radius:24px;background:rgba(243,239,223,.92);color:#0A0B1F;transition:margin .35s}
 .xp[data-state=half] .xp-user,.xp[data-state=wide] .xp-user{margin-right:var(--pw)}
-.xp-av{position:relative;width:36px;height:36px;border-radius:50%;background:#4B3E9C;color:#F3EFDF;display:flex;align-items:center;justify-content:center;font:600 12px 'DM Sans',sans-serif;overflow:hidden;flex:none}
+.xp-av{position:relative;width:36px;height:36px;border-radius:50%;background:#4B3E9C;color:#F3EFDF;display:flex;align-items:center;justify-content:center;font:600 12px 'Plus Jakarta Sans',sans-serif;overflow:hidden;flex:none}
 .xp-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .xp-un b{display:block;font-size:13px;line-height:1.1}.xp-un em{display:block;font-style:normal;font-size:11px;color:#4B4B6B}
 .xp-lbl{position:absolute;left:20px;bottom:20px;z-index:3;padding:8px 16px;border-radius:20px;background:rgba(10,11,31,.58);font-size:13px;font-weight:500;letter-spacing:.08em}
 .xp-pin{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;background:none;z-index:3;cursor:pointer}
-.xp-pin i{position:absolute;inset:6px;border-radius:50%;background:#0A0B1F;color:#F3EFDF;border:2px solid #F3EFDF;display:flex;align-items:center;justify-content:center;font:600 15px 'DM Sans',sans-serif;font-style:normal;transition:transform .2s}
+.xp-pin i{position:absolute;inset:6px;border-radius:50%;background:#0A0B1F;color:#F3EFDF;border:2px solid #F3EFDF;display:flex;align-items:center;justify-content:center;font:600 15px 'Plus Jakarta Sans',sans-serif;font-style:normal;transition:transform .2s}
 .xp-pin:hover i{transform:scale(1.12)}
 .xp-pin span{color:#F3EFDF;position:absolute;left:50px;top:10px;padding:4px 12px;border-radius:14px;background:rgba(10,11,31,.7);font-size:12px;font-weight:600;white-space:nowrap}
 .xp-pin[aria-selected=true] i{background:#7AF3C2;color:#0A0B1F}
@@ -197,10 +198,10 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 .xp-stat b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B3E9C}
 .xp-stat span{display:block;margin-top:4px;font-size:14px;font-weight:600}
 .xp-tabs{display:flex;gap:6px;padding:16px 24px 0;flex-wrap:wrap}
-.xp-tab{height:38px;padding:0 16px;border-radius:19px;border:0;background:#E1DCF1;color:#0A0B1F;font:600 13px 'DM Sans',sans-serif;cursor:pointer}
+.xp-tab{height:38px;padding:0 16px;border-radius:19px;border:0;background:#E1DCF1;color:#0A0B1F;font:600 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
 .xp-tab[aria-selected=true]{background:#0A0B1F;color:#F3EFDF}
 .xp-body{flex:1;overflow-y:auto;padding:18px 24px 28px;min-width:300px}
-.xp-body h3{font-family:'Kanit',sans-serif;font-style:italic;text-transform:uppercase;font-weight:700;font-size:32px;line-height:1}
+.xp-body h3{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;font-weight:700;font-size:32px;line-height:1}
 .xp-body .lead{margin-top:12px;font-size:15px;line-height:1.65;color:#262851}
 .xp-body h4{margin:24px 0 10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#4B3E9C}
 .xp-item{padding:16px 18px;border-radius:18px;background:#fff;margin-bottom:10px;scroll-margin:12px}
@@ -241,7 +242,7 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 <section class="hero" id="top">
   <div class="scene" aria-hidden="true"><img src="images/scene-hero.jpg" alt=""><i></i></div>
   <header class="top pad">
-    <a class="logo disp" href="#top" aria-label="Somnia Magna, home">Soma</a>
+    <a class="logo" href="#top" aria-label="SOMA, home"><img src="images/brand/soma-wordmark-dusk.png" alt="SOMA" style="height:26px;width:auto"></a>
     <nav aria-label="Main">
       <a href="#about">Why we exist</a><a href="#do">What we do</a><a href="#stand">Stand for</a><a href="#events">Events</a><a href="#partner" data-c="hero.button_primary">Partner with us</a>
     </nav>
@@ -253,8 +254,8 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
   <div class="hero-in pad">
     <div class="box">
       <div class="tag" data-c="hero.eyebrow">Toronto · Day &amp; night</div>
-      <h1 class="name disp" data-c="site.name">Somnia Magna</h1>
-      <div class="motto disp"><span data-c="hero.line1">Bringing dreams</span> <span data-c="hero.line2">to life</span></div>
+      <h1 class="name"><img src="images/brand/somnia-magna-wordmark-white.png" alt="Somnia Magna" style="display:block;width:min(560px,100%);height:auto"></h1>
+      <div class="motto"><span data-c="hero.line1">Bringing dreams</span> <span data-c="hero.line2">to life</span></div>
       <p class="sub" data-c="hero.sub"></p>
       <div class="btns">
         <a class="btn light" href="#partner" data-c="hero.button_primary">Partner with us</a>
