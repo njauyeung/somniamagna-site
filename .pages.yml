@@ -1,5 +1,6 @@
 # Pages CMS editor setup (https://app.pagescms.org).
 # This file tells the editor which boxes to show you. It edits content.json for you.
+# Photos you upload go into the images/ folder and show up on the site after the next deploy.
 media:
   input: images
   output: /images
@@ -13,151 +14,137 @@ content:
         label: Basics
         type: object
         fields:
-          - { name: name, label: Brand name, type: string }
-          - { name: tagline, label: Small tagline under the logo, type: string }
-          - { name: page_title, label: Browser tab title, type: string }
-          - { name: description, label: Google / link preview description, type: text }
-          - { name: email, label: Contact email, type: string }
-          - { name: instagram, label: Instagram handle (no @), type: string }
-          - { name: city, label: City, type: string }
-      - name: hero
-        label: Top of the page
+          - { name: name, label: "Brand name", type: string }
+          - { name: motto, label: "Line under the big name (Bringing dreams to life)", type: string }
+          - { name: page_title, label: "Browser tab title", type: string }
+          - { name: description, label: "Google / link preview description", type: text }
+          - { name: email, label: "Contact email (every Get in touch button uses this)", type: string }
+          - { name: instagram, label: "Instagram handle (no @)", type: string }
+          - { name: city, label: "City", type: string }
+
+      - name: events
+        label: Events tab
         type: object
         fields:
-          - { name: eyebrow, label: Small line above the headline, type: string }
-          - { name: line1, label: Headline line 1 (italic), type: string }
-          - { name: line2, label: Headline line 2 (big capitals), type: string }
-          - { name: sub, label: Sentence under the headline, type: text }
-          - { name: button_primary, label: Main button, type: string }
-          - { name: button_secondary, label: Second button, type: string }
+          - { name: title, label: "Tab heading", type: string }
+          - { name: lead, label: "Sentence under the heading", type: text }
+          - { name: list_heading, label: "Small label above the list", type: string }
+          - name: items
+            label: Events (each one is a dot on the globe)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - { name: title, label: "Event name (max 28 characters so it stays on one line)", type: string, options: { maxlength: 28 } }
+              - { name: date, label: "Date. Type 2026-12-12 and it shows as Sat, Dec 12. Or write it yourself, e.g. Date to be announced", type: string }
+              - { name: place, label: "City (e.g. Toronto). Common cities are placed on the globe automatically", type: string }
+              - { name: lon, label: "Longitude (only if the city is not found on the globe)", type: number }
+              - { name: lat, label: "Latitude (only if the city is not found on the globe)", type: number }
+              - { name: blurb, label: "Short description (shows when the event is opened)", type: text }
+              - name: photos
+                label: Photos from this event (upload as many as you like)
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{caption}"
+                fields:
+                  - { name: image, label: "Photo", type: image }
+                  - { name: caption, label: "Caption (optional)", type: string }
+              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
+
+      - name: partners
+        label: Partnerships tab
+        type: object
+        fields:
+          - { name: title, label: "Tab heading", type: string }
+          - { name: lead, label: "Sentence under the heading", type: text }
+          - { name: list_heading, label: "Small label above the list", type: string }
+          - name: items
+            label: Partners (each one is a dot on the globe)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - { name: name, label: "Partner name (max 28 characters)", type: string, options: { maxlength: 28 } }
+              - { name: type, label: "Type (Sponsor, Venue, Creator...)", type: string }
+              - { name: place, label: "City", type: string }
+              - { name: lon, label: "Longitude (only if the city is not found)", type: number }
+              - { name: lat, label: "Latitude (only if the city is not found)", type: number }
+              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
+          - { name: work_heading, label: "Label above the pitch", type: string }
+          - { name: body, label: "Pitch paragraph", type: text }
+          - { name: button, label: "Button text", type: string }
+
+      - name: community
+        label: Community tab
+        type: object
+        fields:
+          - { name: title, label: "Tab heading", type: string }
+          - { name: lead, label: "Sentence under the heading", type: text }
+          - { name: list_heading, label: "Small label above the places", type: string }
+          - name: items
+            label: Shared places and photos (each one is a dot on the globe)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{caption}"
+            fields:
+              - { name: image, label: "Photo", type: image }
+              - { name: caption, label: "Caption (max 28 characters)", type: string, options: { maxlength: 28 } }
+              - { name: place, label: "City", type: string }
+              - { name: lon, label: "Longitude (only if the city is not found)", type: number }
+              - { name: lat, label: "Latitude (only if the city is not found)", type: number }
+              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
+          - { name: gallery_heading, label: "Label above the event photo grid", type: string }
+          - { name: stories_heading, label: "Label above the stories", type: string }
+          - name: stories
+            label: Community stories
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - { name: quote, label: "What they said", type: text }
+              - { name: name, label: "Name", type: string }
+              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
+          - { name: share_heading, label: "Label above the share-your-photos box", type: string }
+          - { name: share_body, label: "Share-your-photos sentence", type: text }
+          - { name: share_button, label: "Share-your-photos button", type: string }
+
       - name: about
-        label: Why we exist
+        label: About tab
         type: object
         fields:
-          - { name: kicker, label: Small label, type: string }
-          - { name: heading, label: Heading, type: string }
-          - { name: body, label: Paragraph, type: text }
-      - name: pillars
-        label: What we do (cards)
-        type: object
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{title}"
-        fields:
-          - { name: title, label: Title, type: string }
-          - { name: word, label: Italic word, type: string }
-          - name: icon
-            label: Icon
-            type: select
-            options:
-              values: [moon, sparkle, firefly, pine, mountains, campfire, community, partnership, ticket, calendar, pin, mail, camera, door, eye-open]
-          - { name: body, label: Description, type: text }
+          - { name: heading, label: "Tab heading", type: string }
+          - { name: body, label: "Paragraph", type: text }
+          - { name: list_heading, label: "Label above the Toronto dot", type: string }
+          - { name: origin_label, label: "Name of the Toronto dot", type: string }
+          - { name: origin_place, label: "Its city", type: string }
+          - { name: principles_heading, label: "Label above the values", type: string }
+          - { name: name_heading, label: "Label above the name meaning", type: string }
+          - { name: button, label: "Button text", type: string }
       - name: principles
         label: What we stand for
         type: object
         fields:
-          - { name: kicker, label: Small label, type: string }
+          - { name: kicker, label: "Small label", type: string }
           - name: items
             label: Values
             type: object
             list: true
             fields:
-              - { name: title, label: Title, type: string }
-              - { name: body, label: Sentence, type: text }
-      - name: events
-        label: Events
-        type: object
-        fields:
-          - { name: kicker, label: Small label, type: string }
-          - { name: heading, label: Heading, type: string }
-          - name: items
-            label: Event list
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{title} ({date})"
-            fields:
-              - { name: title, label: Event name, type: string }
-              - { name: date, label: Date (write it how you want it shown), type: string }
-              - { name: place, label: Place, type: string }
-              - { name: blurb, label: Short description, type: text }
-              - { name: link, label: Ticket or RSVP link (leave empty to hide the button), type: string }
-      - name: partners
-        label: Partner with us
-        type: object
-        fields:
-          - { name: kicker, label: Small label, type: string }
-          - { name: heading, label: Heading, type: string }
-          - { name: body, label: Paragraph, type: text }
-          - { name: types, label: Who you partner with, type: string, list: true }
+              - { name: title, label: "Title", type: string }
+              - { name: body, label: "Sentence", type: text }
       - name: contact
-        label: Closing section
+        label: The name
         type: object
         fields:
-          - { name: quote, label: Quote, type: string }
-          - { name: meaning, label: Line under the quote, type: string }
-          - { name: heading, label: Heading, type: string }
-          - { name: body, label: Sentence, type: text }
-          - { name: button, label: Button, type: string }
-      - name: explorer
-        label: Explorer panel samples (past events, partners, stories)
-        type: object
-        fields:
-          - { name: note, label: Note to self, type: string }
-          - name: past_events
-            label: Past events
-            type: object
-            fields:
-              - { name: heading, label: Heading, type: string }
-              - name: items
-                label: Events
-                type: object
-                list:
-                  collapsible:
-                    collapsed: true
-                    summary: "{title}"
-                fields:
-                  - { name: title, label: Event name, type: string }
-                  - { name: date, label: Date, type: string }
-                  - { name: place, label: Place, type: string }
-                  - { name: blurb, label: Short description, type: text }
-                  - { name: sample, label: Still a placeholder? (turn off when real), type: boolean }
-          - name: partner_logos
-            label: Partners
-            type: object
-            fields:
-              - { name: heading, label: Heading, type: string }
-              - name: items
-                label: Partners
-                type: object
-                list:
-                  collapsible:
-                    collapsed: true
-                    summary: "{name}"
-                fields:
-                  - { name: name, label: Name, type: string }
-                  - { name: type, label: Type (Sponsor, Venue, Creator), type: string }
-                  - name: symbol
-                    label: Symbol
-                    type: select
-                    options:
-                      values: [circle, triangle, diamond, ring, square, star]
-          - name: stories
-            label: Community stories
-            type: object
-            fields:
-              - { name: heading, label: Heading, type: string }
-              - name: items
-                label: Stories
-                type: object
-                list:
-                  collapsible:
-                    collapsed: true
-                    summary: "{name}"
-                fields:
-                  - { name: quote, label: Story or quote, type: text }
-                  - { name: name, label: Name, type: string }
-                  - { name: role, label: Who they are, type: string }
-                  - { name: sample, label: Still a placeholder? (turn off when real), type: boolean }
+          - { name: quote, label: "Name in Latin", type: string }
+          - { name: meaning, label: "Meaning", type: string }

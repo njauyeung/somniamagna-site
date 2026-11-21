@@ -6,41 +6,20 @@
     "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.",
     "email": "hello@somniamagna.ca",
     "instagram": "somniamagna",
-    "city": "Toronto"
-  },
-  "hero": {
-    "eyebrow": "Toronto · Day & night",
-    "line1": "Bringing dreams",
-    "line2": "to life",
-    "sub": "Curated day and night experiences in Toronto, built around people and community instead of the bar.",
-    "button_primary": "Partner with us",
-    "button_secondary": "See what we do"
+    "city": "Toronto",
+    "motto": "Bringing dreams to life"
   },
   "about": {
     "kicker": "Why we exist",
     "heading": "A third place, after dark.",
-    "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand."
+    "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand.",
+    "list_heading": "Where it started",
+    "origin_label": "Where SOMA began",
+    "origin_place": "Toronto",
+    "principles_heading": "What we stand for",
+    "name_heading": "The name",
+    "button": "Get in touch"
   },
-  "pillars": [
-    {
-      "title": "Events",
-      "word": "Curated",
-      "icon": "moon",
-      "body": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night."
-    },
-    {
-      "title": "Partnerships",
-      "word": "Aligned",
-      "icon": "partnership",
-      "body": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides."
-    },
-    {
-      "title": "Community",
-      "word": "Shared",
-      "icon": "community",
-      "body": "Every event is a reason to come back. The goal is a group of people who keep showing up for each other."
-    }
-  ],
   "principles": {
     "kicker": "What we stand for",
     "items": [
@@ -58,121 +37,156 @@
       }
     ]
   },
+  "contact": {
+    "quote": "Somnia magna",
+    "meaning": "Latin for big dreams."
+  },
   "events": {
-    "kicker": "On the horizon",
-    "heading": "What's next",
+    "title": "Events",
+    "lead": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night.",
+    "list_heading": "Where events happen",
     "items": [
       {
         "title": "Our first gathering",
         "date": "Date to be announced",
         "place": "Toronto",
+        "lon": null,
+        "lat": null,
         "blurb": "Follow @somniamagna on Instagram to hear about it first.",
-        "link": ""
+        "photos": [],
+        "sample": false
+      },
+      {
+        "title": "Sunset session",
+        "date": "Date TBA",
+        "place": "Montreal",
+        "lon": null,
+        "lat": null,
+        "blurb": "Placeholder. Describe an event you ran: what it was and who came.",
+        "photos": [
+          {
+            "image": "images/scene-hero.jpg",
+            "caption": "Sample photo"
+          }
+        ],
+        "sample": true
+      },
+      {
+        "title": "Night market",
+        "date": "Date TBA",
+        "place": "New York",
+        "lon": null,
+        "lat": null,
+        "blurb": "Placeholder. Add the venue, the crowd and one detail people still talk about.",
+        "photos": [
+          {
+            "image": "images/scene-about.jpg",
+            "caption": "Sample photo"
+          },
+          {
+            "image": "images/scene-contact.jpg",
+            "caption": "Sample photo"
+          }
+        ],
+        "sample": true
+      },
+      {
+        "title": "Community dinner",
+        "date": "Date TBA",
+        "place": "Chicago",
+        "lon": null,
+        "lat": null,
+        "blurb": "Placeholder. Swap this for a real gathering when you have one.",
+        "photos": [
+          {
+            "image": "images/terrain-map.jpg",
+            "caption": "Sample photo"
+          }
+        ],
+        "sample": true
       }
     ]
   },
   "partners": {
-    "kicker": "Partner with us",
-    "heading": "Build it with us.",
+    "title": "Partnerships",
+    "lead": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides.",
+    "list_heading": "Where our partners are",
+    "work_heading": "Work with us",
     "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.",
-    "types": [
-      "Sponsors",
-      "Venues",
-      "Creators"
+    "button": "Get in touch",
+    "items": [
+      {
+        "name": "Sponsor name",
+        "type": "Sponsor",
+        "place": "Toronto",
+        "lon": null,
+        "lat": null,
+        "sample": true
+      },
+      {
+        "name": "Venue name",
+        "type": "Venue",
+        "place": "Vancouver",
+        "lon": null,
+        "lat": null,
+        "sample": true
+      },
+      {
+        "name": "Creator name",
+        "type": "Creator",
+        "place": "London",
+        "lon": null,
+        "lat": null,
+        "sample": true
+      }
     ]
   },
-  "contact": {
-    "quote": "Somnia magna",
-    "meaning": "Latin for big dreams.",
-    "heading": "Big dreams, built here.",
-    "body": "Tell us what you have in mind and we'll get back to you.",
-    "button": "Get in touch"
-  },
-  "explorer": {
-    "note": "Sample content: replace with real events, partners and stories in the editor.",
-    "past_events": {
-      "heading": "Past events",
-      "items": [
-        {
-          "title": "Sample event: Sunset session",
-          "date": "Sample date",
-          "place": "Toronto",
-          "blurb": "Placeholder. Describe an event you ran: what it was and who came.",
-          "sample": true
-        },
-        {
-          "title": "Sample event: Night market",
-          "date": "Sample date",
-          "place": "Toronto",
-          "blurb": "Placeholder. Add the venue, the crowd and one detail people still talk about.",
-          "sample": true
-        },
-        {
-          "title": "Sample event: Community dinner",
-          "date": "Sample date",
-          "place": "Toronto",
-          "blurb": "Placeholder. Swap this for a real gathering when you have one.",
-          "sample": true
-        }
-      ]
-    },
-    "partner_logos": {
-      "heading": "Who we work with",
-      "items": [
-        {
-          "name": "Sponsor name",
-          "type": "Sponsor",
-          "symbol": "circle"
-        },
-        {
-          "name": "Venue name",
-          "type": "Venue",
-          "symbol": "triangle"
-        },
-        {
-          "name": "Creator name",
-          "type": "Creator",
-          "symbol": "diamond"
-        },
-        {
-          "name": "Sponsor name",
-          "type": "Sponsor",
-          "symbol": "ring"
-        },
-        {
-          "name": "Venue name",
-          "type": "Venue",
-          "symbol": "square"
-        },
-        {
-          "name": "Creator name",
-          "type": "Creator",
-          "symbol": "star"
-        }
-      ]
-    },
-    "stories": {
-      "heading": "Community stories",
-      "items": [
-        {
-          "quote": "Placeholder: a line from someone who came to an event and what it meant to them.",
-          "name": "Guest name",
-          "role": "Came to a gathering",
-          "sample": true
-        },
-        {
-          "quote": "Placeholder: a short story about meeting someone new at a Somnia Magna night.",
-          "name": "Guest name",
-          "role": "Regular",
-          "sample": true
-        },
-        {
-          "quote": "Placeholder: what a partner or venue would say about working with us.",
-          "name": "Partner name",
-          "role": "Venue partner",
-          "sample": true
-        }
-      ]
-    }
+  "community": {
+    "title": "Community",
+    "lead": "Every event is a reason to come back. Tap a dot on the globe to see a place someone shared.",
+    "list_heading": "Shared places",
+    "items": [
+      {
+        "caption": "Lake at dusk",
+        "place": "Toronto",
+        "lon": null,
+        "lat": null,
+        "image": "images/scene-hero.jpg",
+        "sample": true
+      },
+      {
+        "caption": "Night forest",
+        "place": "Lisbon",
+        "lon": null,
+        "lat": null,
+        "image": "images/scene-about.jpg",
+        "sample": true
+      },
+      {
+        "caption": "From above",
+        "place": "Tokyo",
+        "lon": null,
+        "lat": null,
+        "image": "images/terrain-map.jpg",
+        "sample": true
+      }
+    ],
+    "gallery_heading": "Photos from our events",
+    "stories_heading": "Community stories",
+    "stories": [
+      {
+        "quote": "Placeholder: a line from someone who came to an event and what it meant to them.",
+        "name": "Guest name",
+        "sample": true
+      },
+      {
+        "quote": "Placeholder: a short story about meeting someone new at a Somnia Magna night.",
+        "name": "Guest name",
+        "sample": true
+      }
+    ],
+    "share_heading": "Share your photos",
+    "share_body": "Been to a Somnia Magna event? Email us your photos and we'll add them here.",
+    "share_button": "Send photos"
   }
 }
