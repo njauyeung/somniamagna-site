@@ -148,39 +148,81 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 
 
 /* explorer */
-.xp{margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) 400px;border-radius:32px;overflow:hidden;background:#0F1A45}
-.xp-map{position:relative;min-height:700px;overflow:hidden}
+.xp{--pw:400px;position:relative;margin-top:56px;height:760px;border-radius:36px;overflow:hidden;background:#0F1A45}
+.xp[data-state=wide]{--pw:min(780px,72%)}
+.xp[data-state=closed]{--pw:0px}
+.xp-map{position:absolute;inset:0;overflow:hidden}
 .xp-map>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.xp-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,31,.4),rgba(10,11,31,0) 30%,rgba(10,11,31,.4))}
+.xp-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,31,.5),rgba(10,11,31,0) 28%,rgba(10,11,31,.4))}
 .xp-route{position:absolute;inset:0;width:100%;height:100%}
-.xp-tabs{position:absolute;top:24px;left:24px;right:24px;display:flex;flex-wrap:wrap;gap:10px;z-index:3}
-.xp-tab{height:48px;padding:0 22px;border:0;border-radius:24px;font:600 14px 'DM Sans',sans-serif;color:#F3EFDF;background:rgba(10,11,31,.58);backdrop-filter:blur(10px);cursor:pointer}
-.xp-tab[aria-selected=true]{background:#F3EFDF;color:#0A0B1F}
-.xp-tab:focus-visible,.xp-pin:focus-visible{outline:2px solid #7AF3C2;outline-offset:3px}
+.xp-bar{position:absolute;top:20px;left:20px;right:20px;display:flex;gap:10px;align-items:center;z-index:6}
+.xp-search{position:relative;flex:1;max-width:420px;height:48px;border-radius:24px;background:rgba(243,239,223,.92);color:#0A0B1F;display:flex;align-items:center;gap:10px;padding:0 18px}
+.xp-search svg{width:20px;height:20px;flex:none}
+.xp-search input{flex:1;min-width:0;border:0;background:none;font:500 14px 'DM Sans',sans-serif;color:#0A0B1F;outline:none}
+.xp-search:focus-within{box-shadow:0 0 0 2px #7AF3C2}
+.xp-sug{display:none;position:absolute;top:56px;left:0;right:0;border-radius:20px;background:#0A0B1F;color:#F3EFDF;padding:8px;box-shadow:0 18px 40px rgba(0,0,0,.4);max-height:300px;overflow:auto}
+.xp-sug.on,.xp-pop.on{display:block}
+.xp-sug button,.xp-pop a{display:block;width:100%;text-align:left;border:0;background:none;color:inherit;padding:10px 12px;border-radius:12px;font:500 14px 'DM Sans',sans-serif;cursor:pointer}
+.xp-sug button:hover,.xp-sug button:focus-visible,.xp-pop a:hover{background:#1B1F4A;outline:none}
+.xp-sug small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7AF3C2;font-weight:600}
+.xp-bellw{position:relative;margin-left:auto}
+.xp-ic{position:relative;width:48px;height:48px;border-radius:50%;border:0;background:rgba(243,239,223,.92);color:#0A0B1F;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.xp-ic svg{width:22px;height:22px}
+.xp-dot{position:absolute;top:11px;right:12px;width:9px;height:9px;border-radius:50%;background:#E5484D;border:2px solid #F3EFDF;box-sizing:content-box}
+.xp-pop{display:none;position:absolute;top:56px;right:0;width:260px;border-radius:20px;background:#0A0B1F;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.4);font-size:14px}
+.xp-pop b{display:block;padding:0 12px 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7AF3C2}
+.xp-user{display:flex;align-items:center;gap:10px;height:48px;padding:0 18px 0 6px;border-radius:24px;background:rgba(243,239,223,.92);color:#0A0B1F;transition:margin .35s}
+.xp[data-state=half] .xp-user,.xp[data-state=wide] .xp-user{margin-right:var(--pw)}
+.xp-av{position:relative;width:36px;height:36px;border-radius:50%;background:#4B3E9C;color:#F3EFDF;display:flex;align-items:center;justify-content:center;font:600 12px 'DM Sans',sans-serif;overflow:hidden;flex:none}
+.xp-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.xp-un b{display:block;font-size:13px;line-height:1.1}.xp-un em{display:block;font-style:normal;font-size:11px;color:#4B4B6B}
+.xp-lbl{position:absolute;left:20px;bottom:20px;z-index:3;padding:8px 16px;border-radius:20px;background:rgba(10,11,31,.58);font-size:13px;font-weight:500;letter-spacing:.08em}
 .xp-pin{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;background:none;z-index:3;cursor:pointer}
 .xp-pin i{position:absolute;inset:6px;border-radius:50%;background:#0A0B1F;color:#F3EFDF;border:2px solid #F3EFDF;display:flex;align-items:center;justify-content:center;font:600 15px 'DM Sans',sans-serif;font-style:normal;transition:transform .2s}
 .xp-pin:hover i{transform:scale(1.12)}
+.xp-pin span{color:#F3EFDF;position:absolute;left:50px;top:10px;padding:4px 12px;border-radius:14px;background:rgba(10,11,31,.7);font-size:12px;font-weight:600;white-space:nowrap}
 .xp-pin[aria-selected=true] i{background:#7AF3C2;color:#0A0B1F}
 .xp-pin[aria-selected=true]::before{content:"";position:absolute;inset:0;border-radius:50%;background:#7AF3C2;animation:xpp 2.4s ease-out infinite}
 @keyframes xpp{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.8);opacity:0}}
-.xp-card{position:absolute;z-index:4;width:250px;padding:18px 20px;border-radius:20px;background:#F3EFDF;color:#0A0B1F;box-shadow:0 18px 40px rgba(0,0,0,.35);transition:left .35s,top .35s}
-.xp-card-t{font-weight:600;font-size:22px}
-.xp-card-c{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
-.xp-card-c span{padding:5px 12px;border-radius:14px;background:#E1DCF1;font-size:12px;font-weight:600}
-.xp-card-c .xp-hl{background:#4B3E9C;color:#F3EFDF}
-.xp-side{display:flex;flex-direction:column;gap:14px;padding:24px;background:#0A0B1F}
-.xp-main{border-radius:24px;background:#EEEAF7;color:#0A0B1F;overflow:hidden}
-.xp-img{position:relative;height:190px;background:#1B1F4A}
-.xp-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:object-position .5s}
-.xp-word{position:absolute;left:16px;bottom:16px;padding:6px 14px;border-radius:16px;background:#7AF3C2;color:#0A0B1F;font-size:12px;font-weight:600}
-.xp-body{padding:22px 24px 26px}
-.xp-body h3{font-weight:700;font-size:34px;line-height:1}
-.xp-body p{margin-top:14px;font-size:15px;line-height:1.65;color:#262851}
-.xp-next{border-radius:24px;background:#F3EFDF;color:#0A0B1F;padding:20px 24px}
-.xp-nk{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4B3E9C}
-.xp-nt{margin-top:8px;font-weight:600;font-size:22px}
-.xp-nd{margin-top:6px;font-size:14px;color:#262851}
-@media (max-width:900px){.xp{grid-template-columns:1fr}.xp-map{min-height:460px}.xp-card{display:none}}
+.xp-pin:focus-visible,.xp-tab:focus-visible,.xp-handle:focus-visible,.xp-ic:focus-visible{outline:2px solid #7AF3C2;outline-offset:3px}
+.xp-panel{position:absolute;z-index:5;top:84px;right:16px;bottom:16px;width:var(--pw);transition:width .4s cubic-bezier(.3,.7,.2,1)}
+.xp-in{height:100%;overflow:hidden;border-radius:28px;background:#EEEAF7;color:#0A0B1F;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.xp[data-state=closed] .xp-in{box-shadow:none}
+.xp-handle{position:absolute;z-index:7;left:-22px;top:70%;width:44px;height:44px;border-radius:50%;border:3px solid #EEEAF7;background:#0A0B1F;color:#F3EFDF;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.xp-handle svg{width:20px;height:20px;transition:transform .3s}
+.xp[data-state=wide] .xp-handle svg{transform:rotate(180deg)}
+.xp[data-state=closed] .xp-handle{left:-44px}
+.xp-stats{display:flex;gap:8px;padding:20px 24px 0;flex-wrap:wrap}
+.xp-stat{flex:1;min-width:96px;padding:12px 14px;border-radius:16px;background:#fff}
+.xp-stat b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#4B3E9C}
+.xp-stat span{display:block;margin-top:4px;font-size:14px;font-weight:600}
+.xp-tabs{display:flex;gap:6px;padding:16px 24px 0;flex-wrap:wrap}
+.xp-tab{height:38px;padding:0 16px;border-radius:19px;border:0;background:#E1DCF1;color:#0A0B1F;font:600 13px 'DM Sans',sans-serif;cursor:pointer}
+.xp-tab[aria-selected=true]{background:#0A0B1F;color:#F3EFDF}
+.xp-body{flex:1;overflow-y:auto;padding:18px 24px 28px;min-width:300px}
+.xp-body h3{font-family:'Kanit',sans-serif;font-style:italic;text-transform:uppercase;font-weight:700;font-size:32px;line-height:1}
+.xp-body .lead{margin-top:12px;font-size:15px;line-height:1.65;color:#262851}
+.xp-body h4{margin:24px 0 10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#4B3E9C}
+.xp-item{padding:16px 18px;border-radius:18px;background:#fff;margin-bottom:10px;scroll-margin:12px}
+.xp-item.hit{box-shadow:0 0 0 2px #7AF3C2}
+.xp-item b{display:block;font-size:16px}
+.xp-item em{display:block;margin-top:2px;font-style:normal;font-size:12px;color:#4B3E9C;font-weight:600}
+.xp-item p{margin-top:8px;font-size:14px;line-height:1.55;color:#262851}
+.xp-tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:10px;background:#FFE9A8;color:#5A4300;font-size:10px;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle;font-weight:600}
+.xp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.xp-logo{padding:18px 12px;border-radius:18px;background:#fff;text-align:center;scroll-margin:12px}
+.xp-logo svg{width:44px;height:44px;color:#4B3E9C}
+.xp-logo b{display:block;margin-top:8px;font-size:13px}.xp-logo em{display:block;font-style:normal;font-size:11px;color:#4B4B6B}
+.xp-quote p{font-size:16px;line-height:1.55;font-style:italic}
+@media (max-width:900px){
+  .xp{height:auto;display:flex;flex-direction:column;border-radius:28px}
+  .xp-map{position:relative;height:420px;flex:none}
+  .xp-panel{position:relative;top:auto;right:auto;bottom:auto;width:auto;margin:-24px 12px 12px}
+  .xp[data-state=closed] .xp-panel{display:block}
+  .xp-handle{display:none}.xp-in{min-height:420px}
+  .xp-user{margin-right:0!important}.xp-un{display:none}.xp-user{padding:0 6px}
+  .xp-pin span{display:none}
+}
 @media (max-width:820px){
   nav{position:static;transform:none;order:3;width:100%;gap:8px 20px}
   .scene{width:100%;clip-path:none;opacity:.5}
@@ -236,21 +278,26 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
 <section id="do" class="pad">
   <div class="wrap">
     <h2 class="big disp">What we do</h2>
-    <div class="xp" id="xp" aria-label="Explore what we do">
+    <div class="xp" id="xp" data-state="half" aria-label="Explore Somnia Magna">
       <div class="xp-map">
         <img src="images/terrain-map.jpg" alt="" loading="lazy">
         <div class="xp-shade"></div>
         <svg class="xp-route" id="xp-route" viewBox="0 0 1000 680" preserveAspectRatio="none" aria-hidden="true"><path d="" fill="none" stroke="#7AF3C2" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 12" vector-effect="non-scaling-stroke"/></svg>
-        <div class="xp-tabs" id="xp-tabs" role="tablist"></div>
         <div class="xp-pins" id="xp-pins"></div>
-        <div class="xp-card" id="xp-card" aria-hidden="true"><div class="xp-card-t disp" id="xp-card-t"></div><div class="xp-card-c"><span class="xp-hl" id="xp-card-w"></span><span>Day or night</span><span>Doors open</span></div></div>
-      </div>
-      <aside class="xp-side" aria-live="polite">
-        <div class="xp-main">
-          <div class="xp-img"><img src="images/scene-about.jpg" alt="" id="xp-img" loading="lazy"><span class="xp-word" id="xp-word"></span></div>
-          <div class="xp-body"><h3 class="disp" id="xp-title"></h3><p id="xp-text"></p></div>
+        <div class="xp-bar">
+          <div class="xp-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="xp-q" type="search" placeholder="Search events, partners, stories" autocomplete="off" aria-label="Search the explorer"><div class="xp-sug" id="xp-sug"></div></div>
+          <div class="xp-bellw"><button class="xp-ic" id="xp-bell" type="button" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15Z"/><path d="M10 21h4"/></svg><i class="xp-dot"></i></button><div class="xp-pop" id="xp-pop"><b>Notifications</b><a href="#" id="xp-note"></a></div></div>
+          <a class="xp-user" href="https://www.linkedin.com/in/njauyeung/" target="_blank" rel="noopener"><span class="xp-av"><span>NA</span><img src="images/avatar.jpg" alt="" onerror="this.remove()"></span><span class="xp-un"><b>Nathan Auyeung</b><em data-c="site.email"></em></span></a>
         </div>
-        <div class="xp-next"><div class="xp-nk" data-c="events.kicker"></div><div class="xp-nt disp" id="xp-nt"></div><div class="xp-nd" id="xp-nd"></div></div>
+        <div class="xp-lbl">Toronto · Day &amp; night</div>
+      </div>
+      <aside class="xp-panel" id="xp-panel">
+        <button class="xp-handle" id="xp-handle" type="button" aria-label="Resize panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+        <div class="xp-in">
+          <div class="xp-stats" id="xp-stats"></div>
+          <div class="xp-tabs" id="xp-tabs" role="tablist"></div>
+          <div class="xp-body" id="xp-body" aria-live="polite"></div>
+        </div>
       </aside>
     </div>
   </div>
@@ -302,7 +349,7 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
   </div>
 </section>
 
-<script id="sm-fallback" type="application/json">{"site": {"name": "Somnia Magna", "tagline": "Big dreams", "page_title": "Somnia Magna | Bringing dreams to life", "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "email": "hello@somniamagna.ca", "instagram": "somniamagna", "city": "Toronto"}, "hero": {"eyebrow": "Toronto · Day & night", "line1": "Bringing dreams", "line2": "to life", "sub": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "button_primary": "Partner with us", "button_secondary": "See what we do"}, "about": {"kicker": "Why we exist", "heading": "A third place, after dark.", "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand."}, "pillars": [{"title": "Events", "word": "Curated", "icon": "moon", "body": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night."}, {"title": "Partnerships", "word": "Aligned", "icon": "partnership", "body": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides."}, {"title": "Community", "word": "Shared", "icon": "community", "body": "Every event is a reason to come back. The goal is a group of people who keep showing up for each other."}], "principles": {"kicker": "What we stand for", "items": [{"title": "More than a bar tab", "body": "Drinks can be there. They're never the plan."}, {"title": "Doors open", "body": "We don't build on velvet ropes. If it sounds like your kind of night, you're invited."}, {"title": "Room for everyone", "body": "Nobody should have to wonder whether they belong at one of our events."}]}, "events": {"kicker": "On the horizon", "heading": "What's next", "items": [{"title": "Our first gathering", "date": "Date to be announced", "place": "Toronto", "blurb": "Follow @somniamagna on Instagram to hear about it first.", "link": ""}]}, "partners": {"kicker": "Partner with us", "heading": "Build it with us.", "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.", "types": ["Sponsors", "Venues", "Creators"]}, "contact": {"quote": "Somnia magna", "meaning": "Latin for big dreams.", "heading": "Big dreams, built here.", "body": "Tell us what you have in mind and we'll get back to you.", "button": "Get in touch"}}</script>
+<script id="sm-fallback" type="application/json">{"site": {"name": "Somnia Magna", "tagline": "Big dreams", "page_title": "Somnia Magna | Bringing dreams to life", "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "email": "hello@somniamagna.ca", "instagram": "somniamagna", "city": "Toronto"}, "hero": {"eyebrow": "Toronto · Day & night", "line1": "Bringing dreams", "line2": "to life", "sub": "Curated day and night experiences in Toronto, built around people and community instead of the bar.", "button_primary": "Partner with us", "button_secondary": "See what we do"}, "about": {"kicker": "Why we exist", "heading": "A third place, after dark.", "body": "Most nights out in this city come down to a drink and a loud room. We think there's room for more than that. Somnia Magna plans events where the point is the people you meet and the thing you came to do, whether or not there's a glass in your hand."}, "pillars": [{"title": "Events", "word": "Curated", "icon": "moon", "body": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night."}, {"title": "Partnerships", "word": "Aligned", "icon": "partnership", "body": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides."}, {"title": "Community", "word": "Shared", "icon": "community", "body": "Every event is a reason to come back. The goal is a group of people who keep showing up for each other."}], "principles": {"kicker": "What we stand for", "items": [{"title": "More than a bar tab", "body": "Drinks can be there. They're never the plan."}, {"title": "Doors open", "body": "We don't build on velvet ropes. If it sounds like your kind of night, you're invited."}, {"title": "Room for everyone", "body": "Nobody should have to wonder whether they belong at one of our events."}]}, "events": {"kicker": "On the horizon", "heading": "What's next", "items": [{"title": "Our first gathering", "date": "Date to be announced", "place": "Toronto", "blurb": "Follow @somniamagna on Instagram to hear about it first.", "link": ""}]}, "partners": {"kicker": "Partner with us", "heading": "Build it with us.", "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.", "types": ["Sponsors", "Venues", "Creators"]}, "contact": {"quote": "Somnia magna", "meaning": "Latin for big dreams.", "heading": "Big dreams, built here.", "body": "Tell us what you have in mind and we'll get back to you.", "button": "Get in touch"}, "explorer": {"note": "Sample content: replace with real events, partners and stories in the editor.", "past_events": {"heading": "Past events", "items": [{"title": "Sample event: Sunset session", "date": "Sample date", "place": "Toronto", "blurb": "Placeholder. Describe an event you ran: what it was and who came.", "sample": true}, {"title": "Sample event: Night market", "date": "Sample date", "place": "Toronto", "blurb": "Placeholder. Add the venue, the crowd and one detail people still talk about.", "sample": true}, {"title": "Sample event: Community dinner", "date": "Sample date", "place": "Toronto", "blurb": "Placeholder. Swap this for a real gathering when you have one.", "sample": true}]}, "partner_logos": {"heading": "Who we work with", "items": [{"name": "Sponsor name", "type": "Sponsor", "symbol": "circle"}, {"name": "Venue name", "type": "Venue", "symbol": "triangle"}, {"name": "Creator name", "type": "Creator", "symbol": "diamond"}, {"name": "Sponsor name", "type": "Sponsor", "symbol": "ring"}, {"name": "Venue name", "type": "Venue", "symbol": "square"}, {"name": "Creator name", "type": "Creator", "symbol": "star"}]}, "stories": {"heading": "Community stories", "items": [{"quote": "Placeholder: a line from someone who came to an event and what it meant to them.", "name": "Guest name", "role": "Came to a gathering", "sample": true}, {"quote": "Placeholder: a short story about meeting someone new at a Somnia Magna night.", "name": "Guest name", "role": "Regular", "sample": true}, {"quote": "Placeholder: what a partner or venue would say about working with us.", "name": "Partner name", "role": "Venue partner", "sample": true}]}}}</script>
 <script>/* Somnia Magna content loader.
    All words on this page live in content.json. Edit that file (or use the
    Pages CMS editor) and the page updates. You never need to touch this code. */
@@ -379,43 +426,79 @@ h1.name{margin-top:28px;font-weight:700;font-size:clamp(52px,8vw,120px);line-hei
   window.SM_ICON = icon;
 })();
 </script>
-<script>/* Roam-style explorer. Reads pillars + first event from window.SM_CONTENT (content.json). */
+<script>/* Explorer: tabs, pins, resizable panel, search and notifications. Reads window.SM_CONTENT (content.json). */
 (function(){
-  var POS=[[24,74],[46,42],[62,34],[36,22],[74,66],[82,28]];
-  var CROP=['50% 60%','70% 50%','30% 60%','50% 30%','80% 70%','20% 40%'];
-  var sel=0, built=false;
+  var POS=[[24,70],[48,40],[62,30],[38,20]];
+  var TABS=['Events','Partnerships','Community','About'];
+  var SYM={circle:'<circle cx="12" cy="12" r="8" fill="currentColor"/>',ring:'<circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="3"/>',triangle:'<path d="M12 4 21 20H3Z" fill="currentColor"/>',diamond:'<path d="M12 2 22 12 12 22 2 12Z" fill="currentColor"/>',square:'<rect x="4" y="4" width="16" height="16" rx="3" fill="currentColor"/>',star:'<path d="m12 2 2.9 6.6 7.1.7-5.3 4.8 1.5 7-6.2-3.6-6.2 3.6 1.5-7L2 9.3l7.1-.7Z" fill="currentColor"/>'};
+  var sel=0,built=false,order=['closed','half','wide'];
   function $(id){return document.getElementById(id);}
+  function E(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function tag(o){return o.sample?'<span class="xp-tag">Sample</span>':'';}
+  function pillar(c,n){return (c.pillars||[]).filter(function(p){return p.title===n;})[0]||{};}
+  function views(c){
+    var X=c.explorer||{}, ev=(c.events&&c.events.items&&c.events.items[0])||{};
+    var pe=(X.past_events||{}), pl=(X.partner_logos||{}), st=(X.stories||{}), pr=(c.principles||{}).items||[];
+    return [
+      {name:'Events',html:function(){var p=pillar(c,'Events');return '<h3>'+E(p.title||'Events')+'</h3><p class="lead">'+E(p.body)+'</p>'+
+        '<h4>Next gathering</h4><div class="xp-item"><b>'+E(ev.title)+'</b><em>'+E([ev.date,ev.place].filter(Boolean).join(' · '))+'</em><p>'+E(ev.blurb)+'</p></div>'+
+        '<h4>'+E(pe.heading||'Past events')+'</h4>'+(pe.items||[]).map(function(x,i){return '<div class="xp-item" data-k="e'+i+'"><b>'+E(x.title)+tag(x)+'</b><em>'+E([x.date,x.place].filter(Boolean).join(' · '))+'</em><p>'+E(x.blurb)+'</p></div>';}).join('');},
+       items:function(){return (pe.items||[]).map(function(x,i){return {k:'e'+i,t:x.title,s:x.blurb};}).concat([{k:'',t:ev.title,s:'Next gathering'}]);}},
+      {name:'Partnerships',html:function(){var p=pillar(c,'Partnerships');return '<h3>'+E(p.title||'Partnerships')+'</h3><p class="lead">'+E(p.body)+'</p>'+
+        '<h4>'+E(pl.heading||'Who we work with')+'</h4><div class="xp-grid">'+(pl.items||[]).map(function(x,i){return '<div class="xp-logo" data-k="p'+i+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+(SYM[x.symbol]||SYM.circle)+'</svg><b>'+E(x.name)+'</b><em>'+E(x.type)+'</em></div>';}).join('')+'</div>'+
+        '<h4>Open to</h4><p class="lead">'+E(((c.partners||{}).types||[]).join(', '))+'. '+E((c.partners||{}).body)+'</p>';},
+       items:function(){return (pl.items||[]).map(function(x,i){return {k:'p'+i,t:x.name,s:x.type};});}},
+      {name:'Community',html:function(){var p=pillar(c,'Community');return '<h3>'+E(p.title||'Community')+'</h3><p class="lead">'+E(p.body)+'</p>'+
+        '<h4>'+E(st.heading||'Community stories')+'</h4>'+(st.items||[]).map(function(x,i){return '<div class="xp-item xp-quote" data-k="s'+i+'"><p>“'+E(x.quote)+'”</p><b>'+E(x.name)+tag(x)+'</b><em>'+E(x.role)+'</em></div>';}).join('');},
+       items:function(){return (st.items||[]).map(function(x,i){return {k:'s'+i,t:x.name,s:x.quote};});}},
+      {name:'About',html:function(){var a=c.about||{};return '<h3>'+E(a.heading)+'</h3><p class="lead">'+E(a.body)+'</p>'+
+        '<h4>'+E((c.principles||{}).kicker||'What we stand for')+'</h4>'+pr.map(function(x){return '<div class="xp-item"><b>'+E(x.title)+'</b><p>'+E(x.body)+'</p></div>';}).join('')+
+        '<h4>The name</h4><div class="xp-item"><b>'+E((c.contact||{}).quote)+'</b><p>'+E((c.contact||{}).meaning)+'</p></div>';},
+       items:function(){return pr.map(function(x){return {k:'',t:x.title,s:x.body};}).concat([{k:'',t:(c.about||{}).heading,s:(c.about||{}).body}]);}}
+    ];
+  }
+  function setState(st){$('xp').setAttribute('data-state',st);}
   function build(c){
-    var P=c.pillars||[]; if(!P.length||!$('xp')) return;
-    var tabs=$('xp-tabs'), pins=$('xp-pins');
-    tabs.innerHTML=''; pins.innerHTML='';
-    P.forEach(function(p,i){
-      var pos=POS[i%POS.length];
-      var t=document.createElement('button'); t.className='xp-tab'; t.type='button'; t.setAttribute('role','tab'); t.textContent=p.title;
-      t.addEventListener('click',function(){pick(i);}); tabs.appendChild(t);
-      var b=document.createElement('button'); b.className='xp-pin'; b.type='button'; b.setAttribute('aria-label',p.title);
-      b.style.left=pos[0]+'%'; b.style.top=pos[1]+'%'; b.innerHTML='<i>'+(i+1)+'</i>';
-      b.addEventListener('click',function(){pick(i);}); pins.appendChild(b);
+    if(!$('xp')) return; var V=views(c); window.__xpv=V;
+    var tabs=$('xp-tabs'),pins=$('xp-pins'); tabs.innerHTML='';pins.innerHTML='';
+    V.forEach(function(v,i){
+      var t=document.createElement('button');t.className='xp-tab';t.type='button';t.setAttribute('role','tab');t.textContent=v.name;t.onclick=function(){pick(i,true);};tabs.appendChild(t);
+      var p=POS[i],b=document.createElement('button');b.className='xp-pin';b.type='button';b.setAttribute('aria-label',v.name);b.style.left=p[0]+'%';b.style.top=p[1]+'%';b.innerHTML='<i>'+(i+1)+'</i><span>'+E(v.name)+'</span>';b.onclick=function(){pick(i,true);};pins.appendChild(b);
     });
-    var pts=P.map(function(_,i){var q=POS[i%POS.length];return [q[0]*10,q[1]*6.8];});
-    var d='M'+pts[0][0]+' '+pts[0][1];
+    var pts=POS.map(function(q){return [q[0]*10,q[1]*6.8];}),d='M'+pts[0][0]+' '+pts[0][1];
     for(var k=1;k<pts.length;k++){var a=pts[k-1],b2=pts[k],mx=(a[0]+b2[0])/2;d+=' C'+mx+' '+a[1]+','+mx+' '+b2[1]+','+b2[0]+' '+b2[1];}
     $('xp-route').firstElementChild.setAttribute('d',d);
     var ev=(c.events&&c.events.items&&c.events.items[0])||{};
-    $('xp-nt').textContent=ev.title||'';
-    $('xp-nd').textContent=[ev.date,ev.place].filter(Boolean).join(' · ');
-    built=true; if(sel>=P.length) sel=0; pick(sel);
+    $('xp-stats').innerHTML=[['Where',(c.site||{}).city||'Toronto'],['When','Day & night'],['Next',ev.date||'To be announced']].map(function(x){return '<div class="xp-stat"><b>'+E(x[0])+'</b><span>'+E(x[1])+'</span></div>';}).join('');
+    $('xp-note').textContent=(ev.title||'Next gathering')+': '+(ev.date||'date to be announced');
+    var em=document.querySelector('.xp-un em'); if(em&&(c.site||{}).email) em.textContent=c.site.email;
+    built=true; pick(Math.min(sel,V.length-1),false);
   }
-  function pick(i){
-    var c=window.SM_CONTENT, p=c.pillars[i], pos=POS[i%POS.length];
-    [].forEach.call($('xp-tabs').children,function(n,k){n.setAttribute('aria-selected',k===i);});
-    [].forEach.call($('xp-pins').children,function(n,k){n.setAttribute('aria-selected',k===i);});
-    $('xp-title').textContent=p.title; $('xp-text').textContent=p.body;
-    $('xp-word').textContent=p.word||''; $('xp-card-t').textContent=p.title; $('xp-card-w').textContent=p.word||'';
-    $('xp-img').style.objectPosition=CROP[i%CROP.length];
-    var card=$('xp-card'); card.style.left='calc('+pos[0]+'% + 34px)'; card.style.top='calc('+pos[1]+'% - 40px)';
-    sel=i;
+  function pick(i,open,k){
+    var V=window.__xpv; sel=i;
+    [].forEach.call($('xp-tabs').children,function(n,j){n.setAttribute('aria-selected',j===i);});
+    [].forEach.call($('xp-pins').children,function(n,j){n.setAttribute('aria-selected',j===i);});
+    var body=$('xp-body'); body.innerHTML=V[i].html(); body.scrollTop=0;
+    if(open&&$('xp').getAttribute('data-state')==='closed') setState('half');
+    if(k){var el=body.querySelector('[data-k="'+k+'"]');if(el){el.classList.add('hit');el.scrollIntoView({block:'center',behavior:'smooth'});}}
   }
+  $('xp-handle').onclick=function(){var cur=$('xp').getAttribute('data-state'),n=cur==='half'?'wide':cur==='wide'?'closed':'half';setState(n);};
+  var q=$('xp-q'),sug=$('xp-sug');
+  function suggest(){
+    var t=q.value.trim().toLowerCase(),V=window.__xpv||[],rows=[];
+    V.forEach(function(v,i){
+      if(!t) rows.push({i:i,k:'',t:v.name,g:'Go to'});
+      else{ if(v.name.toLowerCase().indexOf(t)>-1) rows.push({i:i,k:'',t:v.name,g:'Section'});
+        v.items().forEach(function(x){if(((x.t||'')+' '+(x.s||'')).toLowerCase().indexOf(t)>-1) rows.push({i:i,k:x.k,t:x.t||'',g:v.name});});}
+    });
+    sug.innerHTML=rows.slice(0,8).map(function(r,n){return '<button type="button" data-n="'+n+'"><small>'+E(r.g)+'</small>'+E(r.t)+'</button>';}).join('')||'<button type="button" disabled>Nothing found</button>';
+    sug.classList.add('on'); sug._rows=rows;
+  }
+  q.addEventListener('focus',suggest); q.addEventListener('input',suggest);
+  sug.addEventListener('click',function(e){var b=e.target.closest('button[data-n]');if(!b)return;var r=sug._rows[+b.getAttribute('data-n')];sug.classList.remove('on');q.blur();pick(r.i,true,r.k);});
+  $('xp-bell').onclick=function(e){e.stopPropagation();$('xp-pop').classList.toggle('on');var d=document.querySelector('.xp-dot');if(d)d.style.display='none';};
+  $('xp-note').onclick=function(e){e.preventDefault();$('xp-pop').classList.remove('on');pick(0,true);};
+  document.addEventListener('click',function(e){if(!e.target.closest('.xp-search'))sug.classList.remove('on');if(!e.target.closest('.xp-bellw'))$('xp-pop').classList.remove('on');});
   document.addEventListener('sm:rendered',function(){build(window.SM_CONTENT);});
   if(window.SM_CONTENT&&!built) build(window.SM_CONTENT);
 })();

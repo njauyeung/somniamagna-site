@@ -87,5 +87,92 @@
     "heading": "Big dreams, built here.",
     "body": "Tell us what you have in mind and we'll get back to you.",
     "button": "Get in touch"
+  },
+  "explorer": {
+    "note": "Sample content: replace with real events, partners and stories in the editor.",
+    "past_events": {
+      "heading": "Past events",
+      "items": [
+        {
+          "title": "Sample event: Sunset session",
+          "date": "Sample date",
+          "place": "Toronto",
+          "blurb": "Placeholder. Describe an event you ran: what it was and who came.",
+          "sample": true
+        },
+        {
+          "title": "Sample event: Night market",
+          "date": "Sample date",
+          "place": "Toronto",
+          "blurb": "Placeholder. Add the venue, the crowd and one detail people still talk about.",
+          "sample": true
+        },
+        {
+          "title": "Sample event: Community dinner",
+          "date": "Sample date",
+          "place": "Toronto",
+          "blurb": "Placeholder. Swap this for a real gathering when you have one.",
+          "sample": true
+        }
+      ]
+    },
+    "partner_logos": {
+      "heading": "Who we work with",
+      "items": [
+        {
+          "name": "Sponsor name",
+          "type": "Sponsor",
+          "symbol": "circle"
+        },
+        {
+          "name": "Venue name",
+          "type": "Venue",
+          "symbol": "triangle"
+        },
+        {
+          "name": "Creator name",
+          "type": "Creator",
+          "symbol": "diamond"
+        },
+        {
+          "name": "Sponsor name",
+          "type": "Sponsor",
+          "symbol": "ring"
+        },
+        {
+          "name": "Venue name",
+          "type": "Venue",
+          "symbol": "square"
+        },
+        {
+          "name": "Creator name",
+          "type": "Creator",
+          "symbol": "star"
+        }
+      ]
+    },
+    "stories": {
+      "heading": "Community stories",
+      "items": [
+        {
+          "quote": "Placeholder: a line from someone who came to an event and what it meant to them.",
+          "name": "Guest name",
+          "role": "Came to a gathering",
+          "sample": true
+        },
+        {
+          "quote": "Placeholder: a short story about meeting someone new at a Somnia Magna night.",
+          "name": "Guest name",
+          "role": "Regular",
+          "sample": true
+        },
+        {
+          "quote": "Placeholder: what a partner or venue would say about working with us.",
+          "name": "Partner name",
+          "role": "Venue partner",
+          "sample": true
+        }
+      ]
+    }
   }
 }

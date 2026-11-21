@@ -101,3 +101,63 @@ content:
           - { name: heading, label: Heading, type: string }
           - { name: body, label: Sentence, type: text }
           - { name: button, label: Button, type: string }
+      - name: explorer
+        label: Explorer panel samples (past events, partners, stories)
+        type: object
+        fields:
+          - { name: note, label: Note to self, type: string }
+          - name: past_events
+            label: Past events
+            type: object
+            fields:
+              - { name: heading, label: Heading, type: string }
+              - name: items
+                label: Events
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{title}"
+                fields:
+                  - { name: title, label: Event name, type: string }
+                  - { name: date, label: Date, type: string }
+                  - { name: place, label: Place, type: string }
+                  - { name: blurb, label: Short description, type: text }
+                  - { name: sample, label: Still a placeholder? (turn off when real), type: boolean }
+          - name: partner_logos
+            label: Partners
+            type: object
+            fields:
+              - { name: heading, label: Heading, type: string }
+              - name: items
+                label: Partners
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{name}"
+                fields:
+                  - { name: name, label: Name, type: string }
+                  - { name: type, label: Type (Sponsor, Venue, Creator), type: string }
+                  - name: symbol
+                    label: Symbol
+                    type: select
+                    options:
+                      values: [circle, triangle, diamond, ring, square, star]
+          - name: stories
+            label: Community stories
+            type: object
+            fields:
+              - { name: heading, label: Heading, type: string }
+              - name: items
+                label: Stories
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{name}"
+                fields:
+                  - { name: quote, label: Story or quote, type: text }
+                  - { name: name, label: Name, type: string }
+                  - { name: role, label: Who they are, type: string }
+                  - { name: sample, label: Still a placeholder? (turn off when real), type: boolean }
