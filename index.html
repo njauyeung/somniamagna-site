@@ -97,7 +97,7 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
 .tag{flex:none;padding:2px 8px;border-radius:10px;background:#FFE9A8;color:#5A4300;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;white-space:nowrap}
 .more{padding:0 14px 14px 38px}
 .more.nothumb{padding-left:14px}
-.more p{margin:0 0 10px;font-size:14px;line-height:1.55;color:var(--soft);white-space:normal}
+.more p{margin:0 0 10px;font-size:14px;line-height:1.55;color:var(--soft);white-space:pre-line}
 .strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
 .strip button{flex:none;width:92px;height:68px;border:0;padding:0;border-radius:12px;overflow:hidden;background:#ddd}
 .strip img,.grid img{display:block;width:100%;height:100%;object-fit:cover}
@@ -121,6 +121,9 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
 #pop .n{margin-top:4px;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #pop .s{margin-top:2px;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #pop .tag{display:inline-block;margin-top:8px}
+#pop .trash{display:flex;align-items:center;gap:6px;margin-top:10px;height:34px;padding:0 12px;border:0;border-radius:17px;background:#F6DAD8;color:#8C1D18;font-size:12px;font-weight:700}
+#pop .trash.sure{background:#B3261E;color:#fff}
+#pop .trash svg{flex:none}
 
 /* photo viewer */
 #lb{position:fixed;z-index:20;inset:0;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 16px 24px}
@@ -137,6 +140,7 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
   #pop .pb{padding:10px 14px 11px;min-width:0;flex:1}
   #pop .n{font-size:15px;margin-top:2px}
   #pop .tag{margin-top:5px}
+  #pop .trash{margin-top:6px;height:30px}
 }
 @media (prefers-reduced-motion:reduce){#dock{transition:none}}
 
@@ -209,6 +213,7 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
 </main>
 <noscript><p style="position:fixed;inset:auto 20px 20px;color:#F3EFDF;font-family:sans-serif">Somnia Magna · Toronto · hello@somniamagna.ca</p></noscript>
 
+<script src="cities.js"></script>
 <script>
 (function () {
 'use strict';
@@ -233,28 +238,14 @@ function fmtDate(d) {                           // "2026-12-12" -> "Sat, Dec 12"
   return dt.toLocaleDateString('en-US', o);
 }
 
-/* cities the CMS can name without typing coordinates [lon, lat] */
-var CITIES = {
-  'toronto': [-79.38, 43.65], 'montreal': [-73.57, 45.5], 'ottawa': [-75.7, 45.42], 'vancouver': [-123.12, 49.28], 'calgary': [-114.07, 51.05],
-  'edmonton': [-113.49, 53.55], 'winnipeg': [-97.14, 49.9], 'halifax': [-63.57, 44.65], 'quebec city': [-71.21, 46.81], 'new york': [-74.0, 40.71],
-  'boston': [-71.06, 42.36], 'chicago': [-87.63, 41.88], 'los angeles': [-118.24, 34.05], 'san francisco': [-122.42, 37.77], 'seattle': [-122.33, 47.61],
-  'miami': [-80.19, 25.76], 'austin': [-97.74, 30.27], 'washington': [-77.04, 38.91], 'london': [-0.13, 51.51], 'paris': [2.35, 48.86],
-  'berlin': [13.4, 52.52], 'amsterdam': [4.9, 52.37], 'lisbon': [-9.14, 38.72], 'madrid': [-3.7, 40.42], 'barcelona': [2.17, 41.39],
-  'rome': [12.5, 41.9], 'dublin': [-6.26, 53.35], 'zurich': [8.54, 47.38], 'stockholm': [18.07, 59.33], 'dubai': [55.27, 25.2],
-  'singapore': [103.82, 1.35], 'hong kong': [114.17, 22.32], 'tokyo': [139.69, 35.68], 'seoul': [126.98, 37.57], 'shanghai': [121.47, 31.23],
-  'beijing': [116.41, 39.9], 'sydney': [151.21, -33.87], 'melbourne': [144.96, -37.81], 'mumbai': [72.88, 19.08], 'mexico city': [-99.13, 19.43],
-  'sao paulo': [-46.63, -23.55], 'buenos aires': [-58.38, -34.6], 'lagos': [3.38, 6.52], 'cape town': [18.42, -33.92], 'cairo': [31.24, 30.04],
-  'istanbul': [28.98, 41.01], 'tel aviv': [34.78, 32.09]
-};
 function coords(it) {
   var lon = parseFloat(it.lon), lat = parseFloat(it.lat);
   if (isFinite(lon) && isFinite(lat) && it.lon !== '' && it.lat !== '' && it.lon != null && it.lat != null) return [lon, lat];
-  var k = String(it.place || '').split(',')[0].trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-  return CITIES[k] || null;
+  return window.smCity(it.place);
 }
 
 /* ---------------------------------------------------------------- content -> layers */
-var C = null, LAYERS = [], MAIL = 'hello@somniamagna.ca';
+var C = null, LAYERS = [], MAIL = 'hello@somniamagna.ca', POSTS = [];
 var COLORS = { events: '#7AF3C2', partners: '#FFB27A', community: '#F7A8C8', about: '#FFE08A' };
 
 function build(c) {
@@ -269,10 +260,16 @@ function build(c) {
     var p = coords(e);
     return { kind: 'partner', label: clip(e.name), full: e.name, place: e.place || '', date: e.type || '', lon: p && p[0], lat: p && p[1], has: !!p, sample: !!e.sample, photos: [] };
   });
-  var shared = (co.items || []).map(function (e) {
+  var samples = (co.items || []).map(function (e) {
     var p = coords(e), ph = e.image ? [{ src: src(e.image), cap: e.caption || '' }] : [];
     return { kind: 'photo', label: clip(e.caption), full: e.caption, place: e.place || '', date: '', lon: p && p[0], lat: p && p[1], has: !!p, sample: !!e.sample, photos: ph };
   });
+  // posts you publish from /admin replace the sample placeholders
+  var posts = POSTS.map(function (e) {
+    return { kind: 'post', id: e.id, label: clip(e.title), full: e.title, place: e.place || '', date: fmtDate(e.event_date), lon: e.lon, lat: e.lat, has: true, sample: false, blurb: e.body || '',
+      photos: (e.photos || []).map(function (x) { return { src: src(x.url), cap: x.caption || '' }; }) };
+  });
+  var shared = posts.length ? posts : samples;
   var op = coords({ place: ab.origin_place || 'Toronto' }) || [-79.38, 43.65];
   var origin = { kind: 'origin', label: ab.origin_label || 'Where SOMA began', full: ab.origin_label, place: ab.origin_place || 'Toronto', date: '', lon: op[0], lat: op[1], has: true, origin: true, photos: [] };
   LAYERS = [
@@ -287,7 +284,7 @@ function build(c) {
 }
 
 /* ---------------------------------------------------------------- state */
-var S = { i: 0, open: true, sel: -1, q: '', bell: false, badge: true, exp: -1 };
+var S = { i: 0, open: true, sel: -1, q: '', bell: false, badge: true, exp: -1, owner: false, sure: false };
 var g = { lon: -60, lat: 25, target: [-76, 40, 1], vx: 0, vy: 0, drag: false, idle: 0, zoom: 1 };
 var stage = $('#stage');
 
@@ -322,12 +319,13 @@ function sub(it) { return [it.place, it.date].filter(Boolean).join(' · '); }
 
 function rowHTML(L, k, it) {
   var on = S.sel === k, open = S.exp === k;
-  var lead = it.kind === 'photo' && it.photos[0] ? '<img class="thumb" src="' + esc(it.photos[0].src) + '" alt="" loading="lazy">'
+  var lead = (it.kind === 'photo' || it.kind === 'post') && it.photos[0] ? '<img class="thumb" src="' + esc(it.photos[0].src) + '" alt="" loading="lazy">'
     : '<span class="dotc" style="background:' + L.color + '"></span>';
   var more = '';
-  if (open && (it.blurb || (it.kind === 'event' && it.photos.length))) {
-    more = '<div class="more">' + (it.blurb ? '<p>' + esc(it.blurb) + '</p>' : '') +
-      (it.kind === 'event' && it.photos.length ? '<div class="strip">' + it.photos.map(function (p, n) {
+  var strip = (it.kind === 'event' || it.kind === 'post') && it.photos.length;
+  if (open && (it.blurb || strip)) {
+    more = '<div class="more' + (lead.indexOf('thumb') > -1 ? ' nothumb' : '') + '">' + (it.blurb ? '<p>' + esc(it.blurb) + '</p>' : '') +
+      (strip ? '<div class="strip">' + it.photos.map(function (p, n) {
         return '<span role="presentation" style="display:contents"><button type="button" data-photo="' + k + ':' + n + '" aria-label="Open photo"><img src="' + esc(p.src) + '" alt="' + esc(p.cap) + '" loading="lazy"></button></span>';
       }).join('') + '</div>' : '') + '</div>';
   }
@@ -380,6 +378,7 @@ function renderBody(reset) {
 function galleryAll() {                         // every event photo, labelled with its event
   var out = [];
   LAYERS[0].items.forEach(function (it) { it.photos.forEach(function (p) { out.push({ src: p.src, cap: (it.full || it.label) + (p.cap && p.cap !== 'Sample photo' ? ' · ' + p.cap : ''), place: it.place }); }); });
+  POSTS.forEach(function (e) { (e.photos || []).forEach(function (p) { out.push({ src: src(p.url), cap: e.title + (p.caption ? ' · ' + p.caption : ''), place: e.place }); }); });
   return out;
 }
 
@@ -413,12 +412,17 @@ function popUpdate() {
   var it = selItem(), pop = $('#pop'), L = LAYERS[S.i];
   if (!it || it.origin) { pop.classList.remove('show'); pop.innerHTML = ''; pop.dataset.k = ''; return; }
   var key = S.i + ':' + S.sel;
-  if (pop.dataset.k !== key) {
-    pop.dataset.k = key;
+  var tk = key + (S.owner ? ':o' : '');
+  if (pop.dataset.k !== tk) {
+    pop.dataset.k = tk;
     pop.innerHTML = (it.photos[0] ? '<button class="im" type="button" data-popphoto="1" aria-label="Open photo"><img src="' + esc(it.photos[0].src) + '" alt=""></button>' : '') +
-      '<div class="pb"><div class="k">' + esc(L.name) + '</div><div class="n">' + esc(it.label) + '</div><div class="s">' + esc(sub(it)) + '</div>' + tagHTML(it) + '</div>';
+      '<div class="pb"><div class="k">' + esc(L.name) + '</div><div class="n">' + esc(it.label) + '</div><div class="s">' + esc(sub(it)) + '</div>' + tagHTML(it) + trashHTML(it) + '</div>';
   }
   pop.classList.add('show');
+}
+function trashHTML(it) {
+  if (!S.owner || it.kind !== 'post') return '';
+  return '<button class="trash" type="button" data-trash="' + esc(it.id) + '" aria-label="Delete this post"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg><span>Delete</span></button>';
 }
 function placePop(x, y, W, H) {                // keep the popup beside its dot, inside the globe area
   var pop = $('#pop'); if (!pop.classList.contains('show')) return;
@@ -445,7 +449,7 @@ function closeLB() { $('#lb').hidden = true; $('#lb').innerHTML = ''; }
 
 /* ---------------------------------------------------------------- events */
 document.addEventListener('click', function (e) {
-  var t = e.target.closest('[data-tab],[data-item],[data-sug],[data-photo],[data-gal],[data-popphoto],[data-lb],[data-next],#tab,#bell');
+  var t = e.target.closest('[data-tab],[data-item],[data-sug],[data-photo],[data-gal],[data-popphoto],[data-trash],[data-lb],[data-next],#tab,#bell');
   var inBar = e.target.closest('#bar');
   if (!inBar && (S.bell || S.q)) { /* click away closes drops */ if (S.bell) { S.bell = false; renderDrops(); } }
   if (!t) return;
@@ -461,6 +465,14 @@ document.addEventListener('click', function (e) {
   if (t.dataset.next) { selectTab(0); return; }
   if (t.dataset.photo) { var pr = t.dataset.photo.split(':'), it = LAYERS[S.i].items[+pr[0]]; openLB(it.photos.map(function (p) { return { src: p.src, cap: p.cap || it.full || it.label, place: it.place }; }), +pr[1]); return; }
   if (t.dataset.gal != null) { var all = galleryAll(); openLB(all, +t.dataset.gal); return; }
+  if (t.dataset.trash) {
+    if (!t.classList.contains('sure')) { t.classList.add('sure'); t.querySelector('span').textContent = 'Tap again to delete'; setTimeout(function () { if (t.isConnected) { t.classList.remove('sure'); t.querySelector('span').textContent = 'Delete'; } }, 4000); return; }
+    t.disabled = true; t.querySelector('span').textContent = 'Deleting…';
+    fetch('api/admin/posts/' + encodeURIComponent(t.dataset.trash), { method: 'DELETE', headers: { 'X-Requested-With': 'sm' }, credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); S.sel = -1; S.exp = -1; return loadPosts(); })
+      .catch(function () { t.disabled = false; t.querySelector('span').textContent = 'Could not delete'; });
+    return;
+  }
   if (t.dataset.popphoto) { var s = selItem(); if (s && s.photos.length) openLB(s.photos.map(function (p) { return { src: p.src, cap: p.cap || s.full || s.label, place: s.place }; }), 0); return; }
   if (t.dataset.lb) {
     if (t.dataset.lb === 'x') closeLB();
@@ -648,7 +660,7 @@ function loop() {
       var dl = ((g.target[0] - g.lon + 540) % 360) - 180, dp = g.target[1] - g.lat;
       g.lon += dl * 0.07; g.lat += dp * 0.07;
       if (g.target[2]) g.zoom += (g.target[2] - g.zoom) * 0.07;
-      if (Math.abs(dl) < 0.01 && Math.abs(dp) < 0.01 && (!g.target[2] || Math.abs(g.target[2] - g.zoom) < 0.01)) g.target = null;
+      if (Math.abs(dl) < 0.03 && Math.abs(dp) < 0.03 && (!g.target[2] || Math.abs(g.target[2] - g.zoom) < 0.02)) g.target = null;
     } else {
       g.lon += g.vx; g.lat = Math.max(-85, Math.min(85, g.lat + g.vy)); g.vx *= 0.93; g.vy *= 0.93;
       g.idle++; if (g.idle > 150 && S.sel < 0 && g.zoom < 1.3 && !reduceMotion) g.lon += 0.05;
@@ -700,9 +712,23 @@ function start() {
   window.addEventListener('resize', function () { if (!ok) return; lay.cx = null; layout(); });
   window.sm = { select: selectItem, tab: selectTab };
 }
+function loadPosts() {
+  return fetch('api/posts', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (j) { POSTS = j.posts || []; })
+    .catch(function () { POSTS = []; })
+    .then(function () { if (!C) return; build(C); renderBody(false); popUpdate(); });
+}
+function checkOwner() {          // only probes when you have signed in at /admin on this device, so visitors never trigger a login redirect
+  var flag = false; try { flag = localStorage.getItem('sm_owner') === '1'; } catch (e) {}
+  if (!flag) return;
+  fetch('api/admin/me', { credentials: 'same-origin', redirect: 'manual', headers: { 'X-Requested-With': 'sm' } })
+    .then(function (r) { if (!r.ok) throw new Error('no'); return r.json(); })
+    .then(function () { S.owner = true; popUpdate(); })
+    .catch(function () { try { localStorage.removeItem('sm_owner'); } catch (e) {} });
+}
 fetch('content.json', { cache: 'no-cache' })
   .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(function (c) { build(c); start(); })
+  .then(function (c) { build(c); start(); loadPosts(); checkOwner(); })
   .catch(function (err) { console.error('content.json failed to load', err); $('#body').innerHTML = '<p class="lead">Somnia Magna · Toronto · ' + MAIL + '</p>'; });
 })();
 </script>

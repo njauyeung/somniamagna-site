@@ -1,0 +1,26 @@
+{
+  // Somnia Magna: static site + a small API for owner-only photo posts.
+  // Deploys automatically from GitHub (Cloudflare Workers Builds). The name must match the Worker in the dashboard.
+  "name": "somniamagna-site",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/media/*", "/admin", "/admin/*"]
+  },
+  "d1_databases": [
+    // PASTE the database_id from the dashboard (Storage & databases > D1 > somniamagna)
+    { "binding": "DB", "database_name": "somniamagna", "database_id": "REPLACE_WITH_D1_DATABASE_ID" }
+  ],
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "somniamagna-photos" }
+  ],
+  "vars": {
+    // Who may sign in: the two emails, matched against the Access token.
+    "OWNER_EMAILS": "njauyeung@gmail.com,kaizen.maclambdas@gmail.com",
+    // PASTE from Zero Trust: your team domain and the application's Audience tag.
+    "TEAM_DOMAIN": "https://REPLACE_TEAM_NAME.cloudflareaccess.com",
+    "POLICY_AUD": "REPLACE_WITH_AUDIENCE_TAG"
+  }
+}

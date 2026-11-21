@@ -1,0 +1,7 @@
+{
+  "name": "somniamagna-site",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "wrangler dev", "test": "node tests/access.test.mjs" },
+  "devDependencies": { "wrangler": "^4" }
+}

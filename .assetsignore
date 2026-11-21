@@ -1,0 +1,12 @@
+.assetsignore
+wrangler.jsonc
+package.json
+package-lock.json
+node_modules
+worker
+tests
+.pages.yml
+.dev.vars
+.wrangler
+.git
+README.md
