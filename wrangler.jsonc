@@ -10,8 +10,7 @@
     "run_worker_first": ["/api/*", "/media/*", "/admin", "/admin/*"]
   },
   "d1_databases": [
-    // PASTE the database_id from the dashboard (Storage & databases > D1 > somniamagna)
-    { "binding": "DB", "database_name": "somniamagna", "database_id": "REPLACE_WITH_D1_DATABASE_ID" }
+    { "binding": "DB", "database_name": "somniamagna", "database_id": "1b84e5cf-4ccb-4b3c-9151-2cbb7af1669e" }
   ],
   "r2_buckets": [
     { "binding": "PHOTOS", "bucket_name": "somniamagna-photos" }
@@ -19,8 +18,8 @@
   "vars": {
     // Who may sign in: the two emails, matched against the Access token.
     "OWNER_EMAILS": "njauyeung@gmail.com,kaizen.maclambdas@gmail.com",
-    // PASTE from Zero Trust: your team domain and the application's Audience tag.
-    "TEAM_DOMAIN": "https://REPLACE_TEAM_NAME.cloudflareaccess.com",
-    "POLICY_AUD": "REPLACE_WITH_AUDIENCE_TAG"
+    // From Zero Trust: your team domain and the Access application's Audience tag.
+    "TEAM_DOMAIN": "https://somniamagna.cloudflareaccess.com",
+    "POLICY_AUD": "f96172d40663dddfc069c8e16b7749fec1447eae5d6accd962482217f8ad1243"
   }
 }

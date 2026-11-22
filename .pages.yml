@@ -124,7 +124,6 @@ content:
         fields:
           - { name: heading, label: "Tab heading", type: string }
           - { name: body, label: "Paragraph", type: text }
-          - { name: list_heading, label: "Label above the Toronto dot", type: string }
           - { name: origin_label, label: "Name of the Toronto dot", type: string }
           - { name: origin_place, label: "Its city", type: string }
           - { name: pillars_heading, label: "Label above the Events / Partnerships / Community blurbs", type: string }
@@ -138,20 +137,7 @@ content:
             fields:
               - { name: title, label: Title, type: string }
               - { name: body, label: Blurb, type: text }
-          - { name: principles_heading, label: "Label above the values", type: string }
           - { name: button, label: "Button text", type: string }
-      - name: principles
-        label: What we stand for
-        type: object
-        fields:
-          - { name: kicker, label: "Small label", type: string }
-          - name: items
-            label: Values
-            type: object
-            list: true
-            fields:
-              - { name: title, label: "Title", type: string }
-              - { name: body, label: "Sentence", type: text }
       - name: contact
         label: The name
         type: object

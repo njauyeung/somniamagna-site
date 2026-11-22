@@ -19,7 +19,7 @@
 <style>
 /* All words and places live in content.json (edit it in Pages CMS). This file is layout and the globe. */
 :root{
-  --card:#EEEAF7; --ink:#0A0B1F; --cream:#F3EFDF; --violet:#4B3E9C; --soft:#262851; --muted:#4B4B6B;
+  --card:#F3EFDF; --ink:#0A0B1F; --cream:#F3EFDF; --violet:#6E6240; --soft:#2E2C26; --muted:#6A6656;
   --gutter:24px; --tabw:26px; --tabh:88px;
 }
 *{box-sizing:border-box}
@@ -68,7 +68,7 @@ a{color:inherit}
 #sf input{flex:1;min-width:0;border:0;background:none;font-size:14px;font-weight:500;color:var(--ink);outline:none}
 .round{position:relative;flex:none;width:46px;height:46px;border-radius:50%;border:0;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;text-decoration:none}
 #bellbadge{position:absolute;top:10px;right:11px;width:9px;height:9px;border-radius:50%;background:#E5484D;border:2px solid #fff;box-sizing:content-box}
-#na{background:var(--violet);color:var(--cream);font-size:13px;font-weight:600}
+#na{background:var(--ink);color:var(--cream);font-size:13px;font-weight:600}
 #na img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .drop{position:absolute;z-index:9;top:74px;border-radius:20px;background:var(--ink);color:var(--cream);padding:8px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
 #sug{left:20px;right:20px}
@@ -362,12 +362,8 @@ function renderBody(reset) {
       '<a class="cta" href="mailto:' + esc(MAIL) + '?subject=' + encodeURIComponent('Photos from a Somnia Magna event') + '">' + esc(co.share_button || 'Send photos') + '</a>';
   }
   if (L.key === 'about') {
-    var ab = C.about || {}, pr = (C.principles || {});
+    var ab = C.about || {};
     h += '<div class="h">' + esc(ab.pillars_heading || 'What we do') + '</div>' + (ab.pillars || []).map(function (r) {
-      return '<div class="box"><b>' + esc(r.title) + '</b><p>' + esc(r.body) + '</p></div>';
-    }).join('');
-    h += '<div class="h">' + esc(ab.list_heading || 'Where it started') + '</div>' + L.items.map(function (it, k) { return rowHTML(L, k, it); }).join('');
-    h += '<div class="h">' + esc(ab.principles_heading || pr.kicker || 'What we stand for') + '</div>' + (pr.items || []).map(function (r) {
       return '<div class="box"><b>' + esc(r.title) + '</b><p>' + esc(r.body) + '</p></div>';
     }).join('');
     h += '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(ab.button || 'Get in touch') + '</a>';
@@ -392,7 +388,7 @@ function renderDrops() {
       l.items.forEach(function (it, n) { var s = (it.full || it.label) + ' ' + it.place + ' ' + it.date; if (s.toLowerCase().indexOf(q) > -1) res.push({ g: l.name, t: it.label + ' · ' + it.place, a: 'item', k: k, n: n }); });
     });
     res = res.slice(0, 7);
-    sug.innerHTML = res.length ? res.map(function (r) { return '<button type="button" data-sug="' + r.a + ':' + r.k + ':' + (r.n == null ? '' : r.n) + '"><small>' + esc(r.g) + '</small>' + esc(r.t) + '</button>'; }).join('') : '<div class="hd" style="padding:10px 12px 8px;color:#C9C6E3">Nothing found</div>';
+    sug.innerHTML = res.length ? res.map(function (r) { return '<button type="button" data-sug="' + r.a + ':' + r.k + ':' + (r.n == null ? '' : r.n) + '"><small>' + esc(r.g) + '</small>' + esc(r.t) + '</button>'; }).join('') : '<div class="hd" style="padding:10px 12px 8px;color:#D8D2B8">Nothing found</div>';
     sug.hidden = false;
   }
   var bb = $('#bellbox'); bb.hidden = !S.bell;
@@ -401,7 +397,7 @@ function renderDrops() {
     var next = LAYERS[0].items.filter(function (e) { return !e.sample; })[0];
     bb.innerHTML = '<div class="hd">Notifications</div>' +
       (next ? '<button type="button" data-next="1">' + esc(next.label) + ': ' + esc((next.date || 'date to be announced').replace(/^./, function (c) { return c.toLowerCase(); })) + '</button>' : '') +
-      '<a href="mailto:' + esc(MAIL) + '" style="color:#C9C6E3">Questions? ' + esc(MAIL) + '</a>';
+      '<a href="mailto:' + esc(MAIL) + '" style="color:#D8D2B8">Questions? ' + esc(MAIL) + '</a>';
   }
 }
 
