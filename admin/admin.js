@@ -14,7 +14,7 @@ var css = document.createElement('style');
 css.textContent = [
 '#adm{position:fixed;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.66);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}',
 '#adm[hidden]{display:none}',
-'#adm .card{width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;border-radius:28px;background:var(--card);color:var(--ink);box-shadow:0 24px 60px rgba(0,0,0,.55);overflow:hidden}',
+'#adm .card{width:min(760px,100%);max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);display:flex;flex-direction:column;border-radius:28px;background:var(--card);color:var(--ink);box-shadow:0 24px 60px rgba(0,0,0,.55);overflow:hidden}',
 '#adm .hd{flex:none;display:flex;align-items:center;gap:10px;padding:18px 20px 0}',
 '#adm .hd h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em;flex:1;min-width:0}',
 '#adm .hd small{display:block;margin-top:2px;font-size:12px;font-weight:500;color:var(--muted);letter-spacing:0}',
@@ -22,7 +22,7 @@ css.textContent = [
 '#adm .seg{flex:none;display:flex;gap:6px;padding:14px 20px 0;overflow-x:auto;scrollbar-width:none}',
 '#adm .seg button{flex:none;height:38px;padding:0 16px;border:0;border-radius:19px;background:rgba(255,255,255,.6);font-size:14px;font-weight:600;color:var(--ink)}',
 '#adm .seg button[aria-selected=true]{background:var(--ink);color:var(--cream)}',
-'#adm .main{flex:1;min-height:0;overflow-y:auto;padding:16px 20px 22px;-webkit-overflow-scrolling:touch}',
+'#adm .main{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px 20px 22px;-webkit-overflow-scrolling:touch}',
 '#adm .note{margin:0 0 12px;font-size:14px;font-weight:600}',
 '#adm .note.ok{color:#1B6B45}#adm .note.err{color:#B3261E}',
 '#adm .empty{margin:6px 0;font-size:14px;color:var(--muted)}',
@@ -40,7 +40,7 @@ css.textContent = [
 '#adm label{display:block;margin:16px 0 6px;font-size:13px;font-weight:600}',
 '#adm label small{font-weight:500;color:var(--muted)}',
 '#adm .f:first-child label:first-child{margin-top:0}',
-'#adm input[type=text],#adm input[type=date],#adm input[type=number],#adm textarea{width:100%;border:0;border-radius:14px;background:#fff;padding:13px 14px;font:inherit;font-size:15px;color:var(--ink);outline:none}',
+'#adm input[type=text],#adm input[type=date],#adm input[type=number],#adm textarea{width:100%;border:0;border-radius:14px;background:#fff;padding:13px 14px;font:inherit;font-size:16px;color:var(--ink);outline:none}',
 '#adm input:focus,#adm textarea:focus{box-shadow:0 0 0 2px var(--violet)}',
 '#adm textarea{min-height:120px;resize:vertical;line-height:1.5}',
 '#adm .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}',
@@ -67,7 +67,7 @@ css.textContent = [
 '#adm .gal button{position:relative;border:0;padding:0;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#ddd}',
 '#adm .gal img{display:block;width:100%;height:100%;object-fit:cover}',
 '#adm .gal span{position:absolute;left:0;right:0;bottom:0;padding:16px 10px 7px;background:linear-gradient(transparent,rgba(10,11,31,.72));color:#fff;font-size:11px;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
-'@media (max-width:820px){#adm{padding:10px}#adm .card{max-height:100%;border-radius:24px}#adm .two{grid-template-columns:1fr}#adm .post{flex-wrap:wrap}#adm .post .tx{flex-basis:calc(100% - 72px)}}'
+'@media (max-width:820px){#adm{padding:10px}#adm .card{max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);border-radius:24px}#adm .two{grid-template-columns:1fr}#adm .post{flex-wrap:wrap}#adm .post .tx{flex-basis:calc(100% - 72px)}}'
 ].join('\n');
 document.head.appendChild(css);
 
