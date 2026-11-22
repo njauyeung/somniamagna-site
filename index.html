@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Somnia Magna | Bringing dreams to life</title>
-<meta name="description" content="Curated day and night experiences in Toronto, built around people and community instead of the bar.">
+<meta name="description" content="Somnia Magna is a photo-sharing map. Check in your location and share curated experiences from around the world, with events and partnerships coming soon.">
 <meta name="theme-color" content="#000000">
 <meta property="og:title" content="Somnia Magna | Bringing dreams to life">
-<meta property="og:description" content="Curated day and night experiences in Toronto, built around people and community instead of the bar.">
+<meta property="og:description" content="Somnia Magna is a photo-sharing map. Check in your location and share curated experiences from around the world, with events and partnerships coming soon.">
 <meta property="og:image" content="og-image.png">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -228,7 +228,7 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
       <div id="bar">
         <div id="sf">
           <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#0A0B1F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
-          <input id="q" type="search" autocomplete="off" placeholder="Search places, events, stories" aria-label="Search">
+          <input id="q" type="search" autocomplete="off" placeholder="Search places and photos" aria-label="Search">
         </div>
         <button id="bell" class="round" type="button" aria-label="Notifications">
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#0A0B1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15Z"/><path d="M10 21h4"/></svg>
@@ -284,16 +284,7 @@ var COLORS = { events: '#7AF3C2', partners: '#FFB27A', community: '#F7A8C8', abo
 function build(c) {
   C = c; MAIL = (c.site && c.site.email) || MAIL;
   var ev = c.events || {}, pa = c.partners || {}, co = c.community || {}, ab = c.about || {};
-  var events = (ev.items || []).map(function (e) {
-    var p = coords(e);
-    return { kind: 'event', label: clip(e.title), full: e.title, place: e.place || '', date: fmtDate(e.date), lon: p && p[0], lat: p && p[1], has: !!p,
-      sample: !!e.sample, blurb: e.blurb || '', photos: (e.photos || []).filter(function (x) { return x && x.image; }).map(function (x) { return { src: src(x.image), cap: x.caption || '' }; }) };
-  });
-  var partners = (pa.items || []).map(function (e) {
-    var p = coords(e);
-    return { kind: 'partner', label: clip(e.name), full: e.name, place: e.place || '', date: e.type || '', lon: p && p[0], lat: p && p[1], has: !!p, sample: !!e.sample, photos: [] };
-  });
-  // Community = photo albums: every real event that has photos, plus the posts published from /admin. One album per event/post, photos kept together.
+  // Photos = albums: every real event that has photos, plus the posts published from /admin. One album per event/post, photos kept together.
   var albums = (ev.items || []).filter(function (e) { return !e.sample && (e.photos || []).some(function (x) { return x && x.image; }); }).map(function (e) {
     var p = coords(e);
     return { kind: 'album', label: clip(e.title), full: e.title, place: e.place || '', date: fmtDate(e.date), lon: p && p[0], lat: p && p[1], has: !!p, sample: false, blurb: e.blurb || '',
@@ -307,9 +298,9 @@ function build(c) {
   var op = coords({ place: ab.origin_place || 'Toronto' }) || [-79.38, 43.65];
   var origin = { kind: 'origin', label: ab.origin_label || 'Where SOMA began', full: ab.origin_label, place: ab.origin_place || 'Toronto', date: '', lon: op[0], lat: op[1], has: true, origin: true, photos: [] };
   LAYERS = [
-    { key: 'events', name: 'Events', title: ev.title || 'Events', lead: ev.lead, head: ev.list_heading, color: COLORS.events, view: [-76, 40], items: events },
-    { key: 'partners', name: 'Partnerships', title: pa.title || 'Partnerships', lead: pa.lead, head: pa.list_heading, color: COLORS.partners, view: [-60, 42], items: partners },
-    { key: 'community', name: 'Community', title: co.title || 'Community', lead: co.lead, head: co.list_heading, color: COLORS.community, view: [-40, 35], items: shared },
+    { key: 'community', name: 'Photos', title: co.title || 'Photos', lead: '', head: '', color: COLORS.community, view: [-40, 35], items: shared },
+    { key: 'events', name: 'Events', title: ev.title || 'Events', lead: ev.lead, head: '', color: COLORS.events, view: [-76, 40], items: [] },
+    { key: 'partners', name: 'Partnerships', title: pa.title || 'Partnerships', lead: pa.lead, head: '', color: COLORS.partners, view: [-60, 42], items: [] },
     { key: 'about', name: 'About', title: ab.heading || 'About', lead: ab.body, head: ab.list_heading, color: COLORS.about, view: [op[0], op[1]], items: [origin] }
   ];
   var s = c.site || {};
@@ -370,28 +361,21 @@ function rowHTML(L, k, it) {
 function renderBody(reset) {
   var L = LAYERS[S.i], el = $('#body'), top = reset ? 0 : el.scrollTop, h = '';
   h += '<h1 class="vt">' + esc(L.title) + '</h1>';
-  if (L.lead) h += '<p class="lead">' + esc(L.lead) + '</p>';
-  if (L.key !== 'about' && L.key !== 'community') {
-    h += '<div class="h">' + esc(L.head || '') + '</div>';
-    h += L.items.map(function (it, k) { return rowHTML(L, k, it); }).join('');
-  }
-  if (L.key === 'partners') {
-    var pa = C.partners || {};
-    h += '<div class="h">' + esc(pa.work_heading || 'Work with us') + '</div><p class="lead" style="margin-top:0">' + esc(pa.body || '') + '</p>' +
-      '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(pa.button || 'Get in touch') + '</a>';
-  }
-  if (L.key === 'community') {
-    var co = C.community || {};
-    h += '<div class="h">' + esc(co.gallery_heading || 'Community Photos') + '</div>';
-    h += L.items.length ? '<div class="pgrid">' + L.items.map(function (it, k) { return tileHTML(k, it); }).join('') + '</div>'
-      : '<p class="lead" style="margin-top:0">Photos will show up here after our next event.</p>';
-  }
   if (L.key === 'about') {
     var ab = C.about || {};
-    h += '<div class="h">' + esc(ab.pillars_heading || 'What we do') + '</div>' + (ab.pillars || []).map(function (r) {
-      return '<div class="box"><b>' + esc(r.title) + '</b><p>' + esc(r.body) + '</p></div>';
-    }).join('');
+    h += String(ab.body || '').split(/\n\s*\n/).filter(Boolean).map(function (t) { return '<p class="lead">' + esc(t) + '</p>'; }).join('');
     h += '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(ab.button || 'Get in touch') + '</a>';
+  } else if (L.key === 'events' || L.key === 'partners') {                      // not launched yet: say so and invite people to get in touch
+    var cf = (L.key === 'events' ? C.events : C.partners) || {};
+    h += '<p class="lead">' + esc(cf.lead || 'Coming soon.') + '</p>' + (cf.body ? '<p class="lead" style="margin-top:0">' + esc(cf.body) + '</p>' : '') +
+      '<a class="cta" href="mailto:' + esc(MAIL) + '">' + esc(cf.button || 'Get in touch') + '</a>';
+  } else {                                                                      // Photos: one tile per event/post, all in one grid
+    var n = 0, places = {};
+    L.items.forEach(function (it) { n += it.photos.length; if (it.place) places[it.place] = 1; });
+    var m = Object.keys(places).length;
+    h += L.items.length ? '<div class="h">' + n + (n === 1 ? ' photo' : ' photos') + ' · ' + m + (m === 1 ? ' place' : ' places') + '</div>' +
+        '<div class="pgrid">' + L.items.map(function (it, k) { return tileHTML(k, it); }).join('') + '</div>'
+      : '<p class="lead">Photos are on their way.</p>';
   }
   el.innerHTML = h; el.scrollTop = top;
 }
@@ -425,9 +409,7 @@ function renderDrops() {
   var bb = $('#bellbox'); bb.hidden = !S.bell;
   $('#bellbadge').hidden = !S.badge;
   if (S.bell) {
-    var next = LAYERS[0].items.filter(function (e) { return !e.sample; })[0];
-    bb.innerHTML = '<div class="hd">Notifications</div>' +
-      (next ? '<button type="button" data-next="1">' + esc(next.label) + ': ' + esc((next.date || 'date to be announced').replace(/^./, function (c) { return c.toLowerCase(); })) + '</button>' : '') +
+    bb.innerHTML = '<div class="hd">Notifications</div><p style="margin:0 0 10px;font-size:14px">Events and partnerships are coming soon.</p>' +
       '<a href="mailto:' + esc(MAIL) + '" style="color:#D8D2B8">Questions? ' + esc(MAIL) + '</a>';
   }
 }
@@ -480,7 +462,7 @@ function closeLB() { $('#lb').hidden = true; $('#lb').innerHTML = ''; }
 
 /* ---------------------------------------------------------------- events */
 document.addEventListener('click', function (e) {
-  var t = e.target.closest('[data-tab],[data-item],[data-sug],[data-photo],[data-album],[data-popphoto],[data-lb],[data-next],#tab,#bell');
+  var t = e.target.closest('[data-tab],[data-item],[data-sug],[data-photo],[data-album],[data-popphoto],[data-lb],#tab,#bell');
   var inBar = e.target.closest('#bar');
   if (!inBar && (S.bell || S.q)) { /* click away closes drops */ if (S.bell) { S.bell = false; renderDrops(); } }
   if (!t) return;
@@ -493,7 +475,6 @@ document.addEventListener('click', function (e) {
     return;
   }
   if (t.dataset.sug) { var a = t.dataset.sug.split(':'); if (a[0] === 'tab') selectTab(+a[1]); else selectItem(+a[1], +a[2]); return; }
-  if (t.dataset.next) { selectTab(0); return; }
   if (t.dataset.photo) { var pr = t.dataset.photo.split(':'); openLB(lbPhotos(LAYERS[S.i].items[+pr[0]]), +pr[1]); return; }
   if (t.dataset.album != null) { var ai = +t.dataset.album, al = LAYERS[S.i].items[ai]; selectItem(S.i, ai); openLB(lbPhotos(al), 0); return; }
   if (t.dataset.popphoto) { var s = selItem(); if (s && s.photos.length) openLB(lbPhotos(s), 0); return; }

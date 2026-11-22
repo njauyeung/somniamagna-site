@@ -3,7 +3,7 @@
     "name": "Somnia Magna",
     "tagline": "Big dreams",
     "page_title": "Somnia Magna | Bringing dreams to life",
-    "description": "Curated day and night experiences in Toronto, built around people and community instead of the bar.",
+    "description": "Somnia Magna is a photo-sharing map. Check in your location and share curated experiences from around the world, with events and partnerships coming soon.",
     "email": "hello@somniamagna.ca",
     "instagram": "somniamagna",
     "city": "Toronto",
@@ -11,44 +11,10 @@
   },
   "about": {
     "heading": "About",
-    "body": "Somnia Magna is Latin for \"Big Dreams\". SOMA came out of a need for third spaces that didn't just involve drinks and a loud room. Originating in Toronto, SOMA aims to create third spaces through events, partnerships, and community-building.",
-    "list_heading": "Where it started",
+    "body": "Somnia Magna is Latin for \"Big Dreams\". It came out of a desire to share my curated experiences with the world, and eventually to bring future events to life.\n\nCome follow me on my journey as I travel the world and share photos across the globe. It starts as a photo-sharing app where you can check in your location. In time it can also be used to plan events, find partnerships and bring them together, and share the stories of those events in the places they happen, all in one curated space.",
     "origin_label": "Where SOMA began",
     "origin_place": "Toronto",
-    "principles_heading": "What we stand for",
-    "button": "Get in touch",
-    "pillars_heading": "What we do",
-    "pillars": [
-      {
-        "title": "Events",
-        "body": "Curated and personalized events for specific niches."
-      },
-      {
-        "title": "Partnerships",
-        "body": "We work with sponsors, venues, and creators who care about the same crowd we do, and build something that fits both sides."
-      },
-      {
-        "title": "Community",
-        "body": "Every event is a reason to come back. Our goal is to fill the map with a community across the globe that are dedicated to building third-spaces. We aim to do this through sharing photos and events."
-      }
-    ]
-  },
-  "principles": {
-    "kicker": "What we stand for",
-    "items": [
-      {
-        "title": "More than a bar tab",
-        "body": "Drinks can be there. They're never the plan."
-      },
-      {
-        "title": "Doors open",
-        "body": "We don't build on velvet ropes. If it sounds like your kind of night, you're invited."
-      },
-      {
-        "title": "Room for everyone",
-        "body": "Nobody should have to wonder whether they belong at one of our events."
-      }
-    ]
+    "button": "Get in touch"
   },
   "contact": {
     "quote": "Somnia magna",
@@ -56,58 +22,19 @@
   },
   "events": {
     "title": "Events",
-    "lead": "Gatherings planned around what people actually want to do, from the venue to the smallest detail. Day or night.",
-    "list_heading": "Where events happen",
-    "items": [
-      {
-        "title": "Our first gathering",
-        "date": "Date to be announced",
-        "place": "Toronto",
-        "lon": null,
-        "lat": null,
-        "blurb": "Follow @somniamagna on Instagram to hear about it first.",
-        "photos": [],
-        "sample": false
-      }
-    ]
+    "lead": "Coming soon. Details are still to be decided.",
+    "body": "If you would like to be part of it, get in touch.",
+    "button": "Get in touch",
+    "items": []
   },
   "partners": {
     "title": "Partnerships",
-    "lead": "We work with sponsors, venues and creators who care about the same crowd we do, and build something that fits both sides.",
-    "list_heading": "Where our partners are",
-    "work_heading": "Work with us",
-    "body": "Sponsors, venues and creators: if you want to reach people looking for something better to do with their evenings, let's talk.",
+    "lead": "Coming soon. Details are still to be decided.",
+    "body": "If you are a sponsor, venue or creator who would like to work together, get in touch.",
     "button": "Get in touch",
-    "items": [
-      {
-        "name": "Sponsor name",
-        "type": "Sponsor",
-        "place": "Toronto",
-        "lon": null,
-        "lat": null,
-        "sample": true
-      },
-      {
-        "name": "Venue name",
-        "type": "Venue",
-        "place": "Vancouver",
-        "lon": null,
-        "lat": null,
-        "sample": true
-      },
-      {
-        "name": "Creator name",
-        "type": "Creator",
-        "place": "London",
-        "lon": null,
-        "lat": null,
-        "sample": true
-      }
-    ]
+    "items": []
   },
   "community": {
-    "title": "Community",
-    "lead": "Every event is a reason to come back. Tap a photo to see where it was taken.",
-    "gallery_heading": "Community Photos"
+    "title": "Photos"
   }
 }

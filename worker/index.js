@@ -83,6 +83,11 @@ async function storePhotos(env, form, postId, startSort) {
   return { saved };
 }
 
+// "order" is a JSON list in the exact order the photos should appear: an existing photo's id, or "new:<n>" for the n-th uploaded file.
+function readOrder(form) {
+  try { var o = JSON.parse(String(form.get('order') || 'null')); return Array.isArray(o) ? o.map(String) : null; } catch (e) { return null; }
+}
+
 async function readForm(req) {
   try { return await req.formData(); } catch (e) { return null; }
 }
@@ -97,6 +102,8 @@ async function createPost(req, env, user) {
   const id = crypto.randomUUID();
   const up = await storePhotos(env, form, id, 0);
   if (up.error) return send({ error: up.error }, 400);
+  const order = readOrder(form);
+  if (order) up.saved.forEach((p, i) => { const pos = order.indexOf('new:' + i); if (pos > -1) p.sort = pos; });
   const stmts = [env.DB.prepare('INSERT INTO posts (id, title, place, lon, lat, event_date, body, status, author, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)')
     .bind(id, f.title, f.place, f.lon, f.lat, f.date, f.body, 'published', user.email, Date.now())];
   up.saved.forEach((s) => stmts.push(env.DB.prepare('INSERT INTO photos (id, post_id, r2_key, caption, sort) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(), id, s.key, s.caption, s.sort)));
@@ -122,8 +129,13 @@ async function updatePost(req, env, id) {
   if (keep.length + incoming > MAX_PHOTOS) return send({ error: `Up to ${MAX_PHOTOS} photos per post.` }, 400);
   const up = await storePhotos(env, form, id, existing.reduce((m, p) => Math.max(m, p.sort + 1), 0));
   if (up.error) return send({ error: up.error }, 400);
+  const order = readOrder(form);
+  if (order) up.saved.forEach((p, i) => { const pos = order.indexOf('new:' + i); if (pos > -1) p.sort = pos; });
   const stmts = [env.DB.prepare('UPDATE posts SET title = ?, place = ?, lon = ?, lat = ?, event_date = ?, body = ? WHERE id = ?').bind(f.title, f.place, f.lon, f.lat, f.date, f.body, id)];
-  keep.forEach((p) => { if (form.has('caption_' + p.id)) stmts.push(env.DB.prepare('UPDATE photos SET caption = ? WHERE id = ?').bind(clip(form.get('caption_' + p.id), 120), p.id)); });
+  keep.forEach((p) => {
+    const cap = form.has('caption_' + p.id) ? clip(form.get('caption_' + p.id), 120) : null, pos = order ? order.indexOf(p.id) : -1;
+    if (cap !== null || pos > -1) stmts.push(env.DB.prepare('UPDATE photos SET caption = COALESCE(?, caption), sort = COALESCE(?, sort) WHERE id = ?').bind(cap, pos > -1 ? pos : null, p.id));
+  });
   drop.forEach((p) => stmts.push(env.DB.prepare('DELETE FROM photos WHERE id = ?').bind(p.id)));
   up.saved.forEach((s) => stmts.push(env.DB.prepare('INSERT INTO photos (id, post_id, r2_key, caption, sort) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(), id, s.key, s.caption, s.sort)));
   try { await env.DB.batch(stmts); } catch (e) { await Promise.all(up.saved.map((s) => env.PHOTOS.delete(s.key))); throw e; }

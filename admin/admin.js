@@ -58,6 +58,12 @@ css.textContent = [
 '#am-modal .am-th img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}',
 '#am-modal .am-th.am-rm img{opacity:.3}',
 '#am-modal .am-th input{border-radius:0;padding:8px 10px;font-size:12px}',
+'#am-modal .am-im{position:relative}',
+'#am-modal .am-num{position:absolute;left:6px;bottom:6px;padding:2px 8px;border-radius:10px;background:rgba(10,11,31,.72);color:#fff;font-size:11px;font-weight:700}',
+'#am-modal .am-grip{position:absolute;top:6px;left:6px;width:30px;height:30px;padding:0;border:0;border-radius:8px;background:rgba(10,11,31,.72);color:#fff;cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center}',
+'#am-modal .am-grip:active{cursor:grabbing}',
+'#am-modal .am-th.am-drag{opacity:.3}',
+'#am-modal .am-ghost{opacity:.95;box-shadow:0 16px 34px rgba(0,0,0,.45);transform:rotate(2deg)}',
 '#am-modal .am-th .am-xb{position:absolute;top:6px;right:6px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(10,11,31,.72);color:#fff;font-size:16px;line-height:1}',
 '#am-modal .am-th .am-rmt{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:12px;font-weight:700;color:var(--ink)}',
 '#am-modal .am-acts{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:22px}',
@@ -110,7 +116,7 @@ root.innerHTML = '<div class="am-card"><div class="am-hd"><h2>Manage<small id="a
 document.body.appendChild(root);
 
 var view = 'posts', flash = null;
-var form = null;        // { id|null, existing:[{id,url,caption,removed}], added:[{blob,url,caption}], chosen:{place,lon,lat}|null, saving }
+var form = null;        // { id|null, items:[{k:'old',id,url,caption,removed}|{k:'new',blob,url,caption}] in display order, chosen:{place,lon,lat}|null, saving }
 var cityIdx = -1;       // highlighted option in the city list
 
 fetch('/api/admin/me', { credentials: 'same-origin' }).then(function (r) { return r.json(); })
@@ -122,7 +128,7 @@ function open(v) {
   root.hidden = false; render(); var x = $('.am-x', root); if (x) x.focus();
 }
 function close() { root.hidden = true; }          // keeps any draft: closing by accident (or Esc) loses nothing
-function discardForm() { if (form) form.added.forEach(function (p) { URL.revokeObjectURL(p.url); }); form = null; }
+function discardForm() { if (form) form.items.forEach(function (p) { if (p.k === 'new') URL.revokeObjectURL(p.url); }); form = null; }
 var DRAFT = 'sm_admin_draft';
 function saveDraft() { try { if (form && !form.id && form.touched) sessionStorage.setItem(DRAFT, JSON.stringify(form.v)); } catch (e) {} }
 function loadDraft() { try { var d = JSON.parse(sessionStorage.getItem(DRAFT) || 'null'); return d && (d.title || d.place || d.body) ? d : null; } catch (e) { return null; } }
@@ -142,7 +148,7 @@ function render() {
 /* ------------------------------------------------------------ posts list + gallery */
 function postsHTML() {
   var list = posts();
-  if (!list.length) return '<p class="am-empty">No posts yet. Add your first one and it goes live in the Community tab.</p><div class="am-acts"><button class="am-btn am-pri" type="button" data-a="new">Add a post</button></div>';
+  if (!list.length) return '<p class="am-empty">No posts yet. Add your first one and it goes live in the Photos tab.</p><div class="am-acts"><button class="am-btn am-pri" type="button" data-a="new">Add a post</button></div>';
   return list.map(function (p) {
     var im = p.photos[0] ? '<img src="' + esc(p.photos[0].url) + '" alt="">' : '<div class="am-ph"></div>';
     return '<div class="am-post">' + im + '<div class="am-tx"><b>' + esc(p.title) + '</b><span>' + esc(p.place) + (p.event_date ? ' · ' + esc(p.event_date) : '') + ' · ' + p.photos.length + ' photo' + (p.photos.length === 1 ? '' : 's') + '</span></div>' +
@@ -164,7 +170,7 @@ function galleryHTML() {                         // photos from the same post st
 function startForm(id) {
   discardForm(); cityIdx = -1;
   var p = id ? posts().filter(function (x) { return x.id === id; })[0] : null;
-  form = { id: p ? p.id : null, existing: p ? p.photos.map(function (x) { return { id: x.id, url: x.url, caption: x.caption || '', removed: false }; }) : [], added: [], chosen: p ? { place: p.place, lon: p.lon, lat: p.lat } : null, saving: false,
+  form = { id: p ? p.id : null, items: p ? p.photos.map(function (x) { return { k: 'old', id: x.id, url: x.url, caption: x.caption || '', removed: false }; }) : [], chosen: p ? { place: p.place, lon: p.lon, lat: p.lat } : null, saving: false,
     v: p ? { title: p.title, place: p.place, date: p.event_date || '', body: p.body || '' } : { title: '', place: '', date: '', body: '' }, touched: false };
   if (!p) { var d = loadDraft(); if (d) { form.v = { title: d.title || '', place: d.place || '', date: d.date || '', body: d.body || '' }; form.touched = true; say('Restored your unsaved text. Add the photos again.'); } }
 }
@@ -176,7 +182,7 @@ function formHTML() {
     '<div><label for="am-date">Date</label><input id="am-date" type="date" value="' + (dateOk ? esc(v.date) : '') + '"></div></div>' +
     '<details id="am-coords"><summary>City not listed? Enter coordinates</summary><div class="am-two"><div><label for="am-lon">Longitude</label><input id="am-lon" type="number" step="any" placeholder="-79.38"></div><div><label for="am-lat">Latitude</label><input id="am-lat" type="number" step="any" placeholder="43.65"></div></div></details>' +
     '<label for="am-text">How did it go?</label><textarea id="am-text" maxlength="4000" placeholder="What happened, who came, what you would do again.">' + esc(v.body) + '</textarea>' +
-    '<label>Photos <small>(up to ' + MAX_PHOTOS + '; resized on your device, location data removed)</small></label>' +
+    '<label>Photos <small>(up to ' + MAX_PHOTOS + '. Drag the handle to reorder, the first one is the cover.)</small></label>' +
     '<label class="am-drop" for="am-files" style="margin-top:6px"><span>Tap to add photos</span><input id="am-files" type="file" accept="image/*" multiple></label>' +
     '<div class="am-thumbs" id="am-thumbs">' + thumbsHTML() + '</div>' +
     '<div class="am-acts"><button class="am-btn am-pri" id="am-go" type="submit">' + (form.id ? 'Save changes' : 'Publish') + '</button><button class="am-btn am-sec" type="button" data-a="cancel">Cancel</button><span class="am-sp"></span>' +
@@ -184,15 +190,17 @@ function formHTML() {
     '<p class="am-note" id="am-msg" role="status" style="margin:14px 0 0"></p></form>';
 }
 function thumbsHTML() {
-  return form.existing.map(function (p, i) {
-    return '<div class="am-th' + (p.removed ? ' am-rm' : '') + '"><img src="' + esc(p.url) + '" alt="">' + (p.removed ? '<span class="am-rmt">Will be removed</span>' : '') +
-      '<button class="am-xb" type="button" data-a="rmold" data-i="' + i + '" aria-label="' + (p.removed ? 'Keep photo' : 'Remove photo') + '">' + (p.removed ? '↺' : '×') + '</button>' +
-      '<input type="text" maxlength="120" data-ecap="' + i + '" placeholder="Caption (optional)" value="' + esc(p.caption) + '"></div>';
-  }).join('') + form.added.map(function (p, i) {
-    return '<div class="am-th"><img src="' + p.url + '" alt=""><button class="am-xb" type="button" data-a="rmnew" data-i="' + i + '" aria-label="Remove photo">×</button><input type="text" maxlength="120" data-ncap="' + i + '" placeholder="Caption (optional)" value="' + esc(p.caption) + '"></div>';
+  var first = -1, shown = 0;
+  form.items.forEach(function (it, i) { if (!it.removed && first < 0) first = i; });
+  return form.items.map(function (it, i) {
+    var num = it.removed ? '' : '<span class="am-num">' + (++shown) + (i === first ? ' · Cover' : '') + '</span>';
+    return '<div class="am-th' + (it.removed ? ' am-rm' : '') + '" data-ix="' + i + '"><div class="am-im"><img src="' + esc(it.url) + '" alt="" draggable="false">' + num + (it.removed ? '<span class="am-rmt">Will be removed</span>' : '') + '</div>' +
+      (it.removed ? '' : '<button class="am-grip" type="button" data-grip="' + i + '" aria-label="Move photo. Drag it, or use the arrow keys." title="Drag to reorder"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.8"/><circle cx="15" cy="6" r="1.8"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="9" cy="18" r="1.8"/><circle cx="15" cy="18" r="1.8"/></svg></button>') +
+      '<button class="am-xb" type="button" data-a="rm" data-i="' + i + '" aria-label="' + (it.removed ? 'Keep photo' : 'Remove photo') + '">' + (it.removed ? '↺' : '×') + '</button>' +
+      '<input type="text" maxlength="120" data-cap="' + i + '" placeholder="Caption (optional)" value="' + esc(it.caption) + '"></div>';
   }).join('');
 }
-function photoCount() { return form.existing.filter(function (p) { return !p.removed; }).length + form.added.length; }
+function photoCount() { return form.items.filter(function (p) { return !p.removed; }).length; }
 function msg(t, k) { var m = $('#am-msg'); if (m) { m.textContent = t || ''; m.className = 'am-note' + (k ? ' am-' + k : ''); } }
 
 function bindForm() {
@@ -202,11 +210,11 @@ function bindForm() {
     if (t.id === 'am-title') form.v.title = t.value;
     else if (t.id === 'am-date') form.v.date = t.value;
     else if (t.id === 'am-text') form.v.body = t.value;
-    else if (t.dataset.ecap != null) form.existing[+t.dataset.ecap].caption = t.value;
-    else if (t.dataset.ncap != null) form.added[+t.dataset.ncap].caption = t.value;
+    else if (t.dataset.cap != null) form.items[+t.dataset.cap].caption = t.value;
     else if (t.id === 'am-city') { form.v.place = t.value; if (form.chosen && form.chosen.place !== t.value) form.chosen = null; showOpts(); }
     saveDraft();
   });
+  bindReorder($('#am-thumbs'));
   c.addEventListener('focus', showOpts);
   c.addEventListener('keydown', function (e) {
     var n = l.children.length;
@@ -226,9 +234,54 @@ function bindForm() {
     list.reduce(function (p, file) {
       return p.then(function () {
         if (photoCount() >= MAX_PHOTOS) { skipped = true; return; }
-        return shrink(file).then(function (b) { form.added.push({ blob: b, url: URL.createObjectURL(b), caption: '' }); form.touched = true; });
+        return shrink(file).then(function (b) { form.items.push({ k: 'new', blob: b, url: URL.createObjectURL(b), caption: '' }); form.touched = true; });
       }).catch(function (err) { msg(err.message, 'err'); });
     }, Promise.resolve()).then(function () { $('#am-thumbs').innerHTML = thumbsHTML(); msg(skipped ? 'Up to ' + MAX_PHOTOS + ' photos per post.' : '', skipped ? 'err' : ''); });
+  });
+}
+function reorder(from, to) {                      // keyboard / programmatic move
+  if (to < 0 || to >= form.items.length) return;
+  var it = form.items.splice(from, 1)[0]; form.items.splice(to, 0, it); form.touched = true;
+  $('#am-thumbs').innerHTML = thumbsHTML();
+}
+function bindReorder(th) {                        // drag with mouse, finger or pen; arrow keys on the handle also work
+  var drag = null;
+  th.addEventListener('pointerdown', function (e) {
+    var g = e.target.closest('[data-grip]'); if (!g || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    e.preventDefault();
+    var el = g.closest('.am-th'), r = el.getBoundingClientRect(), ghost = el.cloneNode(true);
+    ghost.classList.add('am-ghost'); ghost.removeAttribute('data-ix');
+    ghost.style.cssText = 'position:fixed;left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;pointer-events:none;z-index:30';
+    root.appendChild(ghost); el.classList.add('am-drag');
+    drag = { el: el, ghost: ghost, dx: e.clientX - r.left, dy: e.clientY - r.top, id: e.pointerId, grip: g };
+    try { g.setPointerCapture(e.pointerId); } catch (x) {}
+  });
+  th.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    drag.ghost.style.left = (e.clientX - drag.dx) + 'px'; drag.ghost.style.top = (e.clientY - drag.dy) + 'px';
+    var kids = Array.prototype.slice.call(th.children), over = null;
+    kids.forEach(function (c) {
+      if (c === drag.el) return; var r = c.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) over = c;
+    });
+    if (over) { if (kids.indexOf(drag.el) < kids.indexOf(over)) over.after(drag.el); else over.before(drag.el); }
+    var sc = $('#am-body'), sr = sc.getBoundingClientRect();                // scroll the panel while dragging near its edges
+    if (e.clientY < sr.top + 48) sc.scrollTop -= 14; else if (e.clientY > sr.bottom - 48) sc.scrollTop += 14;
+  });
+  function end(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var d = drag; drag = null; d.ghost.remove();
+    var seq = Array.prototype.map.call(th.children, function (c) { return +c.dataset.ix; });
+    if (seq.some(function (v, i) { return v !== i; })) { form.items = seq.map(function (i) { return form.items[i]; }); form.touched = true; }
+    th.innerHTML = thumbsHTML();
+  }
+  th.addEventListener('pointerup', end); th.addEventListener('pointercancel', end);
+  th.addEventListener('keydown', function (e) {
+    var g = e.target.closest('[data-grip]'); if (!g) return;
+    var i = +g.dataset.grip, d = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key];
+    if (!d) return;
+    e.preventDefault(); reorder(i, i + d);
+    var ng = th.querySelector('[data-grip="' + Math.max(0, Math.min(form.items.length - 1, i + d)) + '"]'); if (ng) ng.focus();
   });
 }
 function showOpts() {
@@ -257,17 +310,19 @@ function save() {
   if (!pos) { msg('Pick that city from the list, or open "City not listed?" and enter its coordinates.', 'err'); return; }
   var fd = new FormData();
   fd.append('title', v.title); fd.append('place', place); fd.append('date', v.date); fd.append('lon', pos.lon); fd.append('lat', pos.lat); fd.append('body', v.body);
-  form.added.forEach(function (p, n) { fd.append('photos', p.blob, 'photo' + n + '.jpg'); fd.append('caption_' + n, p.caption); });
-  var editing = !!form.id;
-  if (editing) {
-    fd.append('remove', JSON.stringify(form.existing.filter(function (p) { return p.removed; }).map(function (p) { return p.id; })));
-    form.existing.forEach(function (p) { if (!p.removed) fd.append('caption_' + p.id, p.caption); });
-  }
+  var editing = !!form.id, order = [], n = 0;     // photos go up in display order; "order" tells the server the final sequence
+  form.items.forEach(function (it) {
+    if (it.removed) return;
+    if (it.k === 'new') { fd.append('photos', it.blob, 'photo' + n + '.jpg'); fd.append('caption_' + n, it.caption); order.push('new:' + n); n++; }
+    else { order.push(it.id); if (editing) fd.append('caption_' + it.id, it.caption); }
+  });
+  fd.append('order', JSON.stringify(order));
+  if (editing) fd.append('remove', JSON.stringify(form.items.filter(function (p) { return p.k === 'old' && p.removed; }).map(function (p) { return p.id; })));
   form.saving = true; $('#am-go').disabled = true; msg(editing ? 'Saving…' : 'Publishing…');
   fetch(editing ? '/api/admin/posts/' + encodeURIComponent(form.id) : '/api/admin/posts', { method: editing ? 'PUT' : 'POST', headers: H, body: fd, credentials: 'same-origin' })
     .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Could not save.'); return j; }); })
     .then(function () { return window.sm.reload(); })
-    .then(function () { discardForm(); clearDraft(); say(editing ? 'Saved. The change is live.' : 'Published. It is live in the Community tab.'); view = 'posts'; render(); })
+    .then(function () { discardForm(); clearDraft(); say(editing ? 'Saved. The change is live.' : 'Published. It is live in the Photos tab.'); view = 'posts'; render(); })
     .catch(function (err) { if (form) { form.saving = false; } var g = $('#am-go'); if (g) g.disabled = false; msg(err.message, 'err'); });
 }
 
@@ -288,8 +343,11 @@ root.addEventListener('click', function (e) {
   else if (a === 'edit') { startForm(b.dataset.id); view = 'form'; render(); }
   else if (a === 'cancel') { if (form && form.touched && !confirm('Discard this draft?')) return; discardForm(); clearDraft(); view = 'posts'; render(); }
   else if (a === 'photo') { var gp = posts().filter(function (x) { return x.id === b.dataset.id; })[0]; if (gp) window.sm.lightbox(albumPhotos(gp), +b.dataset.i); }
-  else if (a === 'rmold') { var p = form.existing[+b.dataset.i]; p.removed = !p.removed; form.touched = true; $('#am-thumbs').innerHTML = thumbsHTML(); }
-  else if (a === 'rmnew') { var n = form.added.splice(+b.dataset.i, 1)[0]; URL.revokeObjectURL(n.url); form.touched = true; $('#am-thumbs').innerHTML = thumbsHTML(); }
+  else if (a === 'rm') {
+    var it = form.items[+b.dataset.i]; form.touched = true;
+    if (it.k === 'new') { URL.revokeObjectURL(it.url); form.items.splice(+b.dataset.i, 1); } else it.removed = !it.removed;
+    $('#am-thumbs').innerHTML = thumbsHTML();
+  }
   else if (a === 'del') {
     if (!b.classList.contains('am-sure')) {
       var label = b.textContent; b.classList.add('am-sure'); b.textContent = 'Tap again to delete';

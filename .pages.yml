@@ -22,91 +22,38 @@ content:
           - { name: instagram, label: "Instagram handle (no @)", type: string }
           - { name: city, label: "City", type: string }
 
-      - name: events
-        label: Events tab
+      - name: community
+        label: Photos tab (first tab)
         type: object
         fields:
           - { name: title, label: "Tab heading", type: string }
-          - { name: lead, label: "Sentence under the heading", type: text }
-          - { name: list_heading, label: "Small label above the list", type: string }
-          - name: items
-            label: Events (each one is a dot on the globe)
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{title}"
-            fields:
-              - { name: title, label: "Event name (max 28 characters so it stays on one line)", type: string, options: { maxlength: 28 } }
-              - { name: date, label: "Date. Type 2026-12-12 and it shows as Sat, Dec 12. Or write it yourself, e.g. Date to be announced", type: string }
-              - { name: place, label: "City (e.g. Toronto). Common cities are placed on the globe automatically", type: string }
-              - { name: lon, label: "Longitude (only if the city is not found on the globe)", type: number }
-              - { name: lat, label: "Latitude (only if the city is not found on the globe)", type: number }
-              - { name: blurb, label: "Short description (shows when the event is opened)", type: text }
-              - name: photos
-                label: Photos from this event (upload as many as you like)
-                type: object
-                list:
-                  collapsible:
-                    collapsed: true
-                    summary: "{caption}"
-                fields:
-                  - { name: image, label: "Photo", type: image }
-                  - { name: caption, label: "Caption (optional)", type: string }
-              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
 
-      - name: partners
-        label: Partnerships tab
+      - name: events
+        label: Events tab (coming soon)
         type: object
         fields:
           - { name: title, label: "Tab heading", type: string }
-          - { name: lead, label: "Sentence under the heading", type: text }
-          - { name: list_heading, label: "Small label above the list", type: string }
-          - name: items
-            label: Partners (each one is a dot on the globe)
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{name}"
-            fields:
-              - { name: name, label: "Partner name (max 28 characters)", type: string, options: { maxlength: 28 } }
-              - { name: type, label: "Type (Sponsor, Venue, Creator...)", type: string }
-              - { name: place, label: "City", type: string }
-              - { name: lon, label: "Longitude (only if the city is not found)", type: number }
-              - { name: lat, label: "Latitude (only if the city is not found)", type: number }
-              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
-          - { name: work_heading, label: "Label above the pitch", type: string }
-          - { name: body, label: "Pitch paragraph", type: text }
+          - { name: lead, label: "Line under the heading", type: text }
+          - { name: body, label: "Line above the button", type: text }
           - { name: button, label: "Button text", type: string }
 
-      - name: community
-        label: Community tab
+      - name: partners
+        label: Partnerships tab (coming soon)
         type: object
         fields:
           - { name: title, label: "Tab heading", type: string }
-          - { name: lead, label: "Sentence under the heading", type: text }
-          - { name: gallery_heading, label: "Heading above the photo grid", type: string }
+          - { name: lead, label: "Line under the heading", type: text }
+          - { name: body, label: "Line above the button", type: text }
+          - { name: button, label: "Button text", type: string }
 
       - name: about
         label: About tab
         type: object
         fields:
           - { name: heading, label: "Tab heading", type: string }
-          - { name: body, label: "Paragraph", type: text }
+          - { name: body, label: "About text (leave a blank line between paragraphs)", type: text }
           - { name: origin_label, label: "Name of the Toronto dot", type: string }
           - { name: origin_place, label: "Its city", type: string }
-          - { name: pillars_heading, label: "Label above the Events / Partnerships / Community blurbs", type: string }
-          - name: pillars
-            label: What we do (one blurb each for Events, Partnerships, Community)
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{title}"
-            fields:
-              - { name: title, label: Title, type: string }
-              - { name: body, label: Blurb, type: text }
           - { name: button, label: "Button text", type: string }
       - name: contact
         label: The name
