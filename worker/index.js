@@ -53,38 +53,82 @@ async function media(env, path) {
   return new Response(obj.body, { headers: { 'content-type': obj.httpMetadata?.contentType || 'image/jpeg', 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
 }
 
-async function createPost(req, env, user) {
-  await ensureSchema(env);
-  let form;
-  try { form = await req.formData(); } catch (e) { return send({ error: 'Could not read the form.' }, 400); }
+function readFields(form) {
   const title = clip(form.get('title'), MAX_TITLE), place = clip(form.get('place'), 60);
   const lon = parseFloat(form.get('lon')), lat = parseFloat(form.get('lat'));
-  if (!title) return send({ error: 'Add a title.' }, 400);
-  if (!place) return send({ error: 'Add a place.' }, 400);
-  if (!(lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90)) return send({ error: 'Pick a listed city or enter longitude and latitude.' }, 400);
-  const date = clip(form.get('date'), 32), body = String(form.get('body') || '').trim().slice(0, 4000);
-  const files = form.getAll('photos').filter((f) => f && typeof f === 'object' && f.size > 0);
-  if (files.length > MAX_PHOTOS) return send({ error: `Up to ${MAX_PHOTOS} photos per post.` }, 400);
-  const id = crypto.randomUUID(), saved = [];
+  if (!title) return { error: 'Add a title.' };
+  if (!place) return { error: 'Add a place.' };
+  if (!(lon >= -180 && lon <= 180 && lat >= -90 && lat <= 90)) return { error: 'Pick a listed city or enter longitude and latitude.' };
+  return { title, place, lon, lat, date: clip(form.get('date'), 32), body: String(form.get('body') || '').trim().slice(0, 4000) };
+}
+
+// Validates and stores the new photo files in R2. Returns { saved } or { error } (and cleans up after itself on error).
+async function storePhotos(env, form, postId, startSort) {
+  const files = form.getAll('photos').filter((f) => f && typeof f === 'object' && f.size > 0), saved = [];
   try {
     let n = 0;
     for (const f of files) {
       if (f.size > MAX_PHOTO_BYTES) throw new Error('A photo is over 6 MB.');
       const buf = await f.arrayBuffer(), t = sniff(buf);
       if (!t) throw new Error('Only JPEG, PNG or WebP photos.');
-      const key = `p/${id}/${crypto.randomUUID()}.${t[1]}`;
+      const key = `p/${postId}/${crypto.randomUUID()}.${t[1]}`;
       await env.PHOTOS.put(key, buf, { httpMetadata: { contentType: t[0] } });
-      saved.push({ key, caption: clip(form.get('caption_' + n), 120), n: n++ });
+      saved.push({ key, caption: clip(form.get('caption_' + n), 120), sort: startSort + n });
+      n++;
     }
   } catch (e) {
     await Promise.all(saved.map((s) => env.PHOTOS.delete(s.key)));
-    return send({ error: e.message || 'Upload failed.' }, 400);
+    return { error: e.message || 'Upload failed.' };
   }
+  return { saved };
+}
+
+async function readForm(req) {
+  try { return await req.formData(); } catch (e) { return null; }
+}
+
+async function createPost(req, env, user) {
+  await ensureSchema(env);
+  const form = await readForm(req);
+  if (!form) return send({ error: 'Could not read the form.' }, 400);
+  const f = readFields(form);
+  if (f.error) return send({ error: f.error }, 400);
+  if (form.getAll('photos').filter((x) => x && typeof x === 'object' && x.size > 0).length > MAX_PHOTOS) return send({ error: `Up to ${MAX_PHOTOS} photos per post.` }, 400);
+  const id = crypto.randomUUID();
+  const up = await storePhotos(env, form, id, 0);
+  if (up.error) return send({ error: up.error }, 400);
   const stmts = [env.DB.prepare('INSERT INTO posts (id, title, place, lon, lat, event_date, body, status, author, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)')
-    .bind(id, title, place, lon, lat, date, body, 'published', user.email, Date.now())];
-  saved.forEach((s) => stmts.push(env.DB.prepare('INSERT INTO photos (id, post_id, r2_key, caption, sort) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(), id, s.key, s.caption, s.n)));
-  await env.DB.batch(stmts);
+    .bind(id, f.title, f.place, f.lon, f.lat, f.date, f.body, 'published', user.email, Date.now())];
+  up.saved.forEach((s) => stmts.push(env.DB.prepare('INSERT INTO photos (id, post_id, r2_key, caption, sort) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(), id, s.key, s.caption, s.sort)));
+  try { await env.DB.batch(stmts); } catch (e) { await Promise.all(up.saved.map((s) => env.PHOTOS.delete(s.key))); throw e; }
   return send({ id }, 201);
+}
+
+// Edit: text fields, captions on kept photos, photos to remove (JSON array of ids in "remove"), and new photos to add.
+async function updatePost(req, env, id) {
+  await ensureSchema(env);
+  const post = await env.DB.prepare('SELECT id FROM posts WHERE id = ?').bind(id).first();
+  if (!post) return send({ error: 'That post no longer exists.' }, 404);
+  const form = await readForm(req);
+  if (!form) return send({ error: 'Could not read the form.' }, 400);
+  const f = readFields(form);
+  if (f.error) return send({ error: f.error }, 400);
+  const existing = (await env.DB.prepare('SELECT id, r2_key, sort FROM photos WHERE post_id = ? ORDER BY sort, rowid').bind(id).all()).results;
+  let removeIds = [];
+  try { removeIds = JSON.parse(String(form.get('remove') || '[]')); } catch (e) { return send({ error: 'Bad request.' }, 400); }
+  if (!Array.isArray(removeIds)) return send({ error: 'Bad request.' }, 400);
+  const drop = existing.filter((p) => removeIds.includes(p.id)), keep = existing.filter((p) => !removeIds.includes(p.id));
+  const incoming = form.getAll('photos').filter((x) => x && typeof x === 'object' && x.size > 0).length;
+  if (keep.length + incoming > MAX_PHOTOS) return send({ error: `Up to ${MAX_PHOTOS} photos per post.` }, 400);
+  const up = await storePhotos(env, form, id, existing.reduce((m, p) => Math.max(m, p.sort + 1), 0));
+  if (up.error) return send({ error: up.error }, 400);
+  const stmts = [env.DB.prepare('UPDATE posts SET title = ?, place = ?, lon = ?, lat = ?, event_date = ?, body = ? WHERE id = ?').bind(f.title, f.place, f.lon, f.lat, f.date, f.body, id)];
+  keep.forEach((p) => { if (form.has('caption_' + p.id)) stmts.push(env.DB.prepare('UPDATE photos SET caption = ? WHERE id = ?').bind(clip(form.get('caption_' + p.id), 120), p.id)); });
+  drop.forEach((p) => stmts.push(env.DB.prepare('DELETE FROM photos WHERE id = ?').bind(p.id)));
+  up.saved.forEach((s) => stmts.push(env.DB.prepare('INSERT INTO photos (id, post_id, r2_key, caption, sort) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(), id, s.key, s.caption, s.sort)));
+  try { await env.DB.batch(stmts); } catch (e) { await Promise.all(up.saved.map((s) => env.PHOTOS.delete(s.key))); throw e; }
+  await Promise.all(drop.map((p) => env.PHOTOS.delete(p.r2_key)));
+  return send({ id });
 }
 
 async function deletePost(env, id) {
@@ -93,6 +137,16 @@ async function deletePost(env, id) {
   await Promise.all(photos.map((p) => env.PHOTOS.delete(p.r2_key)));
   await env.DB.batch([env.DB.prepare('DELETE FROM photos WHERE post_id = ?').bind(id), env.DB.prepare('DELETE FROM posts WHERE id = ?').bind(id)]);
   return new Response(null, { status: 204 });
+}
+
+// The admin view is the normal site plus the owner-only script. Visitors never receive that script.
+async function adminPage(req, env) {
+  const res = await env.ASSETS.fetch(new Request(new URL('/', req.url)));
+  let html = await res.text();
+  html = html.replace('</head>', '<script>window.SM_ADMIN=true</script></head>');
+  const j = html.lastIndexOf('</body>');
+  html = html.slice(0, j) + '<script src="/admin/cities-all.js"></script><script src="/admin/admin.js"></script>' + html.slice(j);
+  return new Response(html, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex, nofollow' } });
 }
 
 export default {
@@ -104,6 +158,8 @@ export default {
 
       if (path === '/admin' || path.startsWith('/admin/')) {
         if (!(await owner(req, env))) return new Response('Forbidden', { status: 403 });
+        if (path === '/admin') return await adminPage(req, env);
+        if (path === '/admin/' || path === '/admin/index.html') return Response.redirect(new URL('/admin', req.url).href, 302);
         return env.ASSETS.fetch(req);
       }
       if (path.startsWith('/api/admin/')) {
@@ -113,6 +169,7 @@ export default {
         if (path === '/api/admin/me' && m === 'GET') return send({ email: user.email });
         if (path === '/api/admin/posts' && m === 'POST') return await createPost(req, env, user);
         const d = /^\/api\/admin\/posts\/([\w-]+)$/.exec(path);
+        if (d && m === 'PUT') return await updatePost(req, env, d[1]);
         if (d && m === 'DELETE') return await deletePost(env, d[1]);
         return send({ error: 'Not found' }, 404);
       }

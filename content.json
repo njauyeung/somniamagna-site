@@ -68,55 +68,6 @@
         "blurb": "Follow @somniamagna on Instagram to hear about it first.",
         "photos": [],
         "sample": false
-      },
-      {
-        "title": "Sunset session",
-        "date": "Date TBA",
-        "place": "Montreal",
-        "lon": null,
-        "lat": null,
-        "blurb": "Placeholder. Describe an event you ran: what it was and who came.",
-        "photos": [
-          {
-            "image": "images/scene-hero.jpg",
-            "caption": "Sample photo"
-          }
-        ],
-        "sample": true
-      },
-      {
-        "title": "Night market",
-        "date": "Date TBA",
-        "place": "New York",
-        "lon": null,
-        "lat": null,
-        "blurb": "Placeholder. Add the venue, the crowd and one detail people still talk about.",
-        "photos": [
-          {
-            "image": "images/scene-about.jpg",
-            "caption": "Sample photo"
-          },
-          {
-            "image": "images/scene-contact.jpg",
-            "caption": "Sample photo"
-          }
-        ],
-        "sample": true
-      },
-      {
-        "title": "Community dinner",
-        "date": "Date TBA",
-        "place": "Chicago",
-        "lon": null,
-        "lat": null,
-        "blurb": "Placeholder. Swap this for a real gathering when you have one.",
-        "photos": [
-          {
-            "image": "images/terrain-map.jpg",
-            "caption": "Sample photo"
-          }
-        ],
-        "sample": true
       }
     ]
   },
@@ -156,50 +107,7 @@
   },
   "community": {
     "title": "Community",
-    "lead": "Every event is a reason to come back. Tap a dot on the globe to see a place someone shared.",
-    "list_heading": "Shared places",
-    "items": [
-      {
-        "caption": "Lake at dusk",
-        "place": "Toronto",
-        "lon": null,
-        "lat": null,
-        "image": "images/scene-hero.jpg",
-        "sample": true
-      },
-      {
-        "caption": "Night forest",
-        "place": "Lisbon",
-        "lon": null,
-        "lat": null,
-        "image": "images/scene-about.jpg",
-        "sample": true
-      },
-      {
-        "caption": "From above",
-        "place": "Tokyo",
-        "lon": null,
-        "lat": null,
-        "image": "images/terrain-map.jpg",
-        "sample": true
-      }
-    ],
-    "gallery_heading": "Photos from our events",
-    "stories_heading": "Community stories",
-    "stories": [
-      {
-        "quote": "Placeholder: a line from someone who came to an event and what it meant to them.",
-        "name": "Guest name",
-        "sample": true
-      },
-      {
-        "quote": "Placeholder: a short story about meeting someone new at a Somnia Magna night.",
-        "name": "Guest name",
-        "sample": true
-      }
-    ],
-    "share_heading": "Share your photos",
-    "share_body": "Been to a Somnia Magna event? Email us your photos and we'll add them here.",
-    "share_button": "Send photos"
+    "lead": "Every event is a reason to come back. Tap a photo to see where it was taken.",
+    "gallery_heading": "Community Photos"
   }
 }

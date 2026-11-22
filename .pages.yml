@@ -86,37 +86,7 @@ content:
         fields:
           - { name: title, label: "Tab heading", type: string }
           - { name: lead, label: "Sentence under the heading", type: text }
-          - { name: list_heading, label: "Small label above the places", type: string }
-          - name: items
-            label: Shared places and photos (each one is a dot on the globe)
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{caption}"
-            fields:
-              - { name: image, label: "Photo", type: image }
-              - { name: caption, label: "Caption (max 28 characters)", type: string, options: { maxlength: 28 } }
-              - { name: place, label: "City", type: string }
-              - { name: lon, label: "Longitude (only if the city is not found)", type: number }
-              - { name: lat, label: "Latitude (only if the city is not found)", type: number }
-              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
-          - { name: gallery_heading, label: "Label above the event photo grid", type: string }
-          - { name: stories_heading, label: "Label above the stories", type: string }
-          - name: stories
-            label: Community stories
-            type: object
-            list:
-              collapsible:
-                collapsed: true
-                summary: "{name}"
-            fields:
-              - { name: quote, label: "What they said", type: text }
-              - { name: name, label: "Name", type: string }
-              - { name: sample, label: "Still a placeholder? (turn OFF once it is real)", type: boolean }
-          - { name: share_heading, label: "Label above the share-your-photos box", type: string }
-          - { name: share_body, label: "Share-your-photos sentence", type: text }
-          - { name: share_button, label: "Share-your-photos button", type: string }
+          - { name: gallery_heading, label: "Heading above the photo grid", type: string }
 
       - name: about
         label: About tab

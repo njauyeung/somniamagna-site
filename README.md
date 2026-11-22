@@ -1,7 +1,8 @@
 # Somnia Magna site
 
 - `index.html`, `cities.js`, `content.json`, `images/` : the public site (edit text in Pages CMS, which edits `content.json`).
-- `admin/index.html` : owner-only page to publish posts with photos (behind Cloudflare Access).
+- `admin/admin.js` + `admin/cities-all.js` : the owner-only "Manage" overlay (posts, gallery, add / edit / delete) and its city list. The Worker adds them to the normal site only at `somniamagna.ca/admin`, behind Cloudflare Access, so visitors never receive them.
+- `scripts/build-cities.mjs` : rebuilds `admin/cities-all.js` (about 15,800 cities, including smaller ones like Markham and Whitby). Run `npm i --no-save all-the-cities && node scripts/build-cities.mjs`.
 - `worker/` : the Cloudflare Worker (API, login-token check, photo serving). `wrangler.jsonc` wires it to D1 (database) and R2 (photos).
 - Everything deploys from GitHub `main` through Cloudflare Workers Builds. Posts and photos are NOT in GitHub; they live in D1 and R2.
 
