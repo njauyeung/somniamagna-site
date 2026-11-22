@@ -38,10 +38,11 @@ a{color:inherit}
 #stage:not(.gl) #gl,#stage:not(.gl) #ov{display:none}
 
 /* top-left: logo + section tabs */
-#top{position:absolute;z-index:6;top:24px;left:40px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 6px;
-  max-width:calc(100% - 80px);transition:max-width .45s cubic-bezier(.3,.7,.2,1)}
-#stage.open #top{max-width:calc(100% - max(404px,40vw) - 60px)}
+#top{position:absolute;z-index:6;top:24px;left:40px;width:calc(100% - 80px);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 6px;
+  transition:width .45s cubic-bezier(.3,.7,.2,1)}
+#stage.open #top{width:calc(100% - max(404px,40vw) - 100px)}
 #logo{display:block;height:26px;width:auto;margin-right:22px}
+#tabs{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0}
 .tab{height:40px;padding:0 18px;border-radius:20px;border:0;background:transparent;color:var(--cream);font-size:14px;font-weight:600;white-space:nowrap;transition:background .2s,color .2s}
 .tab:not([aria-selected=true]){text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .tab:hover{background:rgba(243,239,223,.14)}
@@ -50,9 +51,10 @@ a{color:inherit}
 .tab.adm:hover{background:var(--cream);color:var(--ink)}
 
 /* title block, bottom left */
-#brand{position:absolute;z-index:3;left:40px;bottom:40px;pointer-events:none;transition:opacity .3s}
-#brand img{display:block;width:clamp(240px,24vw,380px);height:auto;margin-left:-5px}
-#motto{margin:12px 0 0;font-size:clamp(20px,1.9vw,30px);line-height:1.2;font-weight:500;letter-spacing:.01em;color:var(--cream);text-shadow:0 2px 18px rgba(0,0,0,.6)}
+#brand{position:absolute;z-index:3;left:40px;width:calc(100% - 80px);bottom:40px;text-align:center;pointer-events:none;transition:opacity .3s,width .45s cubic-bezier(.3,.7,.2,1)}
+#stage.open #brand{width:calc(100% - max(404px,40vw) - 100px)}
+#brand img{display:block;width:clamp(190px,18vw,290px);height:auto;margin:0 auto}
+#motto{margin:10px 0 0;font-size:clamp(17px,1.6vw,26px);line-height:1.2;font-weight:500;letter-spacing:.01em;color:var(--cream);text-shadow:0 2px 18px rgba(0,0,0,.6)}
 
 /* dock = card + pull tab. The tab hangs off the card's left edge; closed, the dock slides off and the tab ends exactly on the screen edge. */
 #dock{position:absolute;z-index:5;top:var(--gutter);bottom:var(--gutter);right:0;width:max(404px,40vw);padding-right:var(--gutter);
@@ -181,15 +183,15 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
 
 /* ---------- phones and small tablets: card becomes a bottom sheet, same elements ---------- */
 @media (max-width:820px){
-  #top{top:max(14px,env(safe-area-inset-top));left:0;right:0;max-width:none!important;flex-wrap:nowrap;flex-direction:column;align-items:stretch;gap:10px}
-  #logo{height:22px;margin:0 0 0 20px;align-self:flex-start}
-  #tabs{display:flex;gap:4px;overflow-x:auto;padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  #top{top:max(14px,env(safe-area-inset-top));left:0;right:0;max-width:none!important;flex-wrap:nowrap;flex-direction:column;align-items:stretch;gap:10px;width:auto!important}
+  #logo{height:22px;margin:0;align-self:center}
+  #tabs{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;justify-content:center;justify-content:safe center;padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   #tabs::-webkit-scrollbar{display:none}
   .tab{height:36px;padding:0 14px;font-size:13px;flex:none;background:rgba(0,0,0,.35)}
   .tab[aria-selected=true]{background:var(--cream)}
-  #brand{left:20px;bottom:calc(46px + env(safe-area-inset-bottom))}
-  #brand img{width:min(62vw,260px)}
-  #motto{font-size:19px;margin-top:8px}
+  #brand{left:20px;width:calc(100% - 40px)!important;bottom:calc(46px + env(safe-area-inset-bottom))}
+  #brand img{width:min(52vw,220px)}
+  #motto{font-size:17px;margin-top:8px}
   #stage.open #brand{opacity:0}
   #dock{top:auto;left:0;right:0;bottom:0;width:auto;height:54vh;height:54dvh;padding:0}
   #stage:not(.open) #dock{transform:translateY(100%)}
