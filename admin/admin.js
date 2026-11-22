@@ -140,7 +140,7 @@ function postsHTML() {
       '<button class="am-btn am-del" type="button" data-a="del" data-id="' + esc(p.id) + '">Delete</button></div>';
   }).join('');
 }
-function albumPhotos(p) { return p.photos.map(function (ph) { return { src: ph.url, cap: ph.caption || '', title: p.title, place: p.place, date: p.event_date || '' }; }); }
+function albumPhotos(p) { return p.photos.map(function (ph) { return { src: ph.url, cap: ph.caption || '', title: p.title, place: p.place, date: p.event_date || '', body: p.body || '' }; }); }
 function galleryHTML() {                         // photos from the same post stay together; each group opens as its own carousel
   var groups = posts().filter(function (p) { return p.photos.length; });
   if (!groups.length) return '<p class="am-empty">No photos yet. Photos you add to posts show up here.</p>';
