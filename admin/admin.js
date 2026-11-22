@@ -92,11 +92,14 @@ function exactCity(text) {
 }
 
 /* ------------------------------------------------------------ photos */
-function shrink(file) {                         // max 2000px, re-saved as JPEG (this also drops EXIF/GPS)
+function shrink(file) {                         // max 1800px, re-saved as JPEG (this also drops EXIF/GPS); memory is released per photo
   return createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bm) {
-    var s = Math.min(1, 2000 / Math.max(bm.width, bm.height)), w = Math.round(bm.width * s), h = Math.round(bm.height * s);
+    var s = Math.min(1, 1800 / Math.max(bm.width, bm.height)), w = Math.round(bm.width * s), h = Math.round(bm.height * s);
     var c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bm, 0, 0, w, h);
-    return new Promise(function (res, rej) { c.toBlob(function (b) { b ? res(b) : rej(new Error('Could not read that photo.')); }, 'image/jpeg', 0.86); });
+    if (bm.close) bm.close();
+    return new Promise(function (res, rej) {
+      c.toBlob(function (b) { c.width = c.height = 0; b ? res(b) : rej(new Error('Could not read that photo.')); }, 'image/jpeg', 0.85);
+    });
   });
 }
 
@@ -114,9 +117,16 @@ fetch('/api/admin/me', { credentials: 'same-origin' }).then(function (r) { retur
   .then(function (j) { $('#am-who').textContent = 'Signed in as ' + j.email; }).catch(function () {});
 
 function posts() { return (window.sm && window.sm.posts && window.sm.posts()) || []; }
-function open(v) { view = v || 'posts'; root.hidden = false; render(); var x = $('.am-x', root); if (x) x.focus(); }
-function close() { root.hidden = true; discardForm(); }
+function open(v) {
+  if (form && form.touched) { view = 'form'; say('Your draft is still here.'); } else view = v || 'posts';
+  root.hidden = false; render(); var x = $('.am-x', root); if (x) x.focus();
+}
+function close() { root.hidden = true; }          // keeps any draft: closing by accident (or Esc) loses nothing
 function discardForm() { if (form) form.added.forEach(function (p) { URL.revokeObjectURL(p.url); }); form = null; }
+var DRAFT = 'sm_admin_draft';
+function saveDraft() { try { if (form && !form.id && form.touched) sessionStorage.setItem(DRAFT, JSON.stringify(form.v)); } catch (e) {} }
+function loadDraft() { try { var d = JSON.parse(sessionStorage.getItem(DRAFT) || 'null'); return d && (d.title || d.place || d.body) ? d : null; } catch (e) { return null; } }
+function clearDraft() { try { sessionStorage.removeItem(DRAFT); } catch (e) {} }
 function say(text, kind) { flash = text ? { t: text, k: kind || 'ok' } : null; }
 
 function render() {
@@ -155,7 +165,8 @@ function startForm(id) {
   discardForm(); cityIdx = -1;
   var p = id ? posts().filter(function (x) { return x.id === id; })[0] : null;
   form = { id: p ? p.id : null, existing: p ? p.photos.map(function (x) { return { id: x.id, url: x.url, caption: x.caption || '', removed: false }; }) : [], added: [], chosen: p ? { place: p.place, lon: p.lon, lat: p.lat } : null, saving: false,
-    v: p ? { title: p.title, place: p.place, date: p.event_date || '', body: p.body || '' } : { title: '', place: '', date: '', body: '' } };
+    v: p ? { title: p.title, place: p.place, date: p.event_date || '', body: p.body || '' } : { title: '', place: '', date: '', body: '' }, touched: false };
+  if (!p) { var d = loadDraft(); if (d) { form.v = { title: d.title || '', place: d.place || '', date: d.date || '', body: d.body || '' }; form.touched = true; say('Restored your unsaved text. Add the photos again.'); } }
 }
 function formHTML() {
   var v = form.v, dateOk = /^\d{4}-\d{2}-\d{2}$/.test(v.date);
@@ -187,13 +198,14 @@ function msg(t, k) { var m = $('#am-msg'); if (m) { m.textContent = t || ''; m.c
 function bindForm() {
   var f = $('#am-form'), c = $('#am-city'), l = $('#am-list');
   f.addEventListener('input', function (e) {
-    var t = e.target;
+    var t = e.target; form.touched = true;
     if (t.id === 'am-title') form.v.title = t.value;
     else if (t.id === 'am-date') form.v.date = t.value;
     else if (t.id === 'am-text') form.v.body = t.value;
     else if (t.dataset.ecap != null) form.existing[+t.dataset.ecap].caption = t.value;
     else if (t.dataset.ncap != null) form.added[+t.dataset.ncap].caption = t.value;
     else if (t.id === 'am-city') { form.v.place = t.value; if (form.chosen && form.chosen.place !== t.value) form.chosen = null; showOpts(); }
+    saveDraft();
   });
   c.addEventListener('focus', showOpts);
   c.addEventListener('keydown', function (e) {
@@ -214,7 +226,7 @@ function bindForm() {
     list.reduce(function (p, file) {
       return p.then(function () {
         if (photoCount() >= MAX_PHOTOS) { skipped = true; return; }
-        return shrink(file).then(function (b) { form.added.push({ blob: b, url: URL.createObjectURL(b), caption: '' }); });
+        return shrink(file).then(function (b) { form.added.push({ blob: b, url: URL.createObjectURL(b), caption: '' }); form.touched = true; });
       }).catch(function (err) { msg(err.message, 'err'); });
     }, Promise.resolve()).then(function () { $('#am-thumbs').innerHTML = thumbsHTML(); msg(skipped ? 'Up to ' + MAX_PHOTOS + ' photos per post.' : '', skipped ? 'err' : ''); });
   });
@@ -255,14 +267,16 @@ function save() {
   fetch(editing ? '/api/admin/posts/' + encodeURIComponent(form.id) : '/api/admin/posts', { method: editing ? 'PUT' : 'POST', headers: H, body: fd, credentials: 'same-origin' })
     .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Could not save.'); return j; }); })
     .then(function () { return window.sm.reload(); })
-    .then(function () { discardForm(); say(editing ? 'Saved. The change is live.' : 'Published. It is live in the Community tab.'); view = 'posts'; render(); })
+    .then(function () { discardForm(); clearDraft(); say(editing ? 'Saved. The change is live.' : 'Published. It is live in the Community tab.'); view = 'posts'; render(); })
     .catch(function (err) { if (form) { form.saving = false; } var g = $('#am-go'); if (g) g.disabled = false; msg(err.message, 'err'); });
 }
 
 /* ------------------------------------------------------------ clicks */
+var downOnBackdrop = false;                      // a drag that starts inside the card and ends outside it must not count as a backdrop click
+root.addEventListener('pointerdown', function (e) { downOnBackdrop = e.target === root; });
 root.addEventListener('click', function (e) {
   var b = e.target.closest('[data-a]');
-  if (!b) { if (e.target === root) close(); return; }
+  if (!b) { if (e.target === root && downOnBackdrop && view !== 'form') close(); downOnBackdrop = false; return; }
   var a = b.dataset.a;
   if (!e.target.closest('#am-list') && !e.target.closest('#am-city')) hideOpts();
   if (a === 'close') close();
@@ -272,10 +286,10 @@ root.addEventListener('click', function (e) {
   }
   else if (a === 'new') { startForm(null); view = 'form'; render(); }
   else if (a === 'edit') { startForm(b.dataset.id); view = 'form'; render(); }
-  else if (a === 'cancel') { discardForm(); view = 'posts'; render(); }
+  else if (a === 'cancel') { if (form && form.touched && !confirm('Discard this draft?')) return; discardForm(); clearDraft(); view = 'posts'; render(); }
   else if (a === 'photo') { var gp = posts().filter(function (x) { return x.id === b.dataset.id; })[0]; if (gp) window.sm.lightbox(albumPhotos(gp), +b.dataset.i); }
-  else if (a === 'rmold') { var p = form.existing[+b.dataset.i]; p.removed = !p.removed; $('#am-thumbs').innerHTML = thumbsHTML(); }
-  else if (a === 'rmnew') { var n = form.added.splice(+b.dataset.i, 1)[0]; URL.revokeObjectURL(n.url); $('#am-thumbs').innerHTML = thumbsHTML(); }
+  else if (a === 'rmold') { var p = form.existing[+b.dataset.i]; p.removed = !p.removed; form.touched = true; $('#am-thumbs').innerHTML = thumbsHTML(); }
+  else if (a === 'rmnew') { var n = form.added.splice(+b.dataset.i, 1)[0]; URL.revokeObjectURL(n.url); form.touched = true; $('#am-thumbs').innerHTML = thumbsHTML(); }
   else if (a === 'del') {
     if (!b.classList.contains('am-sure')) {
       var label = b.textContent; b.classList.add('am-sure'); b.textContent = 'Tap again to delete';
