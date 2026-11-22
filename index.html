@@ -133,7 +133,9 @@ h1.vt{margin:0;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.0
 .tile:hover .l2,.tile:focus-visible .l2{transform:rotate(-10deg) translateX(-5px)}
 .tile.on .l0{box-shadow:0 0 0 3px var(--ink)}
 .tile:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:14px}
-.cnt{position:absolute;z-index:5;top:12px;right:12px;display:flex;align-items:center;gap:3px;padding:3px 7px;border-radius:10px;background:rgba(10,11,31,.72);font-size:10px;font-weight:700}
+.ttl{position:absolute;z-index:5;top:13px;left:50%;transform:translateX(-50%);width:68%;height:22px;box-sizing:border-box;padding:0 9px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:rgba(243,239,223,.94);color:var(--ink);font-size:10.5px;font-weight:700;line-height:1;box-shadow:0 1px 4px rgba(10,11,31,.25);pointer-events:none}
+.ttl i{font-style:normal;display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cnt{position:absolute;z-index:5;top:40px;right:12px;display:flex;align-items:center;gap:3px;padding:3px 7px;border-radius:10px;background:rgba(10,11,31,.72);font-size:10px;font-weight:700}
 .tov{position:absolute;z-index:4;left:7px;right:7px;bottom:7px;display:flex;flex-direction:column;gap:1px;padding:26px 8px 7px;border-radius:0 0 12px 12px;text-align:left;
   background:linear-gradient(transparent,rgba(10,11,31,.88));opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
 .tile:hover .tov,.tile:focus-visible .tov{opacity:1;transform:none}
@@ -387,7 +389,7 @@ function tileHTML(k, it) {                      // one album = one tile; its pho
   }).reverse().join('');
   return '<button type="button" class="tile' + (S.sel === k ? ' on' : '') + (n > 1 ? ' multi' : '') + '" data-album="' + k + '" aria-label="' + esc((it.full || it.label) + ', ' + it.place + ', ' + n + ' photo' + (n === 1 ? '' : 's')) + '">' + layers +
     (n > 1 ? '<span class="cnt"><svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true"><rect x="7" y="3" width="14" height="14" rx="3"/><path d="M3 7v11a3 3 0 0 0 3 3h11v-2H6a1 1 0 0 1-1-1V7Z"/></svg>' + n + '</span>' : '') +
-    '<span class="tov"><b>' + esc(it.label) + '</b><span>' + PIN + ' ' + esc(it.place) + '</span><em>' + esc([it.date, n > 1 ? n + ' photos' : ''].filter(Boolean).join(' · ')) + '</em></span></button>';
+    '<span class="ttl"><i>' + esc(it.full || it.label) + '</i></span><span class="tov"><span>' + PIN + ' ' + esc(it.place) + '</span><em>' + esc([it.date, n > 1 ? n + ' photos' : ''].filter(Boolean).join(' · ')) + '</em></span></button>';
 }
 function lbPhotos(it) {                         // photos of one event/post for the viewer, each carrying where it was taken
   return it.photos.map(function (p) { return { src: p.src, cap: p.cap && p.cap !== 'Sample photo' ? p.cap : '', title: it.full || it.label, place: it.place, date: it.date, body: it.blurb || '' }; });
